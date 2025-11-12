@@ -5,19 +5,21 @@ Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) 
 ## ✨ Özellikler
 
 ### 💰 Finansal Yönetim
-- 📊 **Gelir-Gider Takibi**: Kolay ve hızlı işlem ekleme
-- ✏️ **İşlem Düzenleme**: Hatalı işlemleri düzeltin
+- 📊 **Gelir-Gider Takibi**: Minimal ve hızlı işlem ekleme formu
+- 💱 **Çoklu Para Birimi**: TRY, USD, EUR desteği ve otomatik formatlama
+- ✏️ **İşlem Düzenleme**: Hatalı işlemleri düzeltin (kategori & açıklama dahil)
 - 🔍 **Gelişmiş Filtreleme**: Tarih, kategori, tutar ve arama
 - 📈 **Detaylı İstatistikler**: 
-  - Aylık trend grafikleri
+  - Aylık trend grafikleri (line chart)
   - Kategori bazlı pasta grafikleri
-  - Gelir-gider karşılaştırmaları
+  - Gelir-gider karşılaştırmaları (bar chart)
   - Tasarruf oranı analizi
 
 ### 🎮 Gamification
-- 🎯 **XP Sistemi**: Her işlem için XP kazanın
+- 🎯 **Dengeli XP Sistemi**: Her işlem için sabit XP (15 gelir, 10 gider)
 - 🏆 **Level Sistemi**: 100 seviye ve özel başlıklar
 - 🏅 **Başarılar**: 25+ farklı achievement
+- 🎊 **Animasyonlar**: Seviye atlama ve başarı açma efektleri
 
 ### 🎨 Kullanıcı Deneyimi
 - 📱 **PWA Desteği**: Mobil cihazlara yüklenebilir
@@ -35,6 +37,7 @@ Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) 
 - **Animations**: Framer Motion
 - **Routing**: React Router v6
 - **Forms**: React Hook Form + Zod
+- **Currency Input**: react-currency-input-field
 - **Build**: Vite 5
 - **PWA**: Vite PWA Plugin
 - **Deployment**: Cloudflare Pages
@@ -50,7 +53,7 @@ Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) 
 
 1. Repoyu klonlayın:
 ```bash
-git clone https://github.com/yourusername/finansor.git
+git clone https://github.com/hasankemaldemirci/finansor.git
 cd finansor
 ```
 
@@ -70,8 +73,6 @@ npm run dev
 ```
 
 Uygulama `http://localhost:5173` adresinde çalışacaktır.
-
-> **Not:** Proje klasörü adı hala `para-oyunu` olabilir, ancak uygulama adı "Finansör"dür.
 
 ## 🛠️ Komutlar
 
@@ -120,18 +121,34 @@ GitHub Actions için gerekli secrets:
 
 ## 🎮 Kullanım
 
-1. **İşlem Ekleyin**: Gelir veya gider ekleyin
-2. **İşlemleri Düzenleyin**: Hatalı işlemleri düzeltin (✏️ butonuna tıklayın)
-3. **Filtreleyin ve Arayın**: İşlemlerinizi kolayca bulun
-4. **İstatistikleri İnceleyin**: Grafiklerle harcamalarınızı analiz edin
-5. **XP Kazanın**: Her işlem için XP kazanın
-6. **Seviye Atlayın**: Yeterli XP ile seviye atlayın
-7. **Başarıları Kilidi Açın**: 25+ farklı achievement kazanın
+1. **Hızlı İşlem Ekleyin**: 
+   - Gelir/Gider tab'ını seçin
+   - Miktarı girin (otomatik formatlanır: 1.000,50 ₺)
+   - "İşlem Ekle" butonuna tıklayın
+   
+2. **İşlemleri Düzenleyin**: 
+   - ✏️ butonuna tıklayın
+   - Kategori ve açıklama ekleyebilirsiniz
+   
+3. **Filtreleyin ve Arayın**: 
+   - Arama yapın
+   - Tarih aralığı seçin
+   - Kategori ve tutar filtresi uygulayın
+   
+4. **İstatistikleri İnceleyin**: 
+   - Aylık gelir-gider grafiği
+   - Kategori dağılımı (pasta grafiği)
+   - Tasarruf oranı analizi
+   
+5. **XP Kazanın ve Seviye Atlayın**: 
+   - Her işlem için dengeli XP kazanın
+   - 25+ farklı achievement kilidi açın
+   - Özel seviye başlıkları edinin
 
 ## 📂 Proje Yapısı
 
 ```
-paraoyunu/
+finansor/
 ├── src/
 │   ├── app/                    # App initialization & routing
 │   ├── features/               # Feature modules
