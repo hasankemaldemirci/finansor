@@ -23,7 +23,7 @@ import { useTransactionStore } from '@/features/transactions/stores/transactionS
 import { useGamificationStore } from '@/features/gamification/stores/gamificationStore';
 import { Currency, Theme } from '@/shared/types/common.types';
 import { toast } from '@/shared/hooks/useToast';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, MessageSquare } from 'lucide-react';
 
 export function SettingsPanel() {
   const {
@@ -73,6 +73,14 @@ export function SettingsPanel() {
     setTimeout(() => {
       window.location.reload();
     }, 1000);
+  };
+
+  const handleSendFeedback = () => {
+    const subject = encodeURIComponent('Finansör - Geri Bildirim');
+    const body = encodeURIComponent('Merhaba,\n\n[Mesajınızı buraya yazabilirsiniz]\n\n');
+    const mailtoLink = `mailto:hasankemal.demirci@gmail.com?subject=${subject}&body=${body}`;
+    
+    window.location.href = mailtoLink;
   };
 
   return (
@@ -130,6 +138,28 @@ export function SettingsPanel() {
               step="100"
             />
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Feedback Card */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <MessageSquare className="h-5 w-5" />
+            Geri Bildirim
+          </CardTitle>
+          <CardDescription>
+            Görüş, öneri veya hata bildirimi için bize ulaşın
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button 
+            onClick={handleSendFeedback}
+            variant="outline"
+            className="w-full"
+          >
+            📧 Geri Bildirim Gönder
+          </Button>
         </CardContent>
       </Card>
 
