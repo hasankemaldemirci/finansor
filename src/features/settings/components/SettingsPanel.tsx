@@ -207,16 +207,40 @@ export function SettingsPanel() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Ayarları Sıfırla?</DialogTitle>
-            <DialogDescription>
-              Tema, para birimi ve hedef ayarları varsayılan değerlere dönecek.
-              İşlemleriniz ve seviyeniz etkilenmeyecek.
-            </DialogDescription>
           </DialogHeader>
+          
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Aşağıdaki ayarlar varsayılan değerlere dönecek:
+            </p>
+            
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Tema tercihi</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Para birimi</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Aylık tasarruf hedefi</span>
+              </li>
+            </ul>
+            
+            <div className="rounded-lg bg-primary/15 border border-primary/30 p-3">
+              <p className="text-sm text-primary font-medium text-center">
+                ✓ İşlemleriniz ve seviyeniz korunacak
+              </p>
+            </div>
+          </div>
+
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowResetDialog(false)}>
+            <Button variant="outline" onClick={() => setShowResetDialog(false)} className="sm:flex-1">
               İptal
             </Button>
-            <Button variant="destructive" onClick={handleReset}>
+            <Button variant="destructive" onClick={handleReset} className="sm:flex-1">
               Sıfırla
             </Button>
           </DialogFooter>
@@ -231,25 +255,47 @@ export function SettingsPanel() {
               <AlertTriangle className="h-5 w-5" />
               Tüm Verileri Sil?
             </DialogTitle>
-            <DialogDescription className="space-y-2">
-              <p className="font-semibold">Bu işlem geri alınamaz!</p>
-              <p>Silinecekler:</p>
-              <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>Tüm işlemler (gelir & gider)</li>
-                <li>Seviye ve XP ilerlemeniz</li>
-                <li>Kilidi açılmış başarılar</li>
-                <li>Tüm ayarlar</li>
-              </ul>
-              <p className="text-destructive font-medium mt-3">
-                Uygulamaya sıfırdan başlayacaksınız.
-              </p>
-            </DialogDescription>
           </DialogHeader>
+          
+          <p className="text-sm font-semibold text-destructive">
+            Bu işlem geri alınamaz!
+          </p>
+          
+          <div className="space-y-4">
+            <div className="space-y-3">
+              <p className="text-sm font-medium text-foreground">Silinecekler:</p>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <span className="text-destructive mt-0.5">•</span>
+                  <span>Tüm işlemler (gelir & gider)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-destructive mt-0.5">•</span>
+                  <span>Seviye ve XP ilerlemeniz</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-destructive mt-0.5">•</span>
+                  <span>Kilidi açılmış başarılar</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-destructive mt-0.5">•</span>
+                  <span>Tüm ayarlar</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div className="rounded-lg bg-destructive/15 border border-destructive/30 p-3">
+              <p className="text-sm font-medium text-destructive text-center">
+                ⚠️ Uygulamaya sıfırdan başlayacaksınız
+              </p>
+            </div>
+          </div>
+
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowResetAllDialog(false)}>
+            <Button variant="outline" onClick={() => setShowResetAllDialog(false)} className="sm:flex-1">
               İptal
             </Button>
-            <Button variant="destructive" onClick={handleResetAll}>
+            <Button variant="destructive" onClick={handleResetAll} className="sm:flex-1">
               Evet, Tüm Verileri Sil
             </Button>
           </DialogFooter>

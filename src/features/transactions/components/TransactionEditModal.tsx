@@ -105,7 +105,7 @@ export function TransactionEditModal({ open, onClose, transaction, onSave }: Tra
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="w-[calc(100%-2rem)] max-w-[425px]">
         <DialogHeader>
           <DialogTitle>İşlemi Düzenle</DialogTitle>
         </DialogHeader>

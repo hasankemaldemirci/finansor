@@ -1,8 +1,14 @@
-import { Trash2, Pencil } from 'lucide-react';
+import { Trash2, Pencil, MoreVertical } from 'lucide-react';
 import { Transaction } from '../types/transaction.types';
 import { formatCurrency } from '@/shared/utils/currency';
 import { formatRelativeDate } from '@/shared/utils/date';
 import { Button } from '@/shared/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/shared/components/ui/dropdown-menu';
 import { useSettingsStore } from '@/features/settings/stores/settingsStore';
 
 interface TransactionItemProps {
@@ -32,7 +38,7 @@ export function TransactionItem({ transaction, onDelete, onEdit }: TransactionIt
   const isIncome = transaction.type === 'income';
 
   return (
-    <div className="flex items-center justify-between rounded-lg border p-4 hover:bg-muted/50 transition-colors">
+    <div className="flex items-center justify-between rounded-lg border p-3 sm:p-4 hover:bg-muted/50 transition-colors">
       <div className="flex-1">
         <div className="flex items-center gap-2">
           <span
@@ -56,24 +62,30 @@ export function TransactionItem({ transaction, onDelete, onEdit }: TransactionIt
           {formatRelativeDate(new Date(transaction.date))}
         </p>
       </div>
-      <div className="flex gap-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => onEdit(transaction.id)}
-          className="text-primary hover:text-primary hover:bg-primary/10"
-        >
-          <Pencil className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => onDelete(transaction.id)}
-          className="text-destructive hover:text-destructive hover:bg-destructive/10"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
-      </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon" className="h-8 w-8">
+            <MoreVertical className="h-4 w-4" />
+            <span className="sr-only">İşlem menüsü</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem
+            onClick={() => onEdit(transaction.id)}
+            className="cursor-pointer"
+          >
+            <Pencil className="h-4 w-4 mr-2" />
+            Düzenle
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => onDelete(transaction.id)}
+            className="cursor-pointer text-destructive focus:text-destructive"
+          >
+            <Trash2 className="h-4 w-4 mr-2" />
+            Sil
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }

@@ -56,7 +56,7 @@ export function LevelUpModal({ open, onClose, newLevel }: LevelUpModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="w-[calc(100%-2rem)] max-w-md">
         <DialogHeader>
           <DialogTitle className="sr-only">Seviye Atladın!</DialogTitle>
         </DialogHeader>
@@ -64,17 +64,17 @@ export function LevelUpModal({ open, onClose, newLevel }: LevelUpModalProps) {
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: 'spring', duration: 0.8 }}
-          className="text-center py-6"
+          className="text-center py-4 sm:py-6"
         >
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.3, type: 'spring' }}
-            className="text-8xl mb-4"
+            className="text-6xl sm:text-8xl mb-3 sm:mb-4"
           >
             {icon}
           </motion.div>
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          <h2 className="text-2xl sm:text-4xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             Seviye Atladın!
           </h2>
           <motion.div
@@ -82,13 +82,13 @@ export function LevelUpModal({ open, onClose, newLevel }: LevelUpModalProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <p className="text-6xl font-bold text-primary mb-2">
+            <p className="text-4xl sm:text-6xl font-bold text-primary mb-2">
               Level {newLevel}
             </p>
-            <p className="text-2xl text-muted-foreground">{title}</p>
+            <p className="text-lg sm:text-2xl text-muted-foreground">{title}</p>
           </motion.div>
         </motion.div>
-        <Button onClick={onClose} className="mt-4" size="lg">
+        <Button onClick={onClose} className="mt-4 w-full" size="lg">
           Harika! 🎉
         </Button>
       </DialogContent>

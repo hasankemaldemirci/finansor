@@ -142,6 +142,7 @@ export function HomePage() {
         open={achievementModal.open}
         onClose={() => setAchievementModal({ open: false, achievement: null })}
         achievement={achievementModal.achievement}
+        hideOverlay={levelUpModal.open}
       />
     </Container>
   );
