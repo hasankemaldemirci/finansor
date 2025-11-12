@@ -1,24 +1,20 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Container } from '@/shared/components/layout/Container';
-import { LevelBar } from '@/features/gamification/components/LevelBar';
 import { LevelUpModal } from '@/features/gamification/components/LevelUpModal';
 import { AchievementUnlockedModal } from '@/features/gamification/components/AchievementUnlockedModal';
 import { TransactionForm } from '@/features/transactions/components/TransactionForm';
-import { TransactionList } from '@/features/transactions/components/TransactionList';
-import { FilterOptions } from '@/features/transactions/components/TransactionFilters';
+import { TransactionItem } from '@/features/transactions/components/TransactionItem';
+import { TransactionEditModal } from '@/features/transactions/components/TransactionEditModal';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import { Button } from '@/shared/components/ui/button';
 import { useTransactions } from '@/features/transactions/hooks/useTransactions';
 import { formatCurrency } from '@/shared/utils/currency';
 import { useSettingsStore } from '@/features/settings/stores/settingsStore';
 import { Achievement } from '@/features/gamification/types/achievement.types';
-import { filterTransactions } from '@/features/transactions/utils/filterTransactions';
-
-const defaultFilters: FilterOptions = {
-  searchTerm: '',
-  type: 'all',
-  category: 'all',
-  dateRange: 'all',
-};
+import { Transaction } from '@/features/transactions/types/transaction.types';
+import { ROUTES } from '@/shared/constants/routes';
+import { ArrowRight } from 'lucide-react';
 
 export function HomePage() {
   const [levelUpModal, setLevelUpModal] = useState<{
@@ -31,17 +27,14 @@ export function HomePage() {
     achievement: Achievement | null;
   }>({ open: false, achievement: null });
 
-  const [filters, setFilters] = useState<FilterOptions>(defaultFilters);
+  const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
-  const { transactions, getStats } = useTransactions();
+  const { transactions, getStats, deleteTransaction, editTransaction, getTransactionById } = useTransactions();
   const { settings } = useSettingsStore();
   const stats = getStats();
 
-  const filteredTransactions = filterTransactions(transactions, filters);
-
-  const handleResetFilters = () => {
-    setFilters(defaultFilters);
-  };
+  // Show only last 5 transactions
+  const recentTransactions = transactions.slice(0, 5);
 
   const handleTransactionSuccess = (data: {
     leveledUp: boolean;
@@ -63,13 +56,32 @@ export function HomePage() {
     }
   };
 
+  const handleEdit = (id: string) => {
+    const transaction = getTransactionById(id);
+    if (transaction) {
+      setEditingTransaction(transaction);
+    }
+  };
+
+  const handleSaveEdit = (id: string, data: any) => {
+    editTransaction(id, data);
+    setEditingTransaction(null);
+  };
+
   return (
     <Container>
       <div className="space-y-6">
-        {/* Level Bar */}
-        <LevelBar />
+        {/* Transaction Form - First Priority */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Yeni İşlem Ekle</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <TransactionForm onSuccess={handleTransactionSuccess} />
+          </CardContent>
+        </Card>
 
-        {/* Stats Cards */}
+        {/* Stats Cards - Financial Overview */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Card>
             <CardHeader className="pb-3">
@@ -111,23 +123,39 @@ export function HomePage() {
           </Card>
         </div>
 
-        {/* Transaction Form */}
+        {/* Recent Transactions */}
         <Card>
-          <CardHeader>
-            <CardTitle>Yeni İşlem Ekle</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle>Son İşlemler</CardTitle>
+            {transactions.length > 5 && (
+              <Button variant="ghost" size="sm" asChild>
+                <Link to={ROUTES.TRANSACTIONS} className="flex items-center gap-1">
+                  Tümü
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            )}
           </CardHeader>
           <CardContent>
-            <TransactionForm onSuccess={handleTransactionSuccess} />
+            {recentTransactions.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground">
+                <p>Henüz işlem eklenmedi</p>
+                <p className="text-sm mt-2">Yukarıdaki formdan ilk işleminizi ekleyin</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {recentTransactions.map((transaction) => (
+                  <TransactionItem
+                    key={transaction.id}
+                    transaction={transaction}
+                    onDelete={deleteTransaction}
+                    onEdit={handleEdit}
+                  />
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
-
-        {/* Transaction List with Inline Filters */}
-        <TransactionList 
-          transactions={filteredTransactions}
-          filters={filters}
-          onFiltersChange={setFilters}
-          onResetFilters={handleResetFilters}
-        />
       </div>
 
       {/* Level Up Modal */}
@@ -144,6 +172,16 @@ export function HomePage() {
         achievement={achievementModal.achievement}
         hideOverlay={levelUpModal.open}
       />
+
+      {/* Transaction Edit Modal */}
+      {editingTransaction && (
+        <TransactionEditModal
+          open={!!editingTransaction}
+          onClose={() => setEditingTransaction(null)}
+          transaction={editingTransaction}
+          onSave={handleSaveEdit}
+        />
+      )}
     </Container>
   );
 }

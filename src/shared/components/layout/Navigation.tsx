@@ -1,4 +1,4 @@
-import { Home, BarChart3, Trophy, Settings } from 'lucide-react';
+import { Home, List, BarChart3, Settings } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/shared/lib/utils';
 import { ROUTES } from '@/shared/constants/routes';
@@ -8,7 +8,7 @@ export function Navigation() {
 
   const navItems = [
     { icon: Home, label: 'Ana Sayfa', path: ROUTES.HOME },
-    { icon: Trophy, label: 'Başarılar', path: ROUTES.ACHIEVEMENTS },
+    { icon: List, label: 'İşlemler', path: ROUTES.TRANSACTIONS },
     { icon: BarChart3, label: 'İstatistikler', path: ROUTES.STATISTICS },
     { icon: Settings, label: 'Ayarlar', path: ROUTES.SETTINGS },
   ];

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import CurrencyInput from 'react-currency-input-field';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
@@ -57,19 +58,30 @@ export function TransactionEditModal({ open, onClose, transaction, onSave }: Tra
   const { settings } = useSettingsStore();
   const [formData, setFormData] = useState({
     type: transaction.type,
-    amount: transaction.amount.toString(),
+    amount: transaction.amount,
     category: transaction.category,
     description: transaction.description || '',
   });
+  const [amountValue, setAmountValue] = useState<string>(transaction.amount.toString());
+
+  // Currency configuration based on settings
+  const currencyConfig = {
+    TRY: { prefix: '₺ ', decimalSeparator: ',', groupSeparator: '.' },
+    USD: { prefix: '$ ', decimalSeparator: '.', groupSeparator: ',' },
+    EUR: { prefix: '€ ', decimalSeparator: ',', groupSeparator: '.' },
+  };
+
+  const config = currencyConfig[settings.currency] || currencyConfig.TRY;
 
   useEffect(() => {
     if (open) {
       setFormData({
         type: transaction.type,
-        amount: transaction.amount.toString(),
+        amount: transaction.amount,
         category: transaction.category,
         description: transaction.description || '',
       });
+      setAmountValue(transaction.amount.toString());
     }
   }, [open, transaction]);
 
@@ -77,15 +89,14 @@ export function TransactionEditModal({ open, onClose, transaction, onSave }: Tra
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const amount = parseFloat(formData.amount);
     
-    if (isNaN(amount) || amount <= 0) {
+    if (isNaN(formData.amount) || formData.amount <= 0) {
       return;
     }
 
     onSave(transaction.id, {
       type: formData.type,
-      amount,
+      amount: formData.amount,
       category: formData.category,
       description: formData.description,
       date: transaction.date,
@@ -128,30 +139,24 @@ export function TransactionEditModal({ open, onClose, transaction, onSave }: Tra
 
           {/* Amount - Large and Centered */}
           <div className="space-y-3">
-            <div className="flex flex-col items-center gap-2">
-              <Label htmlFor="edit-amount" className="text-sm text-muted-foreground">
-                Miktar
-              </Label>
-              <div className="relative w-full">
-                <Input
-                  id="edit-amount"
-                  type="number"
-                  step="0.01"
-                  placeholder="0"
-                  value={formData.amount}
-                  onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))}
-                  required
-                  className={`text-4xl font-bold text-center h-20 ${
-                    formData.type === 'income' 
-                      ? 'text-primary' 
-                      : 'text-destructive'
-                  }`}
-                />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-2xl text-muted-foreground">
-                  {settings.currency === 'TRY' ? '₺' : settings.currency === 'USD' ? '$' : '€'}
-                </span>
-              </div>
-            </div>
+            <CurrencyInput
+              id="edit-amount"
+              name="edit-amount"
+              placeholder={`0${config.decimalSeparator}00 ${config.prefix.trim()}`}
+              value={amountValue}
+              decimalsLimit={2}
+              suffix={' ' + config.prefix.trim()}
+              decimalSeparator={config.decimalSeparator}
+              groupSeparator={config.groupSeparator}
+              autoComplete="off"
+              onValueChange={(value) => {
+                setAmountValue(value || '');
+                setFormData(prev => ({ ...prev, amount: value ? parseFloat(value) : 0 }));
+              }}
+              className={`flex h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-center text-4xl font-bold ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${
+                formData.type === 'income' ? 'text-primary' : 'text-destructive'
+              }`}
+            />
           </div>
 
           {/* Category */}

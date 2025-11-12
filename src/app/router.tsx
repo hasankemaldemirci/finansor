@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { Layout } from './Layout';
 import { HomePage } from '@/pages/HomePage';
+import { TransactionsPage } from '@/pages/TransactionsPage';
 import { AchievementsPage } from '@/pages/AchievementsPage';
 import { StatisticsPage } from '@/pages/StatisticsPage';
 import { SettingsPage } from '@/pages/SettingsPage';
@@ -14,6 +15,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.HOME,
         element: <HomePage />,
+      },
+      {
+        path: ROUTES.TRANSACTIONS,
+        element: <TransactionsPage />,
       },
       {
         path: ROUTES.ACHIEVEMENTS,

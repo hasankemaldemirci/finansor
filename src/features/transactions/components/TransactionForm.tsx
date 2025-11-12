@@ -36,7 +36,11 @@ export function TransactionForm({ onSuccess }: TransactionFormProps) {
       // Set default category if not provided
       const category =
         data.category || (data.type === 'income' ? 'other' : 'other');
-      const result = createTransaction({ ...data, category });
+      const result = createTransaction({ 
+        ...data, 
+        category,
+        date: new Date()
+      });
       reset();
       setAmountValue('');
       onSuccess?.(result);
@@ -70,7 +74,7 @@ export function TransactionForm({ onSuccess }: TransactionFormProps) {
         <CurrencyInput
           id="amount"
           name="amount"
-          placeholder="0"
+          placeholder={`0${config.decimalSeparator}00 ${config.prefix.trim()}`}
           value={amountValue}
           decimalsLimit={2}
           suffix={' ' + config.prefix.trim()}
