@@ -14,8 +14,8 @@ export function Navigation() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/85 backdrop-blur-lg supports-[backdrop-filter]:bg-background/85">
-      <div className="container mx-auto px-4 max-w-3xl">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur-lg supports-[backdrop-filter]:bg-background/95 shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
+      <div className="container mx-auto px-3 max-w-3xl">
         <div className="flex items-center justify-around h-16 gap-1">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -28,8 +28,8 @@ export function Navigation() {
                 className={cn(
                   'flex flex-1 flex-col items-center justify-center gap-1 py-2 rounded-lg transition-colors',
                   isActive
-                    ? 'text-primary bg-primary/10'
-                    : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
+                    ? 'text-white bg-primary font-semibold shadow-sm'
+                    : 'text-foreground/70 hover:text-primary hover:bg-primary/10'
                 )}
               >
                 <Icon className="h-5 w-5" />
