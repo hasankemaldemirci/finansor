@@ -1,16 +1,9 @@
 import { useState } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 import { Label } from '@/shared/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/components/ui/select';
-import { Input } from '@/shared/components/ui/input';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared/components/ui/card';
+import { Tabs, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 import {
   Dialog,
   DialogContent,
@@ -97,37 +90,33 @@ export function SettingsPanel() {
           {/* Theme */}
           <div className="space-y-2">
             <Label>Tema</Label>
-            <Select
+            <Tabs
               value={settings.theme}
               onValueChange={(value) => updateTheme(value as Theme)}
+              className="w-full"
             >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="light">Açık</SelectItem>
-                <SelectItem value="dark">Koyu</SelectItem>
-                <SelectItem value="system">Sistem</SelectItem>
-              </SelectContent>
-            </Select>
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="light">☀️ Açık</TabsTrigger>
+                <TabsTrigger value="dark">🌙 Koyu</TabsTrigger>
+                <TabsTrigger value="system">💻 Sistem</TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
 
           {/* Currency */}
           <div className="space-y-2">
             <Label>Para Birimi</Label>
-            <Select
+            <Tabs
               value={settings.currency}
               onValueChange={(value) => updateCurrency(value as Currency)}
+              className="w-full"
             >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="TL">Türk Lirası (₺)</SelectItem>
-                <SelectItem value="USD">Amerikan Doları ($)</SelectItem>
-                <SelectItem value="EUR">Euro (€)</SelectItem>
-              </SelectContent>
-            </Select>
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="TRY">₺ TRY</TabsTrigger>
+                <TabsTrigger value="USD">$ USD</TabsTrigger>
+                <TabsTrigger value="EUR">€ EUR</TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
 
           {/* Monthly Goal */}
