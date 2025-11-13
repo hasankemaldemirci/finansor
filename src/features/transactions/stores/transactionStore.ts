@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
 import {
   Transaction,
   CreateTransactionDto,
@@ -7,6 +7,8 @@ import {
 } from '../types/transaction.types';
 import { TransactionType } from '@/shared/types/common.types';
 import { generateId } from '@/shared/lib/utils';
+import { secureStorageAdapter } from '@/shared/utils/secureStorageAdapter';
+import { InputSanitizer } from '@/shared/utils/sanitizer';
 
 interface TransactionState {
   transactions: Transaction[];
@@ -19,6 +21,7 @@ interface TransactionState {
   getTotalIncome: () => number;
   getTotalExpenses: () => number;
   getSavings: () => number;
+  getMonthlySavings: () => number;
   getStats: () => TransactionStats;
   clearAllTransactions: () => void;
 }
@@ -29,10 +32,15 @@ export const useTransactionStore = create<TransactionState>()(
       transactions: [],
 
       addTransaction: (dto) => {
+        // Input sanitization
+        const sanitized = InputSanitizer.sanitizeTransactionData(dto);
+        if (!sanitized) {
+          throw new Error('Invalid transaction data');
+        }
+
         const transaction: Transaction = {
           id: generateId(),
-          ...dto,
-          date: dto.date || new Date(),
+          ...sanitized,
           createdAt: new Date(),
         };
 
@@ -55,11 +63,19 @@ export const useTransactionStore = create<TransactionState>()(
           throw new Error('Transaction not found');
         }
 
+        // Input sanitization
+        const sanitized = InputSanitizer.sanitizeTransactionData({
+          ...dto,
+          date: dto.date || existingTransaction.date,
+        });
+        if (!sanitized) {
+          throw new Error('Invalid transaction data');
+        }
+
         const updatedTransaction: Transaction = {
           ...existingTransaction,
-          ...dto,
+          ...sanitized,
           id, // Keep the same ID
-          date: dto.date || existingTransaction.date,
           createdAt: existingTransaction.createdAt, // Keep original creation date
         };
 
@@ -102,18 +118,36 @@ export const useTransactionStore = create<TransactionState>()(
         return get().getTotalIncome() - get().getTotalExpenses();
       },
 
+      getMonthlySavings: () => {
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+        
+        const monthlyTransactions = get().getTransactionsByDateRange(startOfMonth, endOfMonth);
+        const monthlyIncome = monthlyTransactions
+          .filter((t) => t.type === 'income')
+          .reduce((sum, t) => sum + t.amount, 0);
+        const monthlyExpenses = monthlyTransactions
+          .filter((t) => t.type === 'expense')
+          .reduce((sum, t) => sum + t.amount, 0);
+        
+        return monthlyIncome - monthlyExpenses;
+      },
+
       getStats: () => {
         const totalIncome = get().getTotalIncome();
         const totalExpenses = get().getTotalExpenses();
         const savings = totalIncome - totalExpenses;
         const savingsRate =
           totalIncome > 0 ? (savings / totalIncome) * 100 : 0;
+        const monthlySavings = get().getMonthlySavings();
 
         return {
           totalIncome,
           totalExpenses,
           savings,
           savingsRate,
+          monthlySavings,
         };
       },
 
@@ -123,7 +157,7 @@ export const useTransactionStore = create<TransactionState>()(
     }),
     {
       name: 'transactions-storage',
-      storage: createJSONStorage(() => localStorage),
+      storage: secureStorageAdapter<TransactionState>(),
     }
   )
 );

@@ -58,35 +58,30 @@ export function SettingsPage() {
               </CardContent>
             </Card>
 
-            {/* Filter Buttons */}
-            <div className="flex flex-wrap gap-2">
-              <button
-                onClick={() => setSelectedType('all')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  selectedType === 'all'
-                    ? 'bg-primary text-white'
-                    : 'bg-muted hover:bg-muted/80'
-                }`}
-              >
-                Tümü ({achievements.length})
-              </button>
-              {Object.entries(ACHIEVEMENT_CATEGORIES).map(([type, category]) => {
-                const count = achievementsByType[type as AchievementType]?.length || 0;
-                return (
-                  <button
-                    key={type}
-                    onClick={() => setSelectedType(type as AchievementType)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      selectedType === type
-                        ? 'bg-primary text-white'
-                        : 'bg-muted hover:bg-muted/80'
-                    }`}
-                  >
-                    {category.label} ({count})
-                  </button>
-                );
-              })}
-            </div>
+            {/* Filter Tabs */}
+            <Tabs
+              value={selectedType}
+              onValueChange={(value) => setSelectedType(value as AchievementType | 'all')}
+              className="w-full"
+            >
+              <TabsList className="w-full h-auto flex-wrap justify-start gap-2 bg-transparent p-0">
+                <TabsTrigger value="all" className="data-[state=active]:bg-primary data-[state=active]:text-white">
+                  Tümü ({achievements.length})
+                </TabsTrigger>
+                {Object.entries(ACHIEVEMENT_CATEGORIES).map(([type, category]) => {
+                  const count = achievementsByType[type as AchievementType]?.length || 0;
+                  return (
+                    <TabsTrigger
+                      key={type}
+                      value={type}
+                      className="data-[state=active]:bg-primary data-[state=active]:text-white"
+                    >
+                      {category.label} ({count})
+                    </TabsTrigger>
+                  );
+                })}
+              </TabsList>
+            </Tabs>
 
             {/* Achievements Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

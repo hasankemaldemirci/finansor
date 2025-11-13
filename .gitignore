@@ -16,7 +16,6 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
@@ -34,3 +33,24 @@ sw.js
 sw.js.map
 workbox-*.js
 workbox-*.js.map
+
+# Test coverage
+coverage
+*.lcov
+.nyc_output
+
+# Build cache
+.vite
+.turbo
+*.tsbuildinfo
+.cache
+
+# Backup files
+*.bak
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+.AppleDouble
+.LSOverride

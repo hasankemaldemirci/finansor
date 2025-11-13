@@ -72,14 +72,29 @@ export function StatisticsPage() {
         <h1 className="text-3xl font-bold">İstatistikler</h1>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Toplam Net Durum
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <p className={`text-2xl font-bold ${
+                (totalIncome - totalExpenses) >= 0 ? 'text-secondary' : 'text-destructive'
+              }`}>
+                {formatCurrency(totalIncome - totalExpenses, settings.currency)}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Tasarruf Oranı
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <p className="text-2xl font-bold">
                 {savingsRate.toFixed(1)}%
               </p>
@@ -87,26 +102,28 @@ export function StatisticsPage() {
           </Card>
 
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Ortalama Gelir
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold text-primary">
-                {formatCurrency(totalIncome / Math.max(1, monthlyData.length), settings.currency)}
-              </p>
-              <p className="text-xs text-muted-foreground">/ ay</p>
+            <CardContent className="pt-0">
+              <div className="flex items-baseline gap-2">
+                <p className="text-2xl font-bold text-primary">
+                  {formatCurrency(totalIncome / Math.max(1, monthlyData.length), settings.currency)}
+                </p>
+                <p className="text-sm text-muted-foreground">/ ay</p>
+              </div>
             </CardContent>
           </Card>
 
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Son 30 Gün Trend
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <div className="flex items-center gap-2">
                 {trend === 'up' && (
                   <>

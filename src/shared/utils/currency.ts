@@ -1,14 +1,14 @@
 import { Currency } from '@/shared/types/common.types';
 
 const currencySymbols: Record<Currency, string> = {
-  TL: '₺',
+  TRY: '₺',
   USD: '$',
   EUR: '€',
 };
 
 export function formatCurrency(
   amount: number,
-  currency: Currency = 'TL'
+  currency: Currency = 'TRY'
 ): string {
   const symbol = currencySymbols[currency];
   const formatted = amount.toLocaleString('tr-TR', {

@@ -41,5 +41,6 @@ export interface TransactionStats {
   totalExpenses: number;
   savings: number;
   savingsRate: number;
+  monthlySavings: number;
 }
 

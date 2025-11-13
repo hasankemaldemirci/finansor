@@ -26,7 +26,14 @@ Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) 
 - 🌗 **Dark Mode**: Açık/Koyu tema desteği
 - 💎 **Modern UI**: Tailwind CSS + shadcn/ui
 - ⚡ **Hızlı**: Vite ile optimize edilmiş build
-- 🔒 **Local Storage**: Verileriniz cihazınızda kalır
+- 🔒 **Güvenli Local Storage**: AES-256 şifreleme ile verileriniz korunur
+
+### 🔐 Güvenlik
+- 🔐 **AES-256 Şifreleme**: Tüm veriler otomatik şifrelenir
+- 🛡️ **XSS Koruması**: Input sanitization ile güvenli veri girişi
+- ✅ **Zod Validation**: Tüm form ve veri doğrulaması
+- 🔒 **Content Security Policy**: CSP headers ile güvenlik
+- 🔑 **Cihaza Özel Anahtar**: Her cihaz için benzersiz şifreleme anahtarı
 
 ## 🚀 Teknolojiler
 
@@ -40,6 +47,8 @@ Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) 
 - **Currency Input**: react-currency-input-field
 - **Build**: Vite 5
 - **PWA**: Vite PWA Plugin
+- **Security**: crypto-js (AES-256), DOMPurify
+- **Testing**: Vitest + Testing Library
 - **Deployment**: Cloudflare Pages
 
 ## 📦 Kurulum
@@ -90,6 +99,8 @@ npm run type-check   # TypeScript kontrolü
 # Testing
 npm run test         # Testleri çalıştır
 npm run test:ui      # Test UI'ı aç
+npm run test:coverage # Coverage raporu oluştur
+npm run test:watch   # Watch mode'da test
 ```
 
 ## 📱 PWA Kullanımı

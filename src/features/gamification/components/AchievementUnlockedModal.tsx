@@ -1,13 +1,16 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/shared/components/ui/dialog';
 import { Button } from '@/shared/components/ui/button';
 import { Achievement } from '../types/achievement.types';
 import { AchievementBadge } from './AchievementBadge';
+import confetti from 'canvas-confetti';
 
 interface AchievementUnlockedModalProps {
   open: boolean;
@@ -22,13 +25,55 @@ export function AchievementUnlockedModal({
   achievement,
   hideOverlay,
 }: AchievementUnlockedModalProps) {
+  useEffect(() => {
+    if (open && achievement) {
+      // Continuous confetti from sides
+      const duration = 3000;
+      const animationEnd = Date.now() + duration;
+
+      const intervalId = setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          clearInterval(intervalId);
+          return;
+        }
+
+        // Left side confetti
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#00D9A3', '#6C5CE7', '#FDCB6E'],
+          useWorker: false,
+        });
+
+        // Right side confetti
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#00D9A3', '#6C5CE7', '#FDCB6E'],
+          useWorker: false,
+        });
+      }, 200);
+
+      return () => clearInterval(intervalId);
+    }
+  }, [open, achievement]);
+
   if (!achievement) return null;
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="w-[calc(100%-2rem)] max-w-md" hideOverlay={hideOverlay}>
         <DialogHeader>
-          <DialogTitle className="sr-only">Achievement Unlocked!</DialogTitle>
+          <DialogTitle className="sr-only">Başarı Kilidi Açıldı!</DialogTitle>
+          <DialogDescription className="sr-only">
+            {achievement.name} başarısının kilidi açıldı
+          </DialogDescription>
         </DialogHeader>
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}

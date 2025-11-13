@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/shared/components/ui/dialog';
@@ -22,43 +23,51 @@ export function LevelUpModal({ open, onClose, newLevel }: LevelUpModalProps) {
 
   useEffect(() => {
     if (open) {
-      // Trigger confetti
+      // Continuous confetti from sides
       const duration = 3000;
       const animationEnd = Date.now() + duration;
 
-      const interval = setInterval(() => {
+      const intervalId = setInterval(() => {
         const timeLeft = animationEnd - Date.now();
 
         if (timeLeft <= 0) {
-          clearInterval(interval);
+          clearInterval(intervalId);
           return;
         }
 
+        // Left side confetti
         confetti({
-          particleCount: 2,
+          particleCount: 5,
           angle: 60,
           spread: 55,
           origin: { x: 0 },
           colors: ['#00D9A3', '#6C5CE7', '#FDCB6E'],
+          useWorker: false,
         });
+
+        // Right side confetti
         confetti({
-          particleCount: 2,
+          particleCount: 5,
           angle: 120,
           spread: 55,
           origin: { x: 1 },
           colors: ['#00D9A3', '#6C5CE7', '#FDCB6E'],
+          useWorker: false,
         });
-      }, 16);
+      }, 200);
 
-      return () => clearInterval(interval);
+      return () => clearInterval(intervalId);
     }
-  }, [open]);
+  }, [open, newLevel]);
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="w-[calc(100%-2rem)] max-w-md">
         <DialogHeader>
           <DialogTitle className="sr-only">Seviye Atladın!</DialogTitle>
+          <DialogDescription className="sr-only">
+            Level {newLevel} seviyesine ulaştınız: {title}
+          </DialogDescription>
         </DialogHeader>
         <motion.div
           initial={{ scale: 0, rotate: -180 }}

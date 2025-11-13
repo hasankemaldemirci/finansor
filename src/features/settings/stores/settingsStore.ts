@@ -1,7 +1,8 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
 import { UserSettings } from '@/shared/types/settings.types';
 import { Theme, Currency } from '@/shared/types/common.types';
+import { secureStorageAdapter } from '@/shared/utils/secureStorageAdapter';
 
 interface SettingsState {
   settings: UserSettings;
@@ -16,7 +17,7 @@ interface SettingsState {
 const defaultSettings: UserSettings = {
   theme: 'system',
   notifications: true,
-  currency: 'TL',
+  currency: 'TRY',
   monthlyGoal: 5000,
   language: 'tr',
 };
@@ -79,7 +80,7 @@ export const useSettingsStore = create<SettingsState>()(
     }),
     {
       name: 'settings-storage',
-      storage: createJSONStorage(() => localStorage),
+      storage: secureStorageAdapter<SettingsState>(),
     }
   )
 );

@@ -1,8 +1,9 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
 import { UserLevel, XPGain } from '../types/level.types';
 import { Achievement } from '../types/achievement.types';
 import { initializeAchievements } from '../utils/achievementChecker';
+import { secureStorageAdapter } from '@/shared/utils/secureStorageAdapter';
 
 interface GamificationState {
   level: number;
@@ -169,7 +170,7 @@ export const useGamificationStore = create<GamificationState>()(
     }),
     {
       name: 'gamification-storage',
-      storage: createJSONStorage(() => localStorage),
+      storage: secureStorageAdapter<GamificationState>(),
     }
   )
 );

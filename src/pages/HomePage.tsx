@@ -112,12 +112,14 @@ export function HomePage() {
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
-                Tasarruf
+                Bu Ay Tasarruf
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-0">
-              <p className="text-2xl font-bold text-secondary">
-                {formatCurrency(stats.savings, settings.currency)}
+              <p className={`text-2xl font-bold ${
+                stats.monthlySavings >= 0 ? 'text-secondary' : 'text-destructive'
+              }`}>
+                {formatCurrency(stats.monthlySavings, settings.currency)}
               </p>
             </CardContent>
           </Card>

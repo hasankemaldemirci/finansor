@@ -8,6 +8,7 @@ import { useTransactions } from '../hooks/useTransactions';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
+import { Tabs, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 import {
   Select,
   SelectContent,
@@ -255,19 +256,17 @@ export function TransactionList({
               {/* Type Filter */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">İşlem Tipi</label>
-                <Select
+                <Tabs
                   value={filters.type}
                   onValueChange={(value) => updateFilter('type', value)}
+                  className="w-full"
                 >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="z-[70]">
-                    <SelectItem value="all">Tümü</SelectItem>
-                    <SelectItem value="income">Gelir</SelectItem>
-                    <SelectItem value="expense">Gider</SelectItem>
-                  </SelectContent>
-                </Select>
+                  <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="all">Tümü</TabsTrigger>
+                    <TabsTrigger value="income">💰 Gelir</TabsTrigger>
+                    <TabsTrigger value="expense">💸 Gider</TabsTrigger>
+                  </TabsList>
+                </Tabs>
               </div>
 
               {/* Date Range */}
