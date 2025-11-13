@@ -84,12 +84,12 @@ export function HomePage() {
         {/* Stats Cards - Financial Overview */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Toplam Gelir
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <p className="text-2xl font-bold text-primary">
                 {formatCurrency(stats.totalIncome, settings.currency)}
               </p>
@@ -97,12 +97,12 @@ export function HomePage() {
           </Card>
 
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Toplam Gider
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <p className="text-2xl font-bold text-destructive">
                 {formatCurrency(stats.totalExpenses, settings.currency)}
               </p>
@@ -110,12 +110,12 @@ export function HomePage() {
           </Card>
 
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Tasarruf
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <p className="text-2xl font-bold text-secondary">
                 {formatCurrency(stats.savings, settings.currency)}
               </p>

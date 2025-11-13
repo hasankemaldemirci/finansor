@@ -30,8 +30,6 @@ export const useTransactions = () => {
   } = useGamificationStore();
 
   const createTransaction = (dto: CreateTransactionDto) => {
-    console.log('💰 Creating transaction:', dto);
-    
     const transaction = addTransaction(dto);
     const xpGained = calculateXPFromTransaction(transaction);
 
@@ -39,13 +37,10 @@ export const useTransactions = () => {
     updateActivity();
 
     // Add XP
-    console.log('📈 Calling addXP with:', xpGained, 'XP');
     const { leveledUp, newLevel } = addXP(
       xpGained,
       `${dto.type === 'income' ? 'Gelir' : 'Gider'} eklendi`
     );
-    
-    console.log('✅ Transaction complete. Level up?', leveledUp, 'New level:', newLevel);
 
     // Check for achievements
     const currentSavings = getSavings();

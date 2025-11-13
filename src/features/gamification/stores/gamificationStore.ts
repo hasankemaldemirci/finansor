@@ -54,17 +54,6 @@ export const useGamificationStore = create<GamificationState>()(
         const currentLevel = get().level;
         const requiredXP = getRequiredXPForLevel(currentLevel + 1);
 
-        // Debug log
-        console.log('⚡ addXP called:', {
-          amount,
-          reason,
-          currentLevel,
-          currentXP: get().xp,
-          newTotalXP: currentXP,
-          requiredForNextLevel: requiredXP,
-          formula: `50 * 1.4^${currentLevel}`,
-        });
-
         const xpGain: XPGain = {
           amount,
           reason,
@@ -75,12 +64,6 @@ export const useGamificationStore = create<GamificationState>()(
           const newLevel = currentLevel + 1;
           const remainingXP = currentXP - requiredXP;
           
-          console.log('🎉 LEVEL UP!', {
-            oldLevel: currentLevel,
-            newLevel,
-            remainingXP,
-          });
-          
           set((state) => ({
             xp: remainingXP,
             level: newLevel,
@@ -90,12 +73,6 @@ export const useGamificationStore = create<GamificationState>()(
           
           return { leveledUp: true, newLevel };
         }
-
-        console.log('📊 XP Updated (no level up)', {
-          newXP: currentXP,
-          nextLevel: currentLevel + 1,
-          needMore: requiredXP - currentXP,
-        });
 
         set((state) => ({
           xp: currentXP,

@@ -8,15 +8,6 @@ export const calculateXPFromTransaction = (transaction: Transaction): number => 
   
   const xpGained = transaction.type === 'income' ? incomeXP : expenseXP;
   
-  // Debug log
-  console.log('🎮 XP Calculation:', {
-    type: transaction.type,
-    amount: transaction.amount,
-    category: transaction.category,
-    xpGained,
-    formula: 'FIXED XP (amount independent)',
-  });
-  
   return xpGained;
 };
 

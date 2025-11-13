@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import CurrencyInput from 'react-currency-input-field';
 import { Label } from '@/shared/components/ui/label';
 import {
   Select,
@@ -39,13 +40,16 @@ export function SettingsPanel() {
   
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [showResetAllDialog, setShowResetAllDialog] = useState(false);
+  const [monthlyGoalValue, setMonthlyGoalValue] = useState<string>(settings.monthlyGoal.toString());
 
-  const handleMonthlyGoalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value);
-    if (!isNaN(value) && value >= 0) {
-      updateMonthlyGoal(value);
-    }
+  // Currency configuration based on settings
+  const currencyConfig = {
+    TRY: { prefix: '₺', decimalSeparator: ',', groupSeparator: '.' },
+    USD: { prefix: '$', decimalSeparator: '.', groupSeparator: ',' },
+    EUR: { prefix: '€', decimalSeparator: ',', groupSeparator: '.' },
   };
+
+  const config = currencyConfig[settings.currency] || currencyConfig.TRY;
 
   const handleReset = () => {
     resetSettings();
@@ -129,13 +133,23 @@ export function SettingsPanel() {
           {/* Monthly Goal */}
           <div className="space-y-2">
             <Label htmlFor="monthlyGoal">Aylık Tasarruf Hedefi</Label>
-            <Input
+            <CurrencyInput
               id="monthlyGoal"
-              type="number"
-              value={settings.monthlyGoal}
-              onChange={handleMonthlyGoalChange}
-              min="0"
-              step="100"
+              placeholder={`0${config.decimalSeparator}00 ${config.prefix}`}
+              value={monthlyGoalValue}
+              decimalsLimit={2}
+              suffix={' ' + config.prefix}
+              decimalSeparator={config.decimalSeparator}
+              groupSeparator={config.groupSeparator}
+              autoComplete="off"
+              onValueChange={(value) => {
+                setMonthlyGoalValue(value || '');
+                const numValue = value ? parseFloat(value) : 0;
+                if (!isNaN(numValue) && numValue >= 0) {
+                  updateMonthlyGoal(numValue);
+                }
+              }}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             />
           </div>
         </CardContent>
