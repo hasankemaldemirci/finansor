@@ -8,9 +8,14 @@ const currencySymbols: Record<Currency, string> = {
 
 export function formatCurrency(
   amount: number,
-  currency: Currency = 'TRY'
+  currency?: Currency
 ): string {
-  const symbol = currencySymbols[currency];
+  // Fallback to TRY if currency is undefined or invalid
+  const validCurrency: Currency = currency && currencySymbols[currency] 
+    ? currency 
+    : 'TRY';
+  
+  const symbol = currencySymbols[validCurrency];
   const formatted = amount.toLocaleString('tr-TR', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
