@@ -39,7 +39,77 @@ export function StatisticsPage() {
 
   const totalIncome = stats.totalIncome;
   const totalExpenses = stats.totalExpenses;
-  const savingsRate = stats.savingsRate;
+
+  // Summary cards data
+  const summaryCards = [
+    {
+      title: 'Toplam Gelir',
+      value: formatCurrency(totalIncome, settings.currency),
+      className: 'text-primary',
+    },
+    {
+      title: 'Toplam Gider',
+      value: formatCurrency(totalExpenses, settings.currency),
+      className: 'text-destructive',
+    },
+    {
+      title: 'Toplam Net Durum',
+      value: formatCurrency(totalIncome - totalExpenses, settings.currency),
+      className: (totalIncome - totalExpenses) >= 0 ? 'text-secondary' : 'text-destructive',
+    },
+    {
+      title: 'Ortalama Gelir',
+      value: (
+        <div className="flex items-baseline gap-2">
+          <span className="text-2xl font-bold text-primary">
+            {formatCurrency(totalIncome / Math.max(1, monthlyData.length), settings.currency)}
+          </span>
+          <span className="text-sm text-muted-foreground">/ ay</span>
+        </div>
+      ),
+      className: '',
+    },
+    {
+      title: 'Son 30 Gün Trend',
+      value: (
+        <div className="flex items-center gap-2">
+          {trend === 'up' && (
+            <>
+              <TrendingUp className="h-6 w-6 text-primary" />
+              <span className="text-2xl font-bold text-primary">Yükseliş</span>
+            </>
+          )}
+          {trend === 'down' && (
+            <>
+              <TrendingDown className="h-6 w-6 text-destructive" />
+              <span className="text-2xl font-bold text-destructive">Düşüş</span>
+            </>
+          )}
+          {trend === 'stable' && (
+            <>
+              <Minus className="h-6 w-6 text-muted-foreground" />
+              <span className="text-2xl font-bold text-muted-foreground">Sabit</span>
+            </>
+          )}
+        </div>
+      ),
+      className: '',
+    },
+  ];
+
+  const getCardSpanClass = (index: number) => {
+    const totalCards = summaryCards.length;
+    // İlk 3 kart her zaman 2 sütun
+    if (index < 3) {
+      return 'md:col-span-2';
+    }
+    // Son 2 kart: 5 kart varsa 3 sütun, 6 kart varsa 2 sütun
+    if (totalCards === 5 && index >= 3) {
+      return 'md:col-span-3';
+    }
+    // 6 kart varsa hepsi 2 sütun
+    return 'md:col-span-2';
+  };
 
   if (transactions.length === 0) {
     return (
@@ -67,121 +137,25 @@ export function StatisticsPage() {
         <h1 className="text-3xl font-bold">İstatistikler</h1>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <Card>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4">
+          {summaryCards.map((card, index) => (
+            <Card key={index} className={getCardSpanClass(index)}>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
-                Toplam Gelir
+                  {card.title}
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-0">
-              <p className="text-2xl font-bold text-primary">
-                {formatCurrency(totalIncome, settings.currency)}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Toplam Gider
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <p className="text-2xl font-bold text-destructive">
-                {formatCurrency(totalExpenses, settings.currency)}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Bu Ay Tasarruf
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <p className={`text-2xl font-bold ${
-                stats.monthlySavings >= 0 ? 'text-secondary' : 'text-destructive'
-              }`}>
-                {formatCurrency(stats.monthlySavings, settings.currency)}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Toplam Net Durum
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <p className={`text-2xl font-bold ${
-                (totalIncome - totalExpenses) >= 0 ? 'text-secondary' : 'text-destructive'
-              }`}>
-                {formatCurrency(totalIncome - totalExpenses, settings.currency)}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Tasarruf Oranı
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <p className="text-2xl font-bold">
-                {savingsRate.toFixed(1)}%
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Ortalama Gelir
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="flex items-baseline gap-2">
-                <p className="text-2xl font-bold text-primary">
-                  {formatCurrency(totalIncome / Math.max(1, monthlyData.length), settings.currency)}
+                {typeof card.value === 'string' ? (
+                  <p className={`text-2xl font-bold ${card.className}`}>
+                    {card.value}
                 </p>
-                <p className="text-sm text-muted-foreground">/ ay</p>
-              </div>
+                ) : (
+                  card.value
+                )}
             </CardContent>
           </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Son 30 Gün Trend
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="flex items-center gap-2">
-                {trend === 'up' && (
-                  <>
-                    <TrendingUp className="h-6 w-6 text-primary" />
-                    <span className="text-2xl font-bold text-primary">Yükseliş</span>
-                  </>
-                )}
-                {trend === 'down' && (
-                  <>
-                    <TrendingDown className="h-6 w-6 text-destructive" />
-                    <span className="text-2xl font-bold text-destructive">Düşüş</span>
-                  </>
-                )}
-                {trend === 'stable' && (
-                  <>
-                    <Minus className="h-6 w-6 text-muted-foreground" />
-                    <span className="text-2xl font-bold text-muted-foreground">Sabit</span>
-                  </>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+          ))}
         </div>
 
         {/* Monthly Trend Chart */}
