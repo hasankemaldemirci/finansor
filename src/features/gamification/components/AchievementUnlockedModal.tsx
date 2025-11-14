@@ -68,7 +68,10 @@ export function AchievementUnlockedModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="w-[calc(100%-2rem)] max-w-md" hideOverlay={hideOverlay}>
+      <DialogContent
+        className="w-[calc(100%-2rem)] max-w-md"
+        hideOverlay={hideOverlay}
+      >
         <DialogHeader>
           <DialogTitle className="sr-only">Başarı Kilidi Açıldı!</DialogTitle>
           <DialogDescription className="sr-only">
@@ -79,13 +82,13 @@ export function AchievementUnlockedModal({
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: 'spring', duration: 0.6 }}
-          className="text-center py-4 sm:py-6"
+          className="py-4 text-center sm:py-6"
         >
           <motion.div
             initial={{ rotate: -20 }}
             animate={{ rotate: 0 }}
             transition={{ type: 'spring', delay: 0.2 }}
-            className="flex justify-center mb-3 sm:mb-4"
+            className="mb-3 flex justify-center sm:mb-4"
           >
             <AchievementBadge achievement={achievement} size="lg" />
           </motion.div>
@@ -95,16 +98,16 @@ export function AchievementUnlockedModal({
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            <h2 className="text-xl sm:text-2xl font-bold mb-2">
+            <h2 className="mb-2 text-xl font-bold sm:text-2xl">
               🎉 Başarı Kilidi Açıldı!
             </h2>
-            <p className="text-2xl sm:text-3xl font-bold text-primary mb-2">
+            <p className="mb-2 text-2xl font-bold text-primary sm:text-3xl">
               {achievement.name}
             </p>
-            <p className="text-sm sm:text-base text-muted-foreground mb-4 px-2">
+            <p className="mb-4 px-2 text-sm text-muted-foreground sm:text-base">
               {achievement.description}
             </p>
-            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-3 sm:px-4 py-2 rounded-full font-semibold text-sm sm:text-base">
+            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-2 text-sm font-semibold text-primary sm:px-4 sm:text-base">
               <span>+{achievement.xpReward} XP</span>
               <span>⭐</span>
             </div>
@@ -117,4 +120,3 @@ export function AchievementUnlockedModal({
     </Dialog>
   );
 }
-

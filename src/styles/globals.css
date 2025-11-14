@@ -72,7 +72,9 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: 'rlig' 1, 'calt' 1;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
   }
 }
 
@@ -89,7 +91,7 @@
     -webkit-appearance: none;
     margin: 0;
   }
-  
+
   input[type='number'] {
     -moz-appearance: textfield;
   }
@@ -100,11 +102,11 @@
   .filter-modal-content[data-state='open'] {
     animation: slideInFromBottom 300ms ease-out;
   }
-  
+
   .filter-modal-content[data-state='closed'] {
     animation: slideOutToBottom 200ms ease-in;
   }
-  
+
   @keyframes slideInFromBottom {
     from {
       transform: translateY(100%);
@@ -113,7 +115,7 @@
       transform: translateY(0);
     }
   }
-  
+
   @keyframes slideOutToBottom {
     from {
       transform: translateY(0);
@@ -123,4 +125,3 @@
     }
   }
 }
-

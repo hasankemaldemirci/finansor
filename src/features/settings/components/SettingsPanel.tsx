@@ -2,7 +2,13 @@ import { useState } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 import { Label } from '@/shared/components/ui/label';
 import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/shared/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 import {
   Dialog,
@@ -30,10 +36,12 @@ export function SettingsPanel() {
 
   const { clearAllTransactions } = useTransactionStore();
   const { resetProgress } = useGamificationStore();
-  
+
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [showResetAllDialog, setShowResetAllDialog] = useState(false);
-  const [monthlyGoalValue, setMonthlyGoalValue] = useState<string>(settings.monthlyGoal.toString());
+  const [monthlyGoalValue, setMonthlyGoalValue] = useState<string>(
+    settings.monthlyGoal.toString()
+  );
 
   // Currency configuration based on settings
   const currencyConfig = {
@@ -58,14 +66,15 @@ export function SettingsPanel() {
     clearAllTransactions();
     resetProgress();
     resetSettings();
-    
+
     setShowResetAllDialog(false);
-    
+
     toast({
       title: '🎯 Tüm veriler sıfırlandı',
-      description: 'İşlemler, seviye ve ayarlar temizlendi. Yeni bir başlangıç!',
+      description:
+        'İşlemler, seviye ve ayarlar temizlendi. Yeni bir başlangıç!',
     });
-    
+
     // Reload page to ensure fresh state
     setTimeout(() => {
       window.location.reload();
@@ -74,9 +83,11 @@ export function SettingsPanel() {
 
   const handleSendFeedback = () => {
     const subject = encodeURIComponent('Finansör - Geri Bildirim');
-    const body = encodeURIComponent('Merhaba,\n\n[Mesajınızı buraya yazabilirsiniz]\n\n');
+    const body = encodeURIComponent(
+      'Merhaba,\n\n[Mesajınızı buraya yazabilirsiniz]\n\n'
+    );
     const mailtoLink = `mailto:hasankemal.demirci@gmail.com?subject=${subject}&body=${body}`;
-    
+
     window.location.href = mailtoLink;
   };
 
@@ -121,7 +132,9 @@ export function SettingsPanel() {
 
           {/* Monthly Goal */}
           <div className="space-y-3">
-            <Label htmlFor="monthlyGoal" className="text-base">Aylık Tasarruf Hedefi</Label>
+            <Label htmlFor="monthlyGoal" className="text-base">
+              Aylık Tasarruf Hedefi
+            </Label>
             <CurrencyInput
               id="monthlyGoal"
               placeholder={`0${config.decimalSeparator}00 ${config.prefix.trim()}`}
@@ -148,7 +161,7 @@ export function SettingsPanel() {
       <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-secondary/5">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Heart className="h-5 w-5 text-primary fill-primary" />
+            <Heart className="h-5 w-5 fill-primary text-primary" />
             Projeyi Destekle
           </CardTitle>
           <CardDescription>
@@ -156,13 +169,18 @@ export function SettingsPanel() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          <Button 
-            onClick={() => window.open('https://www.buymeacoffee.com/hasankemaldemirci', '_blank')}
-            className="w-full bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-[#000000] font-semibold"
+          <Button
+            onClick={() =>
+              window.open(
+                'https://www.buymeacoffee.com/hasankemaldemirci',
+                '_blank'
+              )
+            }
+            className="w-full bg-[#FFDD00] font-semibold text-[#000000] hover:bg-[#FFDD00]/90"
           >
             ☕ Buy Me a Coffee
           </Button>
-          <p className="text-xs text-center text-muted-foreground">
+          <p className="text-center text-xs text-muted-foreground">
             Projeyi beğendiyseniz, gelişimine katkıda bulunabilirsiniz 💙
           </p>
         </CardContent>
@@ -180,7 +198,7 @@ export function SettingsPanel() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button 
+          <Button
             onClick={handleSendFeedback}
             variant="outline"
             className="w-full"
@@ -205,22 +223,22 @@ export function SettingsPanel() {
             <p className="text-sm text-muted-foreground">
               Sadece tema, para birimi gibi ayarları sıfırla
             </p>
-            <Button 
-              variant="outline" 
-              onClick={() => setShowResetDialog(true)} 
+            <Button
+              variant="outline"
+              onClick={() => setShowResetDialog(true)}
               className="w-full"
             >
               Ayarları Sıfırla
             </Button>
           </div>
 
-          <div className="border-t pt-3 space-y-2">
-            <p className="text-sm text-muted-foreground font-medium">
+          <div className="space-y-2 border-t pt-3">
+            <p className="text-sm font-medium text-muted-foreground">
               ⚠️ Tüm verileri temizle (işlemler, seviye, başarılar)
             </p>
-            <Button 
-              variant="destructive" 
-              onClick={() => setShowResetAllDialog(true)} 
+            <Button
+              variant="destructive"
+              onClick={() => setShowResetAllDialog(true)}
               className="w-full"
             >
               Tüm Verileri Sıfırla
@@ -235,39 +253,47 @@ export function SettingsPanel() {
           <DialogHeader>
             <DialogTitle>Ayarları Sıfırla?</DialogTitle>
           </DialogHeader>
-          
+
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">
               Aşağıdaki ayarlar varsayılan değerlere dönecek:
             </p>
-            
+
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-start gap-2">
-                <span className="text-primary mt-0.5">•</span>
+                <span className="mt-0.5 text-primary">•</span>
                 <span>Tema tercihi</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-primary mt-0.5">•</span>
+                <span className="mt-0.5 text-primary">•</span>
                 <span>Para birimi</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-primary mt-0.5">•</span>
+                <span className="mt-0.5 text-primary">•</span>
                 <span>Aylık tasarruf hedefi</span>
               </li>
             </ul>
-            
-            <div className="rounded-lg bg-primary/15 border border-primary/30 p-3">
-              <p className="text-sm text-primary font-medium text-center">
+
+            <div className="rounded-lg border border-primary/30 bg-primary/15 p-3">
+              <p className="text-center text-sm font-medium text-primary">
                 ✓ İşlemleriniz ve seviyeniz korunacak
               </p>
             </div>
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowResetDialog(false)} className="sm:flex-1">
+            <Button
+              variant="outline"
+              onClick={() => setShowResetDialog(false)}
+              className="sm:flex-1"
+            >
               İptal
             </Button>
-            <Button variant="destructive" onClick={handleReset} className="sm:flex-1">
+            <Button
+              variant="destructive"
+              onClick={handleReset}
+              className="sm:flex-1"
+            >
               Sıfırla
             </Button>
           </DialogFooter>
@@ -283,46 +309,56 @@ export function SettingsPanel() {
               Tüm Verileri Sil?
             </DialogTitle>
           </DialogHeader>
-          
+
           <p className="text-sm font-semibold text-destructive">
             Bu işlem geri alınamaz!
           </p>
-          
+
           <div className="space-y-4">
             <div className="space-y-3">
-              <p className="text-sm font-medium text-foreground">Silinecekler:</p>
+              <p className="text-sm font-medium text-foreground">
+                Silinecekler:
+              </p>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li className="flex items-start gap-2">
-                  <span className="text-destructive mt-0.5">•</span>
+                  <span className="mt-0.5 text-destructive">•</span>
                   <span>Tüm işlemler (gelir & gider)</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-destructive mt-0.5">•</span>
+                  <span className="mt-0.5 text-destructive">•</span>
                   <span>Seviye ve XP ilerlemeniz</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-destructive mt-0.5">•</span>
+                  <span className="mt-0.5 text-destructive">•</span>
                   <span>Kilidi açılmış başarılar</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-destructive mt-0.5">•</span>
+                  <span className="mt-0.5 text-destructive">•</span>
                   <span>Tüm ayarlar</span>
                 </li>
               </ul>
             </div>
-            
-            <div className="rounded-lg bg-destructive/15 border border-destructive/30 p-3">
-              <p className="text-sm font-medium text-destructive text-center">
+
+            <div className="rounded-lg border border-destructive/30 bg-destructive/15 p-3">
+              <p className="text-center text-sm font-medium text-destructive">
                 ⚠️ Uygulamaya sıfırdan başlayacaksınız
               </p>
             </div>
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowResetAllDialog(false)} className="sm:flex-1">
+            <Button
+              variant="outline"
+              onClick={() => setShowResetAllDialog(false)}
+              className="sm:flex-1"
+            >
               İptal
             </Button>
-            <Button variant="destructive" onClick={handleResetAll} className="sm:flex-1">
+            <Button
+              variant="destructive"
+              onClick={handleResetAll}
+              className="sm:flex-1"
+            >
               Evet, Tüm Verileri Sil
             </Button>
           </DialogFooter>
@@ -331,4 +367,3 @@ export function SettingsPanel() {
     </div>
   );
 }
-

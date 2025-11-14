@@ -14,7 +14,10 @@ export interface CategoryData {
   percentage: number;
 }
 
-export const getMonthlyStats = (transactions: Transaction[], months: number = 6): MonthlyData[] => {
+export const getMonthlyStats = (
+  transactions: Transaction[],
+  months: number = 6
+): MonthlyData[] => {
   const now = new Date();
   const monthlyMap = new Map<string, { income: number; expense: number }>();
 
@@ -29,7 +32,7 @@ export const getMonthlyStats = (transactions: Transaction[], months: number = 6)
   transactions.forEach((transaction) => {
     const date = new Date(transaction.date);
     const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-    
+
     if (monthlyMap.has(key)) {
       const data = monthlyMap.get(key)!;
       if (transaction.type === 'income') {
@@ -41,19 +44,31 @@ export const getMonthlyStats = (transactions: Transaction[], months: number = 6)
   });
 
   // Convert to array with Turkish month names
-  const monthNames = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
-  
-  return Array.from(monthlyMap.entries())
-    .map(([key, data]) => {
-      const [year, month] = key.split('-');
-      const monthIndex = parseInt(month) - 1;
-      return {
-        month: `${monthNames[monthIndex]} ${year.slice(2)}`,
-        income: data.income,
-        expense: data.expense,
-        savings: data.income - data.expense,
-      };
-    });
+  const monthNames = [
+    'Oca',
+    'Şub',
+    'Mar',
+    'Nis',
+    'May',
+    'Haz',
+    'Tem',
+    'Ağu',
+    'Eyl',
+    'Eki',
+    'Kas',
+    'Ara',
+  ];
+
+  return Array.from(monthlyMap.entries()).map(([key, data]) => {
+    const [year, month] = key.split('-');
+    const monthIndex = parseInt(month) - 1;
+    return {
+      month: `${monthNames[monthIndex]} ${year.slice(2)}`,
+      income: data.income,
+      expense: data.expense,
+      savings: data.income - data.expense,
+    };
+  });
 };
 
 export const getCategoryStats = (
@@ -109,7 +124,10 @@ export const getCategoryLabel = (category: string): string => {
   return labels[category] || category;
 };
 
-export const getRecentTrend = (transactions: Transaction[], days: number = 30): 'up' | 'down' | 'stable' => {
+export const getRecentTrend = (
+  transactions: Transaction[],
+  days: number = 30
+): 'up' | 'down' | 'stable' => {
   const now = new Date();
   const periodStart = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
   const midPoint = new Date(now.getTime() - (days / 2) * 24 * 60 * 60 * 1000);
@@ -120,9 +138,15 @@ export const getRecentTrend = (transactions: Transaction[], days: number = 30): 
   transactions.forEach((transaction) => {
     const date = new Date(transaction.date);
     if (date >= periodStart && date < midPoint) {
-      firstHalf += transaction.type === 'income' ? transaction.amount : -transaction.amount;
+      firstHalf +=
+        transaction.type === 'income'
+          ? transaction.amount
+          : -transaction.amount;
     } else if (date >= midPoint && date <= now) {
-      secondHalf += transaction.type === 'income' ? transaction.amount : -transaction.amount;
+      secondHalf +=
+        transaction.type === 'income'
+          ? transaction.amount
+          : -transaction.amount;
     }
   });
 
@@ -133,4 +157,3 @@ export const getRecentTrend = (transactions: Transaction[], days: number = 30): 
   if (diff < -threshold) return 'down';
   return 'stable';
 };
-

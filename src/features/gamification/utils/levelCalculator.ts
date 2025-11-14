@@ -17,7 +17,9 @@ export function getLevelFromTotalXP(totalXP: number): {
   return { level, currentXP: remainingXP };
 }
 
-export function getProgressPercentage(currentXP: number, requiredXP: number): number {
+export function getProgressPercentage(
+  currentXP: number,
+  requiredXP: number
+): number {
   return Math.min(100, Math.floor((currentXP / requiredXP) * 100));
 }
-

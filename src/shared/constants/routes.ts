@@ -5,4 +5,3 @@ export const ROUTES = {
   ACHIEVEMENTS: '/achievements',
   SETTINGS: '/settings',
 } as const;
-

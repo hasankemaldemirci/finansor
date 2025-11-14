@@ -22,23 +22,24 @@ export function AchievementBadge({
     <div className="relative inline-block">
       <div
         className={cn(
-          'rounded-full flex items-center justify-center transition-all',
+          'flex items-center justify-center rounded-full transition-all',
           sizeClasses[size],
           achievement.unlocked
             ? 'bg-gradient-to-br from-primary to-secondary shadow-lg'
-            : 'bg-gray-200 dark:bg-gray-700 grayscale opacity-50'
+            : 'bg-gray-200 opacity-50 grayscale dark:bg-gray-700'
         )}
       >
-        <span className="filter drop-shadow-md">{achievement.icon}</span>
+        <span className="drop-shadow-md filter">{achievement.icon}</span>
       </div>
-      {!achievement.unlocked && showProgress && achievement.progress !== undefined && (
-        <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
-          <div className="bg-background border rounded-full px-2 py-0.5 text-xs font-semibold">
-            {Math.floor(achievement.progress)}%
+      {!achievement.unlocked &&
+        showProgress &&
+        achievement.progress !== undefined && (
+          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform">
+            <div className="rounded-full border bg-background px-2 py-0.5 text-xs font-semibold">
+              {Math.floor(achievement.progress)}%
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   );
 }
-

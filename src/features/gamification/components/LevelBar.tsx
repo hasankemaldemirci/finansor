@@ -9,7 +9,7 @@ export function LevelBar() {
   return (
     <Card className="bg-gradient-to-r from-primary/10 to-secondary/10">
       <CardContent className="p-6">
-        <div className="flex items-center justify-between mb-3">
+        <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-4xl">{getLevelIcon(level)}</span>
             <div>
@@ -25,11 +25,10 @@ export function LevelBar() {
           </div>
         </div>
         <Progress value={progressPercentage} className="h-3" />
-        <p className="text-xs text-center text-muted-foreground mt-2">
+        <p className="mt-2 text-center text-xs text-muted-foreground">
           {Math.max(0, nextLevelXP - xp)} XP kaldı
         </p>
       </CardContent>
     </Card>
   );
 }
-

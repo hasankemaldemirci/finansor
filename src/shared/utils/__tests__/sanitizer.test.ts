@@ -6,7 +6,7 @@ describe('InputSanitizer', () => {
     it('should escape HTML special characters', () => {
       const input = '<script>alert("XSS")</script>';
       const sanitized = InputSanitizer.escapeHtml(input);
-      
+
       expect(sanitized).not.toContain('<script>');
       expect(sanitized).toContain('&lt;script&gt;');
       expect(sanitized).toContain('&quot;');
@@ -15,7 +15,7 @@ describe('InputSanitizer', () => {
     it('should escape all dangerous characters', () => {
       const input = '<>&"\'/';
       const sanitized = InputSanitizer.escapeHtml(input);
-      
+
       expect(sanitized).toBe('&lt;&gt;&amp;&quot;&#x27;&#x2F;');
     });
 
@@ -30,7 +30,7 @@ describe('InputSanitizer', () => {
     it('should remove script tags', () => {
       const input = '<script>alert("XSS")</script>Hello';
       const sanitized = InputSanitizer.removeScripts(input);
-      
+
       expect(sanitized).not.toContain('<script>');
       expect(sanitized).toContain('Hello');
     });
@@ -38,30 +38,31 @@ describe('InputSanitizer', () => {
     it('should remove javascript: protocol', () => {
       const input = 'javascript:alert("XSS")';
       const sanitized = InputSanitizer.removeScripts(input);
-      
+
       expect(sanitized).not.toContain('javascript:');
     });
 
     it('should remove event handlers', () => {
       const input = '<img onerror="alert(\'XSS\')" src="x">';
       const sanitized = InputSanitizer.removeScripts(input);
-      
+
       expect(sanitized).not.toContain('onerror=');
     });
 
     it('should remove data:text/html', () => {
       const input = 'data:text/html,<script>alert("XSS")</script>';
       const sanitized = InputSanitizer.removeScripts(input);
-      
+
       expect(sanitized).not.toContain('data:text/html');
     });
   });
 
   describe('sanitizeText', () => {
     it('should sanitize XSS attempts', () => {
-      const malicious = '<script>alert("XSS")</script><img src=x onerror=alert(1)>';
+      const malicious =
+        '<script>alert("XSS")</script><img src=x onerror=alert(1)>';
       const sanitized = InputSanitizer.sanitizeText(malicious);
-      
+
       expect(sanitized).not.toContain('<script>');
       expect(sanitized).not.toContain('onerror');
       expect(sanitized.length).toBeLessThanOrEqual(500);
@@ -70,14 +71,14 @@ describe('InputSanitizer', () => {
     it('should limit length to 500 characters', () => {
       const longText = 'A'.repeat(600);
       const sanitized = InputSanitizer.sanitizeText(longText);
-      
+
       expect(sanitized.length).toBe(500);
     });
 
     it('should trim whitespace', () => {
       const input = '   Hello World   ';
       const sanitized = InputSanitizer.sanitizeText(input);
-      
+
       expect(sanitized).toBe('Hello World');
     });
 
@@ -124,13 +125,19 @@ describe('InputSanitizer', () => {
   describe('sanitizeCategory', () => {
     it('should allow only alphanumeric and underscore/dash', () => {
       expect(InputSanitizer.sanitizeCategory('groceries')).toBe('groceries');
-      expect(InputSanitizer.sanitizeCategory('rent_utilities')).toBe('rent_utilities');
-      expect(InputSanitizer.sanitizeCategory('health-care')).toBe('health-care');
+      expect(InputSanitizer.sanitizeCategory('rent_utilities')).toBe(
+        'rent_utilities'
+      );
+      expect(InputSanitizer.sanitizeCategory('health-care')).toBe(
+        'health-care'
+      );
     });
 
     it('should remove special characters', () => {
       expect(InputSanitizer.sanitizeCategory('groceries!@#')).toBe('groceries');
-      expect(InputSanitizer.sanitizeCategory('rent & utilities')).toBe('rentutilities');
+      expect(InputSanitizer.sanitizeCategory('rent & utilities')).toBe(
+        'rentutilities'
+      );
     });
 
     it('should convert to lowercase', () => {
@@ -173,7 +180,7 @@ describe('InputSanitizer', () => {
       };
 
       const sanitized = InputSanitizer.sanitizeTransactionData(data);
-      
+
       expect(sanitized).not.toBeNull();
       expect(sanitized?.type).toBe('income');
       expect(sanitized?.amount).toBe(1000);
@@ -283,12 +290,12 @@ describe('InputSanitizer', () => {
     it('should reset after window expires', () => {
       // Use very short window for testing
       InputSanitizer.checkRateLimit('test', 1, 100);
-      
+
       // Wait for window to expire (in real test, use fake timers)
       // For now, just test that different keys have separate limits
       const allowed1 = InputSanitizer.checkRateLimit('key1', 1, 60000);
       const allowed2 = InputSanitizer.checkRateLimit('key2', 1, 60000);
-      
+
       expect(allowed1).toBe(true);
       expect(allowed2).toBe(true);
     });
@@ -308,4 +315,3 @@ describe('InputSanitizer', () => {
     });
   });
 });
-

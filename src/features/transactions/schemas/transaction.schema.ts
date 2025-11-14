@@ -2,12 +2,14 @@ import { z } from 'zod';
 import { InputSanitizer } from '@/shared/utils/sanitizer';
 
 // Güvenli string validation (XSS koruması)
-const safeString = z.string()
+const safeString = z
+  .string()
   .max(500, 'Maksimum 500 karakter')
   .transform((val) => InputSanitizer.sanitizeText(val));
 
 // Kategori validation
-const categorySchema = z.string()
+const categorySchema = z
+  .string()
   .max(50, 'Kategori adı çok uzun')
   .transform((val) => InputSanitizer.sanitizeCategory(val));
 
@@ -56,4 +58,3 @@ export const settingsSchema = z.object({
 });
 
 export type SettingsFormValues = z.infer<typeof settingsSchema>;
-

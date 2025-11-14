@@ -13,24 +13,25 @@ export function Logo({ size = 32, showText = false, className }: LogoProps) {
   return (
     <div
       className={cn(
-        'relative flex items-center justify-center rounded-lg overflow-hidden',
+        'relative flex items-center justify-center overflow-hidden rounded-lg',
         'shadow-lg',
         className
       )}
       style={{
         width: `${size}px`,
         height: `${size}px`,
-        background: 'linear-gradient(135deg, hsl(162, 100%, 42%) 0%, hsl(162, 100%, 38%) 50%, hsl(250, 65%, 63%) 100%)',
+        background:
+          'linear-gradient(135deg, hsl(162, 100%, 42%) 0%, hsl(162, 100%, 38%) 50%, hsl(250, 65%, 63%) 100%)',
       }}
     >
       {/* HandCoins ikonu - ortada */}
-      <div 
-        className="absolute left-1/2 -translate-x-1/2 z-10"
+      <div
+        className="absolute left-1/2 z-10 -translate-x-1/2"
         style={{
           top: `${(size - iconSize) / 2}px`,
         }}
       >
-        <HandCoins 
+        <HandCoins
           className="text-white"
           size={iconSize}
           strokeWidth={2.5}
@@ -43,7 +44,7 @@ export function Logo({ size = 32, showText = false, className }: LogoProps) {
       {/* Metin - altında (opsiyonel) */}
       {showText && (
         <div className="absolute -bottom-6 left-1/2 -translate-x-1/2">
-          <span className="text-white text-xs font-bold whitespace-nowrap">
+          <span className="whitespace-nowrap text-xs font-bold text-white">
             Finansör
           </span>
         </div>
@@ -51,4 +52,3 @@ export function Logo({ size = 32, showText = false, className }: LogoProps) {
     </div>
   );
 }
-

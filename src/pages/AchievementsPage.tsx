@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { Container } from '@/shared/components/layout/Container';
 import { useAchievements } from '@/features/gamification/hooks/useAchievements';
 import { AchievementCard } from '@/features/gamification/components/AchievementCard';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/shared/components/ui/card';
 import { Progress } from '@/shared/components/ui/progress';
 import { AchievementType } from '@/features/gamification/types/achievement.types';
 import { ACHIEVEMENT_CATEGORIES } from '@/features/gamification/constants/achievements';
@@ -15,18 +20,18 @@ export function AchievementsPage() {
     achievementsByType,
   } = useAchievements();
 
-  const [selectedType, setSelectedType] = useState<AchievementType | 'all'>('all');
+  const [selectedType, setSelectedType] = useState<AchievementType | 'all'>(
+    'all'
+  );
 
   const filteredAchievements =
-    selectedType === 'all'
-      ? achievements
-      : achievementsByType[selectedType];
+    selectedType === 'all' ? achievements : achievementsByType[selectedType];
 
   return (
     <Container>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Başarılar</h1>
+          <h1 className="mb-2 text-3xl font-bold">Başarılar</h1>
           <p className="text-muted-foreground">
             İşlemler yaparak başarılar kazan ve XP topla!
           </p>
@@ -59,7 +64,7 @@ export function AchievementsPage() {
         <div className="flex gap-2 overflow-x-auto pb-2">
           <button
             onClick={() => setSelectedType('all')}
-            className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors ${
+            className={`whitespace-nowrap rounded-lg px-4 py-2 font-medium transition-colors ${
               selectedType === 'all'
                 ? 'bg-primary text-white'
                 : 'bg-muted hover:bg-muted/80'
@@ -73,7 +78,7 @@ export function AchievementsPage() {
               <button
                 key={type}
                 onClick={() => setSelectedType(type as AchievementType)}
-                className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors ${
+                className={`whitespace-nowrap rounded-lg px-4 py-2 font-medium transition-colors ${
                   selectedType === type
                     ? 'bg-primary text-white'
                     : 'bg-muted hover:bg-muted/80'
@@ -103,4 +108,3 @@ export function AchievementsPage() {
     </Container>
   );
 }
-

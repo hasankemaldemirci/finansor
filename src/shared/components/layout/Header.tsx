@@ -9,11 +9,14 @@ export function Header() {
   const { level, title } = useLevel();
 
   return (
-    <header className="border-b bg-background/95 backdrop-blur-lg supports-[backdrop-filter]:bg-background/95 sticky top-0 z-40 shadow-[0_2px_10px_rgba(0,0,0,0.1)]">
-      <div className="container mx-auto px-3 h-16 flex items-center justify-between max-w-3xl">
-        <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+    <header className="sticky top-0 z-40 border-b bg-background/95 shadow-[0_2px_10px_rgba(0,0,0,0.1)] backdrop-blur-lg supports-[backdrop-filter]:bg-background/95">
+      <div className="container mx-auto flex h-16 max-w-3xl items-center justify-between px-3">
+        <Link
+          to="/"
+          className="flex items-center gap-3 transition-opacity hover:opacity-80"
+        >
           <Logo size={40} />
-          <h1 className="hidden sm:block text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          <h1 className="hidden bg-gradient-to-r from-primary to-secondary bg-clip-text text-2xl font-bold text-transparent sm:block">
             Finansör
           </h1>
         </Link>
@@ -22,7 +25,9 @@ export function Header() {
             <span className="text-2xl">{getLevelIcon(level)}</span>
             <div>
               <p className="text-sm font-semibold">Seviye {level}</p>
-              <p className="text-xs text-muted-foreground hidden sm:block">{title}</p>
+              <p className="hidden text-xs text-muted-foreground sm:block">
+                {title}
+              </p>
             </div>
           </div>
           <NotificationMenu />
@@ -32,4 +37,3 @@ export function Header() {
     </header>
   );
 }
-

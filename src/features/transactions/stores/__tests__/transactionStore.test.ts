@@ -19,8 +19,10 @@ describe('TransactionStore - Security', () => {
         date: new Date(),
       };
 
-      const transaction = useTransactionStore.getState().addTransaction(maliciousDto);
-      
+      const transaction = useTransactionStore
+        .getState()
+        .addTransaction(maliciousDto);
+
       // XSS is escaped, so '<script>' becomes '&lt;script&gt;'
       expect(transaction.description).not.toContain('<script>');
       expect(transaction.description).not.toContain('</script>');
@@ -37,9 +39,9 @@ describe('TransactionStore - Security', () => {
         description: 'Original',
         date: new Date(),
       };
-      
+
       const transaction = useTransactionStore.getState().addTransaction(dto);
-      
+
       // Update with malicious content
       const maliciousDto: CreateTransactionDto = {
         type: 'income',
@@ -48,12 +50,11 @@ describe('TransactionStore - Security', () => {
         description: '<img src=x onerror=alert(1)>',
         date: new Date(),
       };
-      
-      const updated = useTransactionStore.getState().updateTransaction(
-        transaction.id,
-        maliciousDto
-      );
-      
+
+      const updated = useTransactionStore
+        .getState()
+        .updateTransaction(transaction.id, maliciousDto);
+
       expect(updated.description).not.toContain('<img');
       expect(updated.description).not.toContain('onerror');
     });
@@ -81,7 +82,9 @@ describe('TransactionStore - Security', () => {
       } as any;
 
       // sanitizeTransactionData defaults invalid type to 'expense'
-      const transaction = useTransactionStore.getState().addTransaction(invalidDto);
+      const transaction = useTransactionStore
+        .getState()
+        .addTransaction(invalidDto);
       expect(transaction.type).toBe('expense');
     });
 
@@ -121,7 +124,9 @@ describe('TransactionStore - Security', () => {
         date: new Date(),
       };
 
-      const transaction = useTransactionStore.getState().addTransaction(validIncome);
+      const transaction = useTransactionStore
+        .getState()
+        .addTransaction(validIncome);
       expect(transaction.type).toBe('income');
     });
 
@@ -160,14 +165,14 @@ describe('TransactionStore - Security', () => {
       };
 
       useTransactionStore.getState().addTransaction(dto);
-      
+
       // Wait a bit for Zustand persist to save
       // In real usage, Zustand persists asynchronously
       // For test, we check that the transaction was added
       const transactions = useTransactionStore.getState().transactions;
       expect(transactions.length).toBe(1);
       expect(transactions[0].description).toBe('Test transaction');
-      
+
       // Check that if data is stored, it's encrypted
       // Note: Zustand persist is async, so we check the store state instead
       const stored = localStorage.getItem('secure_transactions-storage');
@@ -186,7 +191,7 @@ describe('TransactionStore - Security', () => {
       };
 
       useTransactionStore.getState().addTransaction(dto);
-      
+
       // Get transactions from store
       const transactions = useTransactionStore.getState().transactions;
       expect(transactions.length).toBe(1);
@@ -195,4 +200,3 @@ describe('TransactionStore - Security', () => {
     });
   });
 });
-

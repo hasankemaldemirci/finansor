@@ -51,4 +51,3 @@ export const LEVEL_CONFIGS: LevelConfig[] = Array.from(
     };
   }
 );
-

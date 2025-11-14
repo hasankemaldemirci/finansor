@@ -39,9 +39,11 @@ export const filterTransactions = (
 
     if (filters.dateRange === 'custom') {
       if (filters.startDate || filters.endDate) {
-        const start = filters.startDate ? new Date(filters.startDate) : new Date(0);
+        const start = filters.startDate
+          ? new Date(filters.startDate)
+          : new Date(0);
         const end = filters.endDate ? new Date(filters.endDate) : now;
-        
+
         filtered = filtered.filter((t) => {
           const transactionDate = new Date(t.date);
           return transactionDate >= start && transactionDate <= end;
@@ -49,8 +51,10 @@ export const filterTransactions = (
       }
     } else if (ranges[filters.dateRange]) {
       const daysAgo = ranges[filters.dateRange];
-      const cutoffDate = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000);
-      
+      const cutoffDate = new Date(
+        now.getTime() - daysAgo * 24 * 60 * 60 * 1000
+      );
+
       filtered = filtered.filter((t) => new Date(t.date) >= cutoffDate);
     }
   }
@@ -65,8 +69,9 @@ export const filterTransactions = (
   }
 
   // Sort by date (newest first)
-  filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  filtered.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 
   return filtered;
 };
-

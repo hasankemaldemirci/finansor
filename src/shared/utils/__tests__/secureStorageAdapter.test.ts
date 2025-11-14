@@ -16,7 +16,7 @@ describe('SecureStorageAdapter', () => {
     it('should retrieve and decrypt stored data', () => {
       const testData = { state: { name: 'Test', value: 123 }, version: 0 };
       storage.setItem('test-key', testData);
-      
+
       const retrieved = storage.getItem('test-key');
       expect(retrieved).toBeTruthy();
       expect(retrieved).toEqual(testData);
@@ -41,10 +41,10 @@ describe('SecureStorageAdapter', () => {
         },
         version: 0,
       };
-      
+
       storage.setItem('complex', complexData);
       const retrieved = storage.getItem('complex');
-      
+
       expect(retrieved).toBeTruthy();
       expect(retrieved).toEqual(complexData);
     });
@@ -57,10 +57,10 @@ describe('SecureStorageAdapter', () => {
         },
         version: 0,
       };
-      
+
       storage.setItem('zustand', zustandData);
       const retrieved = storage.getItem('zustand');
-      
+
       expect(retrieved).toBeTruthy();
       expect(retrieved).toEqual(zustandData);
     });
@@ -70,7 +70,7 @@ describe('SecureStorageAdapter', () => {
     it('should encrypt and store data', () => {
       const testData = { state: { secret: 'sensitive-data' }, version: 0 };
       storage.setItem('test', testData);
-      
+
       // Check that data is encrypted in storage
       const rawStorage = localStorage.getItem('secure_test');
       expect(rawStorage).toBeTruthy();
@@ -81,7 +81,7 @@ describe('SecureStorageAdapter', () => {
     it('should overwrite existing data', () => {
       storage.setItem('test', { state: { value: 1 }, version: 0 });
       storage.setItem('test', { state: { value: 2 }, version: 0 });
-      
+
       const retrieved = storage.getItem('test');
       expect(retrieved).toBeTruthy();
       expect(retrieved?.state.value).toBe(2);
@@ -98,7 +98,7 @@ describe('SecureStorageAdapter', () => {
     it('should remove stored data', () => {
       storage.setItem('test', { state: { data: 'test' }, version: 0 });
       storage.removeItem('test');
-      
+
       const retrieved = storage.getItem('test');
       expect(retrieved).toBeNull();
     });
@@ -114,9 +114,9 @@ describe('SecureStorageAdapter', () => {
       storage.setItem('test', { state: { encrypted: true }, version: 0 });
       // Set unencrypted (old format)
       localStorage.setItem('test', JSON.stringify({ encrypted: false }));
-      
+
       storage.removeItem('test');
-      
+
       expect(localStorage.getItem('secure_test')).toBeNull();
       expect(localStorage.getItem('test')).toBeNull();
     });
@@ -126,7 +126,7 @@ describe('SecureStorageAdapter', () => {
     it('should handle invalid encrypted data gracefully', () => {
       // This shouldn't happen in practice, but test error handling
       localStorage.setItem('secure_test', 'invalid-json');
-      
+
       // Should return null or handle gracefully
       const retrieved = storage.getItem('test');
       // May return null or handle gracefully - test that it doesn't crash
@@ -144,10 +144,10 @@ describe('SecureStorageAdapter', () => {
         },
         version: 0,
       };
-      
+
       storage.setItem('zustand-test', zustandData);
       const retrieved = storage.getItem('zustand-test');
-      
+
       expect(retrieved).toBeTruthy();
       expect(retrieved?.state.transactions).toHaveLength(1);
       expect(retrieved?.state.settings.theme).toBe('dark');
@@ -158,12 +158,11 @@ describe('SecureStorageAdapter', () => {
         state: { test: 'value' },
         version: 5,
       };
-      
+
       storage.setItem('version-test', data);
       const retrieved = storage.getItem('version-test');
-      
+
       expect(retrieved?.version).toBe(5);
     });
   });
 });
-

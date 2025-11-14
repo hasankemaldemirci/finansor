@@ -54,12 +54,14 @@ const TIPS: Record<string, string[]> = {
 const GENERAL_TIPS = [
   {
     condition: (expenses: number, income: number) => expenses > income * 0.8,
-    message: 'Harcamalarınız gelirinizin %80\'inden fazla. Tasarruf yapmak için harcamalarınızı gözden geçirin.',
+    message:
+      "Harcamalarınız gelirinizin %80'inden fazla. Tasarruf yapmak için harcamalarınızı gözden geçirin.",
     icon: '⚠️',
   },
   {
     condition: (expenses: number, income: number) => expenses > income * 0.6,
-    message: 'Harcamalarınız gelirinizin %60\'ından fazla. Bütçe planlaması yaparak kontrol altına alabilirsiniz.',
+    message:
+      "Harcamalarınız gelirinizin %60'ından fazla. Bütçe planlaması yaparak kontrol altına alabilirsiniz.",
     icon: '💡',
   },
 ];
@@ -68,7 +70,14 @@ export function getSavingsTips(transactions: Transaction[]): SavingsTip[] {
   const tips: SavingsTip[] = [];
   const now = new Date();
   const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+  const endOfMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    0,
+    23,
+    59,
+    59
+  );
 
   // Get current month transactions
   const monthlyTransactions = transactions.filter(
@@ -79,7 +88,7 @@ export function getSavingsTips(transactions: Transaction[]): SavingsTip[] {
   const totalIncome = monthlyTransactions
     .filter((t) => t.type === 'income')
     .reduce((sum, t) => sum + t.amount, 0);
-  
+
   const totalExpenses = monthlyTransactions
     .filter((t) => t.type === 'expense')
     .reduce((sum, t) => sum + t.amount, 0);
@@ -98,7 +107,8 @@ export function getSavingsTips(transactions: Transaction[]): SavingsTip[] {
   categoryExpenses.forEach((amount, category) => {
     if (amount > threshold && TIPS[category]) {
       const categoryLabel = getCategoryLabel(category);
-      const randomTip = TIPS[category][Math.floor(Math.random() * TIPS[category].length)];
+      const randomTip =
+        TIPS[category][Math.floor(Math.random() * TIPS[category].length)];
       tips.push({
         category: categoryLabel,
         message: randomTip,
@@ -123,4 +133,3 @@ export function getSavingsTips(transactions: Transaction[]): SavingsTip[] {
   // Sort by priority (highest first)
   return tips.sort((a, b) => b.priority - a.priority).slice(0, 3); // Return top 3 tips
 }
-

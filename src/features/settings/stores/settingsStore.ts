@@ -34,11 +34,11 @@ export const useSettingsStore = create<SettingsState>()(
         set((state) => ({
           settings: { ...state.settings, theme },
         }));
-        
+
         // Apply theme to document
         const root = window.document.documentElement;
         root.classList.remove('light', 'dark');
-        
+
         if (theme === 'system') {
           const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
             .matches
@@ -86,7 +86,7 @@ export const useSettingsStore = create<SettingsState>()(
                 b.category === category ? { ...b, limit } : b
               )
             : [...budgets, { category, limit }];
-          
+
           return {
             settings: { ...state.settings, categoryBudgets: updatedBudgets },
           };
@@ -120,4 +120,3 @@ export const useSettingsStore = create<SettingsState>()(
     }
   )
 );
-

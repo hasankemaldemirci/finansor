@@ -17,4 +17,3 @@ export interface XPGain {
   reason: string;
   timestamp: Date;
 }
-

@@ -24,27 +24,30 @@ class CryptoService {
     try {
       // Mevcut anahtarı yükle
       const storedKey = localStorage.getItem(KEY_STORAGE_KEY);
-      
+
       if (storedKey) {
         this.encryptionKey = storedKey;
         return;
       }
-      
+
       // Yeni anahtar oluştur (cihaza özel)
       // Önce device ID'yi al veya oluştur
       const deviceId = this.getDeviceId();
-      
+
       // Device ID'den key türet
       this.encryptionKey = CryptoJS.PBKDF2(deviceId, SALT, {
         keySize: 256 / 32,
         iterations: 10000,
       }).toString();
-      
+
       // Anahtarı sakla (sonraki kullanımlar için)
       try {
         localStorage.setItem(KEY_STORAGE_KEY, this.encryptionKey);
       } catch (storageError) {
-        console.error('[CryptoService] Failed to store encryption key:', storageError);
+        console.error(
+          '[CryptoService] Failed to store encryption key:',
+          storageError
+        );
         // Key'i saklayamadık ama kullanabiliriz
       }
     } catch (error) {
@@ -61,7 +64,9 @@ class CryptoService {
         }
       } catch {
         // Son çare: user agent'dan key
-        this.encryptionKey = CryptoJS.SHA256(SALT + navigator.userAgent).toString();
+        this.encryptionKey = CryptoJS.SHA256(
+          SALT + navigator.userAgent
+        ).toString();
       }
     }
   }
@@ -71,7 +76,7 @@ class CryptoService {
     try {
       // Mevcut device ID'yi kontrol et
       let deviceId = localStorage.getItem('finansor_device_id');
-      
+
       if (!deviceId) {
         // Yeni device ID oluştur
         const components = [
@@ -80,11 +85,11 @@ class CryptoService {
           screen.width + 'x' + screen.height,
           new Date().getTimezoneOffset().toString(),
         ];
-        
+
         deviceId = CryptoJS.SHA256(components.join('|')).toString();
         localStorage.setItem('finansor_device_id', deviceId);
       }
-      
+
       return deviceId;
     } catch (error) {
       // Fallback
@@ -99,7 +104,10 @@ class CryptoService {
     }
 
     try {
-      const encrypted = CryptoJS.AES.encrypt(data, this.encryptionKey!).toString();
+      const encrypted = CryptoJS.AES.encrypt(
+        data,
+        this.encryptionKey!
+      ).toString();
       return encrypted;
     } catch (error) {
       console.error('Encryption failed:', error);
@@ -114,13 +122,16 @@ class CryptoService {
     }
 
     try {
-      const decrypted = CryptoJS.AES.decrypt(encryptedData, this.encryptionKey!);
+      const decrypted = CryptoJS.AES.decrypt(
+        encryptedData,
+        this.encryptionKey!
+      );
       const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
-      
+
       if (!decryptedString) {
         throw new Error('Invalid or corrupted data');
       }
-      
+
       return decryptedString;
     } catch (error) {
       console.error('Decryption failed:', error);
@@ -179,7 +190,10 @@ export class SecureStorage {
           return parsed;
         } catch (decryptError) {
           // Şifre çözme başarısız - key değişmiş olabilir veya veri bozulmuş
-          console.error(`[SecureStorage] Decryption failed for key: ${key}`, decryptError);
+          console.error(
+            `[SecureStorage] Decryption failed for key: ${key}`,
+            decryptError
+          );
           // Eski formatı kontrol et (migration için)
           const unencrypted = localStorage.getItem(key);
           if (unencrypted) {
@@ -226,11 +240,13 @@ export class SecureStorage {
 
   static clear(): void {
     const keys = Object.keys(localStorage);
-    keys.forEach(key => {
-      if (key.startsWith('secure_') || 
-          key === 'transactions-storage' || 
-          key === 'gamification-storage' || 
-          key === 'settings-storage') {
+    keys.forEach((key) => {
+      if (
+        key.startsWith('secure_') ||
+        key === 'transactions-storage' ||
+        key === 'gamification-storage' ||
+        key === 'settings-storage'
+      ) {
         localStorage.removeItem(key);
       }
     });
@@ -239,6 +255,6 @@ export class SecureStorage {
   // Şifreli veri var mı kontrol et
   static hasEncryptedData(): boolean {
     const keys = Object.keys(localStorage);
-    return keys.some(key => key.startsWith('secure_'));
+    return keys.some((key) => key.startsWith('secure_'));
   }
 }

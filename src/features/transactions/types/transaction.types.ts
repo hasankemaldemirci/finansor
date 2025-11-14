@@ -43,4 +43,3 @@ export interface TransactionStats {
   savingsRate: number;
   monthlySavings: number;
 }
-

@@ -28,7 +28,10 @@ export class InputSanitizer {
   static sanitizeSql(input: string): string {
     return input
       .replace(/['";\\]/g, '')
-      .replace(/(\b(ALTER|CREATE|DELETE|DROP|EXEC|INSERT|SELECT|UNION|UPDATE)\b)/gi, '');
+      .replace(
+        /(\b(ALTER|CREATE|DELETE|DROP|EXEC|INSERT|SELECT|UNION|UPDATE)\b)/gi,
+        ''
+      );
   }
 
   // Genel input temizleme (transaction açıklamaları için)
@@ -37,8 +40,7 @@ export class InputSanitizer {
       return '';
     }
 
-    return this.removeScripts(this.escapeHtml(input.trim()))
-      .slice(0, 500); // Max 500 karakter
+    return this.removeScripts(this.escapeHtml(input.trim())).slice(0, 500); // Max 500 karakter
   }
 
   // Sayısal değerleri doğrula ve temizle
@@ -50,7 +52,7 @@ export class InputSanitizer {
     if (typeof input === 'string') {
       const cleaned = input.replace(/[^\d.,]/g, '');
       const number = parseFloat(cleaned.replace(',', '.'));
-      
+
       if (!isNaN(number) && isFinite(number)) {
         return Math.abs(number);
       }
@@ -134,13 +136,19 @@ export class InputSanitizer {
   }
 
   // Rate limiting için basit kontrol
-  static checkRateLimit(key: string, maxRequests: number = 10, windowMs: number = 60000): boolean {
+  static checkRateLimit(
+    key: string,
+    maxRequests: number = 10,
+    windowMs: number = 60000
+  ): boolean {
     const now = Date.now();
     const windowKey = `rate_limit_${key}`;
-    
+
     try {
       const stored = localStorage.getItem(windowKey);
-      const data = stored ? JSON.parse(stored) : { count: 0, resetTime: now + windowMs };
+      const data = stored
+        ? JSON.parse(stored)
+        : { count: 0, resetTime: now + windowMs };
 
       if (now > data.resetTime) {
         // Reset window
@@ -170,7 +178,7 @@ export const useInputValidation = () => {
 
     const amount = InputSanitizer.sanitizeNumber(data.amount);
     if (amount <= 0) {
-      errors.push('Tutar 0\'dan büyük olmalıdır');
+      errors.push("Tutar 0'dan büyük olmalıdır");
     }
     if (amount > 999999999) {
       errors.push('Tutar çok yüksek');

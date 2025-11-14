@@ -121,16 +121,26 @@ export const useTransactionStore = create<TransactionState>()(
       getMonthlySavings: () => {
         const now = new Date();
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
-        
-        const monthlyTransactions = get().getTransactionsByDateRange(startOfMonth, endOfMonth);
+        const endOfMonth = new Date(
+          now.getFullYear(),
+          now.getMonth() + 1,
+          0,
+          23,
+          59,
+          59
+        );
+
+        const monthlyTransactions = get().getTransactionsByDateRange(
+          startOfMonth,
+          endOfMonth
+        );
         const monthlyIncome = monthlyTransactions
           .filter((t) => t.type === 'income')
           .reduce((sum, t) => sum + t.amount, 0);
         const monthlyExpenses = monthlyTransactions
           .filter((t) => t.type === 'expense')
           .reduce((sum, t) => sum + t.amount, 0);
-        
+
         return monthlyIncome - monthlyExpenses;
       },
 
@@ -138,8 +148,7 @@ export const useTransactionStore = create<TransactionState>()(
         const totalIncome = get().getTotalIncome();
         const totalExpenses = get().getTotalExpenses();
         const savings = totalIncome - totalExpenses;
-        const savingsRate =
-          totalIncome > 0 ? (savings / totalIncome) * 100 : 0;
+        const savingsRate = totalIncome > 0 ? (savings / totalIncome) * 100 : 0;
         const monthlySavings = get().getMonthlySavings();
 
         return {
@@ -161,4 +170,3 @@ export const useTransactionStore = create<TransactionState>()(
     }
   )
 );
-

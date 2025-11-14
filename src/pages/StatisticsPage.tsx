@@ -1,5 +1,10 @@
 import { Container } from '@/shared/components/layout/Container';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/shared/components/ui/card';
 import { useTransactions } from '@/features/transactions/hooks/useTransactions';
 import { useSettingsStore } from '@/features/settings/stores/settingsStore';
 import { formatCurrency } from '@/shared/utils/currency';
@@ -25,7 +30,16 @@ import {
 } from 'recharts';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
-const COLORS = ['#00D9A3', '#6C5CE7', '#FDCB6E', '#E17055', '#74B9FF', '#A29BFE', '#FD79A8', '#81ECEC'];
+const COLORS = [
+  '#00D9A3',
+  '#6C5CE7',
+  '#FDCB6E',
+  '#E17055',
+  '#74B9FF',
+  '#A29BFE',
+  '#FD79A8',
+  '#81ECEC',
+];
 
 export function StatisticsPage() {
   const { transactions, getStats } = useTransactions();
@@ -55,14 +69,20 @@ export function StatisticsPage() {
     {
       title: 'Toplam Net Durum',
       value: formatCurrency(totalIncome - totalExpenses, settings.currency),
-      className: (totalIncome - totalExpenses) >= 0 ? 'text-secondary' : 'text-destructive',
+      className:
+        totalIncome - totalExpenses >= 0
+          ? 'text-secondary'
+          : 'text-destructive',
     },
     {
       title: 'Ortalama Gelir',
       value: (
         <div className="flex items-baseline gap-2">
           <span className="text-2xl font-bold text-primary">
-            {formatCurrency(totalIncome / Math.max(1, monthlyData.length), settings.currency)}
+            {formatCurrency(
+              totalIncome / Math.max(1, monthlyData.length),
+              settings.currency
+            )}
           </span>
           <span className="text-sm text-muted-foreground">/ ay</span>
         </div>
@@ -88,7 +108,9 @@ export function StatisticsPage() {
           {trend === 'stable' && (
             <>
               <Minus className="h-6 w-6 text-muted-foreground" />
-              <span className="text-2xl font-bold text-muted-foreground">Sabit</span>
+              <span className="text-2xl font-bold text-muted-foreground">
+                Sabit
+              </span>
             </>
           )}
         </div>
@@ -118,9 +140,9 @@ export function StatisticsPage() {
           <h1 className="text-3xl font-bold">İstatistikler</h1>
           <Card>
             <CardContent className="pt-6">
-              <div className="text-center py-12 text-muted-foreground">
+              <div className="py-12 text-center text-muted-foreground">
                 <p className="text-lg">Henüz veri yok</p>
-                <p className="text-sm mt-2">
+                <p className="mt-2 text-sm">
                   İşlem eklemeye başladığınızda istatistikler burada görünecek.
                 </p>
               </div>
@@ -137,24 +159,24 @@ export function StatisticsPage() {
         <h1 className="text-3xl font-bold">İstatistikler</h1>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-6">
           {summaryCards.map((card, index) => (
             <Card key={index} className={getCardSpanClass(index)}>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
                   {card.title}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
                 {typeof card.value === 'string' ? (
                   <p className={`text-2xl font-bold ${card.className}`}>
                     {card.value}
-                </p>
+                  </p>
                 ) : (
                   card.value
                 )}
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
@@ -170,7 +192,9 @@ export function StatisticsPage() {
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip
-                  formatter={(value: number) => formatCurrency(value, settings.currency)}
+                  formatter={(value: number) =>
+                    formatCurrency(value, settings.currency)
+                  }
                 />
                 <Legend />
                 <Line
@@ -211,7 +235,9 @@ export function StatisticsPage() {
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip
-                  formatter={(value: number) => formatCurrency(value, settings.currency)}
+                  formatter={(value: number) =>
+                    formatCurrency(value, settings.currency)
+                  }
                 />
                 <Legend />
                 <Bar dataKey="income" fill="#00D9A3" name="Gelir" />
@@ -222,7 +248,7 @@ export function StatisticsPage() {
         </Card>
 
         {/* Category Distribution */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Expense Categories */}
           {topExpenseCategories.length > 0 && (
             <Card>
@@ -245,21 +271,31 @@ export function StatisticsPage() {
                       dataKey="amount"
                     >
                       {topExpenseCategories.map((_, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(value: number) => formatCurrency(value, settings.currency)}
+                      formatter={(value: number) =>
+                        formatCurrency(value, settings.currency)
+                      }
                     />
                   </PieChart>
                 </ResponsiveContainer>
                 <div className="mt-4 space-y-2">
                   {topExpenseCategories.map((cat, index) => (
-                    <div key={cat.category} className="flex items-center justify-between">
+                    <div
+                      key={cat.category}
+                      className="flex items-center justify-between"
+                    >
                       <div className="flex items-center gap-2">
                         <div
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                          className="h-3 w-3 rounded-full"
+                          style={{
+                            backgroundColor: COLORS[index % COLORS.length],
+                          }}
                         />
                         <span className="text-sm">{cat.category}</span>
                       </div>
@@ -295,21 +331,31 @@ export function StatisticsPage() {
                       dataKey="amount"
                     >
                       {topIncomeCategories.map((_, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(value: number) => formatCurrency(value, settings.currency)}
+                      formatter={(value: number) =>
+                        formatCurrency(value, settings.currency)
+                      }
                     />
                   </PieChart>
                 </ResponsiveContainer>
                 <div className="mt-4 space-y-2">
                   {topIncomeCategories.map((cat, index) => (
-                    <div key={cat.category} className="flex items-center justify-between">
+                    <div
+                      key={cat.category}
+                      className="flex items-center justify-between"
+                    >
                       <div className="flex items-center gap-2">
                         <div
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                          className="h-3 w-3 rounded-full"
+                          style={{
+                            backgroundColor: COLORS[index % COLORS.length],
+                          }}
                         />
                         <span className="text-sm">{cat.category}</span>
                       </div>
@@ -327,4 +373,3 @@ export function StatisticsPage() {
     </Container>
   );
 }
-

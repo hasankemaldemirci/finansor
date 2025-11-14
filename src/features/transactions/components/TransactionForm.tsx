@@ -36,10 +36,10 @@ export function TransactionForm({ onSuccess }: TransactionFormProps) {
       // Set default category if not provided
       const category =
         data.category || (data.type === 'income' ? 'other' : 'other');
-      const result = createTransaction({ 
-        ...data, 
+      const result = createTransaction({
+        ...data,
         category,
-        date: new Date()
+        date: new Date(),
       });
       reset();
       setAmountValue('');

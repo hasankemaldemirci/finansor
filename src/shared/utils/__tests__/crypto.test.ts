@@ -13,32 +13,32 @@ describe('CryptoService', () => {
     it('should encrypt and decrypt data correctly', () => {
       const originalData = 'Hello, World!';
       const encrypted = cryptoService.encrypt(originalData);
-      
+
       expect(encrypted).toBeTruthy();
       expect(encrypted).not.toBe(originalData);
       expect(encrypted.length).toBeGreaterThan(originalData.length);
-      
+
       const decrypted = cryptoService.decrypt(encrypted);
       expect(decrypted).toBe(originalData);
     });
 
     it('should encrypt complex objects', () => {
-      const originalData = JSON.stringify({ 
-        name: 'Test', 
+      const originalData = JSON.stringify({
+        name: 'Test',
         amount: 1000,
-        nested: { value: 'test' }
+        nested: { value: 'test' },
       });
-      
+
       const encrypted = cryptoService.encrypt(originalData);
       const decrypted = cryptoService.decrypt(encrypted);
-      
+
       expect(JSON.parse(decrypted)).toEqual(JSON.parse(originalData));
     });
 
     it('should generate consistent device ID', () => {
       const deviceId1 = localStorage.getItem('finansor_device_id');
       const deviceId2 = localStorage.getItem('finansor_device_id');
-      
+
       expect(deviceId1).toBeTruthy();
       expect(deviceId1).toBe(deviceId2);
     });
@@ -97,7 +97,7 @@ describe('SecureStorage', () => {
     it('should store and retrieve data', () => {
       const testData = { name: 'Test', value: 123 };
       SecureStorage.setItem('test', testData);
-      
+
       const retrieved = SecureStorage.getItem('test');
       expect(retrieved).toEqual(testData);
     });
@@ -105,7 +105,7 @@ describe('SecureStorage', () => {
     it('should encrypt stored data', () => {
       const testData = { secret: 'sensitive-data' };
       SecureStorage.setItem('test', testData);
-      
+
       const rawStorage = localStorage.getItem('secure_test');
       expect(rawStorage).toBeTruthy();
       expect(rawStorage).not.toContain('sensitive-data');
@@ -115,7 +115,7 @@ describe('SecureStorage', () => {
     it('should remove items', () => {
       SecureStorage.setItem('test', { data: 'test' });
       SecureStorage.removeItem('test');
-      
+
       const retrieved = SecureStorage.getItem('test');
       expect(retrieved).toBeNull();
     });
@@ -123,13 +123,15 @@ describe('SecureStorage', () => {
     it('should clear all secure data', () => {
       SecureStorage.setItem('test1', { data: '1' });
       SecureStorage.setItem('test2', { data: '2' });
-      
+
       // Clear should remove secure_ prefixed items
       SecureStorage.clear();
-      
+
       // Check that secure_ prefixed items are gone
-      const secureKeys = Object.keys(localStorage).filter(key => key.startsWith('secure_'));
-      const testKeys = secureKeys.filter(key => key.includes('test'));
+      const secureKeys = Object.keys(localStorage).filter((key) =>
+        key.startsWith('secure_')
+      );
+      const testKeys = secureKeys.filter((key) => key.includes('test'));
       expect(testKeys.length).toBe(0);
     });
   });
@@ -139,14 +141,14 @@ describe('SecureStorage', () => {
       // Simulate old unencrypted data
       const oldData = { transactions: [{ id: '1', amount: 100 }] };
       localStorage.setItem('transactions-storage', JSON.stringify(oldData));
-      
+
       // Read with SecureStorage (should migrate)
       const retrieved = SecureStorage.getItem('transactions-storage');
       expect(retrieved).toEqual(oldData);
-      
+
       // Old data should be removed
       expect(localStorage.getItem('transactions-storage')).toBeNull();
-      
+
       // New encrypted data should exist
       expect(localStorage.getItem('secure_transactions-storage')).toBeTruthy();
     });
@@ -154,10 +156,10 @@ describe('SecureStorage', () => {
     it('should handle both encrypted and unencrypted data', () => {
       // Set encrypted data
       SecureStorage.setItem('test', { encrypted: true });
-      
+
       // Set unencrypted data (old format)
       localStorage.setItem('test', JSON.stringify({ encrypted: false }));
-      
+
       // Should prefer encrypted
       const retrieved = SecureStorage.getItem('test');
       expect(retrieved).toEqual({ encrypted: true });
@@ -172,7 +174,7 @@ describe('SecureStorage', () => {
 
     it('should handle corrupted encrypted data gracefully', () => {
       localStorage.setItem('secure_test', 'corrupted-data');
-      
+
       // Should try to read unencrypted fallback
       const retrieved = SecureStorage.getItem('test');
       // May return null or handle gracefully
@@ -203,4 +205,3 @@ describe('SecureStorage', () => {
     });
   });
 });
-

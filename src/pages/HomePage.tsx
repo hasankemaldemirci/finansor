@@ -6,7 +6,12 @@ import { AchievementUnlockedModal } from '@/features/gamification/components/Ach
 import { TransactionForm } from '@/features/transactions/components/TransactionForm';
 import { TransactionItem } from '@/features/transactions/components/TransactionItem';
 import { TransactionEditModal } from '@/features/transactions/components/TransactionEditModal';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/shared/components/ui/card';
 import { Button } from '@/shared/components/ui/button';
 import { useTransactions } from '@/features/transactions/hooks/useTransactions';
 import { formatCurrency } from '@/shared/utils/currency';
@@ -30,9 +35,16 @@ export function HomePage() {
     achievement: Achievement | null;
   }>({ open: false, achievement: null });
 
-  const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+  const [editingTransaction, setEditingTransaction] =
+    useState<Transaction | null>(null);
 
-  const { transactions, getStats, deleteTransaction, editTransaction, getTransactionById } = useTransactions();
+  const {
+    transactions,
+    getStats,
+    deleteTransaction,
+    editTransaction,
+    getTransactionById,
+  } = useTransactions();
   const { settings } = useSettingsStore();
   const stats = getStats();
 
@@ -42,15 +54,23 @@ export function HomePage() {
   // Monthly goal tracking for celebration
   const monthlyGoal = settings.monthlyGoal;
   const currentSavings = stats.monthlySavings;
-  const goalProgress = monthlyGoal > 0 ? Math.min(100, (currentSavings / monthlyGoal) * 100) : 0;
-  
+  const goalProgress =
+    monthlyGoal > 0 ? Math.min(100, (currentSavings / monthlyGoal) * 100) : 0;
+
   const previousGoalProgress = useRef(goalProgress);
   const goalReachedRef = useRef(false);
 
   // Budget warnings
   const now = new Date();
   const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+  const endOfMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    0,
+    23,
+    59,
+    59
+  );
   const monthlyTransactions = transactions.filter(
     (t) => new Date(t.date) >= currentMonth && new Date(t.date) <= endOfMonth
   );
@@ -60,9 +80,10 @@ export function HomePage() {
       const categorySpending = monthlyTransactions
         .filter((t) => t.type === 'expense' && t.category === budget.category)
         .reduce((sum, t) => sum + t.amount, 0);
-      
-      const percentage = budget.limit > 0 ? (categorySpending / budget.limit) * 100 : 0;
-      
+
+      const percentage =
+        budget.limit > 0 ? (categorySpending / budget.limit) * 100 : 0;
+
       if (percentage >= 100) {
         return {
           category: getCategoryLabel(budget.category),
@@ -86,9 +107,13 @@ export function HomePage() {
 
   // Goal celebration effect
   useEffect(() => {
-    if (goalProgress >= 100 && previousGoalProgress.current < 100 && !goalReachedRef.current) {
+    if (
+      goalProgress >= 100 &&
+      previousGoalProgress.current < 100 &&
+      !goalReachedRef.current
+    ) {
       goalReachedRef.current = true;
-      
+
       // Confetti celebration
       const duration = 3000;
       const animationEnd = Date.now() + duration;
@@ -114,9 +139,9 @@ export function HomePage() {
 
       return () => clearInterval(intervalId);
     }
-    
+
     previousGoalProgress.current = goalProgress;
-    
+
     // Reset when goal progress drops below 100
     if (goalProgress < 100) {
       goalReachedRef.current = false;
@@ -134,12 +159,15 @@ export function HomePage() {
 
     // Show first achievement if any
     if (data.unlockedAchievements && data.unlockedAchievements.length > 0) {
-      setTimeout(() => {
-        setAchievementModal({
-          open: true,
-          achievement: data.unlockedAchievements![0],
-        });
-      }, data.leveledUp ? 2000 : 500); // Delay if level up modal is shown
+      setTimeout(
+        () => {
+          setAchievementModal({
+            open: true,
+            achievement: data.unlockedAchievements![0],
+          });
+        },
+        data.leveledUp ? 2000 : 500
+      ); // Delay if level up modal is shown
     }
   };
 
@@ -182,10 +210,12 @@ export function HomePage() {
                 {budgetWarnings.map((warning, index) => (
                   <div
                     key={index}
-                    className="p-3 rounded-lg bg-destructive/5 border border-destructive/20"
+                    className="rounded-lg border border-destructive/20 bg-destructive/5 p-3"
                   >
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="font-semibold text-foreground">{warning.category}</p>
+                    <div className="mb-2 flex items-center justify-between">
+                      <p className="font-semibold text-foreground">
+                        {warning.category}
+                      </p>
                       <span className="text-sm font-medium text-destructive">
                         {warning.percentage.toFixed(0)}%
                       </span>
@@ -194,16 +224,18 @@ export function HomePage() {
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-muted-foreground">Harcanan</span>
                         <span className="font-medium">
-                          {formatCurrency(warning.spent, settings.currency)} / {formatCurrency(warning.limit, settings.currency)}
+                          {formatCurrency(warning.spent, settings.currency)} /{' '}
+                          {formatCurrency(warning.limit, settings.currency)}
                         </span>
                       </div>
                       {warning.exceeded > 0 && (
-                        <p className="text-sm text-destructive font-medium">
-                          ⚠️ Bütçe aşıldı: {formatCurrency(warning.exceeded, settings.currency)}
+                        <p className="text-sm font-medium text-destructive">
+                          ⚠️ Bütçe aşıldı:{' '}
+                          {formatCurrency(warning.exceeded, settings.currency)}
                         </p>
                       )}
                       {warning.exceeded === 0 && warning.percentage >= 80 && (
-                        <p className="text-sm text-orange-600 dark:text-orange-400 font-medium">
+                        <p className="text-sm font-medium text-orange-600 dark:text-orange-400">
                           ⚠️ Bütçenizin %80'ine ulaştınız
                         </p>
                       )}
@@ -221,7 +253,10 @@ export function HomePage() {
             <CardTitle>Son İşlemler</CardTitle>
             {transactions.length > 5 && (
               <Button variant="ghost" size="sm" asChild>
-                <Link to={ROUTES.TRANSACTIONS} className="flex items-center gap-1">
+                <Link
+                  to={ROUTES.TRANSACTIONS}
+                  className="flex items-center gap-1"
+                >
                   Tümü
                   <ArrowRight className="h-4 w-4" />
                 </Link>
@@ -230,9 +265,11 @@ export function HomePage() {
           </CardHeader>
           <CardContent>
             {recentTransactions.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground">
+              <div className="py-8 text-center text-muted-foreground">
                 <p>Henüz işlem eklenmedi</p>
-                <p className="text-sm mt-2">Yukarıdaki formdan ilk işleminizi ekleyin</p>
+                <p className="mt-2 text-sm">
+                  Yukarıdaki formdan ilk işleminizi ekleyin
+                </p>
               </div>
             ) : (
               <div className="space-y-3">
@@ -277,4 +314,3 @@ export function HomePage() {
     </Container>
   );
 }
-

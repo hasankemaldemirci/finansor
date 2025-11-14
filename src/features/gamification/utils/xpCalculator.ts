@@ -17,4 +17,3 @@ export function getXPForAmount(amount: number): number {
   // Every 100 units = 1 XP
   return Math.floor(amount / 100);
 }
-

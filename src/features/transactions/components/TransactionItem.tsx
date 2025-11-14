@@ -33,12 +33,16 @@ const categoryLabels: Record<string, string> = {
   other: 'Diğer',
 };
 
-export function TransactionItem({ transaction, onDelete, onEdit }: TransactionItemProps) {
+export function TransactionItem({
+  transaction,
+  onDelete,
+  onEdit,
+}: TransactionItemProps) {
   const { settings } = useSettingsStore();
   const isIncome = transaction.type === 'income';
 
   return (
-    <div className="flex items-center justify-between rounded-lg border p-3 sm:p-4 hover:bg-muted/50 transition-colors">
+    <div className="flex items-center justify-between rounded-lg border p-3 transition-colors hover:bg-muted/50 sm:p-4">
       <div className="flex-1">
         <div className="flex items-center gap-2">
           <span
@@ -49,16 +53,16 @@ export function TransactionItem({ transaction, onDelete, onEdit }: TransactionIt
             {isIncome ? '+' : '-'}
             {formatCurrency(transaction.amount, settings.currency)}
           </span>
-          <span className="text-xs px-2 py-1 rounded-full bg-secondary/20 text-secondary">
+          <span className="rounded-full bg-secondary/20 px-2 py-1 text-xs text-secondary">
             {categoryLabels[transaction.category] || transaction.category}
           </span>
         </div>
         {transaction.description && (
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="mt-1 text-sm text-muted-foreground">
             {transaction.description}
           </p>
         )}
-        <p className="text-xs text-muted-foreground mt-1">
+        <p className="mt-1 text-xs text-muted-foreground">
           {formatRelativeDate(new Date(transaction.date))}
         </p>
       </div>
@@ -74,14 +78,14 @@ export function TransactionItem({ transaction, onDelete, onEdit }: TransactionIt
             onClick={() => onEdit(transaction.id)}
             className="cursor-pointer"
           >
-            <Pencil className="h-4 w-4 mr-2" />
+            <Pencil className="mr-2 h-4 w-4" />
             Düzenle
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => onDelete(transaction.id)}
             className="cursor-pointer text-destructive focus:text-destructive"
           >
-            <Trash2 className="h-4 w-4 mr-2" />
+            <Trash2 className="mr-2 h-4 w-4" />
             Sil
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -89,4 +93,3 @@ export function TransactionItem({ transaction, onDelete, onEdit }: TransactionIt
     </div>
   );
 }
-

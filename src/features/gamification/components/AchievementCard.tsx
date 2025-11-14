@@ -17,20 +17,24 @@ export function AchievementCard({ achievement }: AchievementCardProps) {
       <CardContent className="p-4">
         <div className="flex items-start gap-4">
           <AchievementBadge achievement={achievement} showProgress />
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
+          <div className="min-w-0 flex-1">
+            <div className="mb-1 flex items-center gap-2">
               <h3
                 className={`font-semibold ${
-                  achievement.unlocked ? 'text-foreground' : 'text-muted-foreground'
+                  achievement.unlocked
+                    ? 'text-foreground'
+                    : 'text-muted-foreground'
                 }`}
               >
                 {achievement.name}
               </h3>
-              <span className={`text-xs px-2 py-0.5 rounded-full ${category.color} bg-opacity-10`}>
+              <span
+                className={`rounded-full px-2 py-0.5 text-xs ${category.color} bg-opacity-10`}
+              >
                 {category.label}
               </span>
             </div>
-            <p className="text-sm text-muted-foreground mb-2">
+            <p className="mb-2 text-sm text-muted-foreground">
               {achievement.description}
             </p>
             {!achievement.unlocked && achievement.progress !== undefined && (
@@ -41,7 +45,7 @@ export function AchievementCard({ achievement }: AchievementCardProps) {
                 </p>
               </div>
             )}
-            <div className="flex items-center justify-between mt-2">
+            <div className="mt-2 flex items-center justify-between">
               <span className="text-xs font-semibold text-primary">
                 +{achievement.xpReward} XP
               </span>
@@ -57,4 +61,3 @@ export function AchievementCard({ achievement }: AchievementCardProps) {
     </Card>
   );
 }
-

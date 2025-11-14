@@ -23,4 +23,3 @@ export interface AchievementRequirement {
   target: number;
   category?: string;
 }
-

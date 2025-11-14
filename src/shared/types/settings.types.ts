@@ -25,4 +25,3 @@ export interface UserData {
   consecutiveDays: number;
   settings: UserSettings;
 }
-

@@ -17,7 +17,11 @@ import {
   DialogTitle,
 } from '@/shared/components/ui/dialog';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
-import { Transaction, IncomeCategory, ExpenseCategory } from '../types/transaction.types';
+import {
+  Transaction,
+  IncomeCategory,
+  ExpenseCategory,
+} from '../types/transaction.types';
 import { TransactionType } from '@/shared/types/common.types';
 import { useSettingsStore } from '@/features/settings/stores/settingsStore';
 
@@ -45,16 +49,24 @@ interface TransactionEditModalProps {
   open: boolean;
   onClose: () => void;
   transaction: Transaction;
-  onSave: (id: string, data: {
-    type: TransactionType;
-    amount: number;
-    category: string;
-    description?: string;
-    date: Date;
-  }) => void;
+  onSave: (
+    id: string,
+    data: {
+      type: TransactionType;
+      amount: number;
+      category: string;
+      description?: string;
+      date: Date;
+    }
+  ) => void;
 }
 
-export function TransactionEditModal({ open, onClose, transaction, onSave }: TransactionEditModalProps) {
+export function TransactionEditModal({
+  open,
+  onClose,
+  transaction,
+  onSave,
+}: TransactionEditModalProps) {
   const { settings } = useSettingsStore();
   const [formData, setFormData] = useState({
     type: transaction.type,
@@ -62,7 +74,9 @@ export function TransactionEditModal({ open, onClose, transaction, onSave }: Tra
     category: transaction.category,
     description: transaction.description || '',
   });
-  const [amountValue, setAmountValue] = useState<string>(transaction.amount.toString());
+  const [amountValue, setAmountValue] = useState<string>(
+    transaction.amount.toString()
+  );
 
   // Currency configuration based on settings
   const currencyConfig = {
@@ -85,11 +99,12 @@ export function TransactionEditModal({ open, onClose, transaction, onSave }: Tra
     }
   }, [open, transaction]);
 
-  const categories = formData.type === 'income' ? incomeCategories : expenseCategories;
+  const categories =
+    formData.type === 'income' ? incomeCategories : expenseCategories;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (isNaN(formData.amount) || formData.amount <= 0) {
       return;
     }
@@ -101,12 +116,12 @@ export function TransactionEditModal({ open, onClose, transaction, onSave }: Tra
       description: formData.description,
       date: transaction.date,
     });
-    
+
     onClose();
   };
 
   const handleTypeChange = (newType: TransactionType) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       type: newType,
       // Reset category to first available in new type
@@ -151,7 +166,10 @@ export function TransactionEditModal({ open, onClose, transaction, onSave }: Tra
               autoComplete="off"
               onValueChange={(value) => {
                 setAmountValue(value || '');
-                setFormData(prev => ({ ...prev, amount: value ? parseFloat(value) : 0 }));
+                setFormData((prev) => ({
+                  ...prev,
+                  amount: value ? parseFloat(value) : 0,
+                }));
               }}
               className={`flex h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-center text-4xl font-bold ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${
                 formData.type === 'income' ? 'text-primary' : 'text-destructive'
@@ -164,7 +182,9 @@ export function TransactionEditModal({ open, onClose, transaction, onSave }: Tra
             <Label>Kategori</Label>
             <Select
               value={formData.category}
-              onValueChange={(value) => setFormData(prev => ({ ...prev, category: value }))}
+              onValueChange={(value) =>
+                setFormData((prev) => ({ ...prev, category: value }))
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Kategori seçiniz" />
@@ -186,11 +206,16 @@ export function TransactionEditModal({ open, onClose, transaction, onSave }: Tra
               id="edit-description"
               placeholder="Açıklama giriniz..."
               value={formData.description}
-              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  description: e.target.value,
+                }))
+              }
             />
           </div>
 
-          <div className="flex gap-2 justify-end pt-2">
+          <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={onClose}>
               İptal
             </Button>
@@ -203,4 +228,3 @@ export function TransactionEditModal({ open, onClose, transaction, onSave }: Tra
     </Dialog>
   );
 }
-

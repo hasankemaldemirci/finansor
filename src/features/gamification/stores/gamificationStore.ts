@@ -13,7 +13,10 @@ interface GamificationState {
   achievements: Achievement[];
   consecutiveDays: number;
   lastActivityDate: string | null;
-  addXP: (amount: number, reason: string) => { leveledUp: boolean; newLevel?: number };
+  addXP: (
+    amount: number,
+    reason: string
+  ) => { leveledUp: boolean; newLevel?: number };
   setAchievements: (achievements: Achievement[]) => void;
   unlockAchievement: (achievementId: string, addXP?: boolean) => void;
   updateAchievementProgress: (achievementId: string, progress: number) => void;
@@ -64,14 +67,14 @@ export const useGamificationStore = create<GamificationState>()(
         if (currentXP >= requiredXP) {
           const newLevel = currentLevel + 1;
           const remainingXP = currentXP - requiredXP;
-          
+
           set((state) => ({
             xp: remainingXP,
             level: newLevel,
             totalXP: state.totalXP + amount,
             xpHistory: [...state.xpHistory.slice(-50), xpGain], // Keep last 50
           }));
-          
+
           return { leveledUp: true, newLevel };
         }
 
@@ -80,7 +83,7 @@ export const useGamificationStore = create<GamificationState>()(
           totalXP: state.totalXP + amount,
           xpHistory: [...state.xpHistory.slice(-50), xpGain],
         }));
-        
+
         return { leveledUp: false };
       },
 
@@ -89,12 +92,19 @@ export const useGamificationStore = create<GamificationState>()(
       },
 
       unlockAchievement: (achievementId, shouldAddXP = true) => {
-        const achievement = get().achievements.find((a) => a.id === achievementId);
-        
+        const achievement = get().achievements.find(
+          (a) => a.id === achievementId
+        );
+
         set((state) => ({
           achievements: state.achievements.map((a) =>
             a.id === achievementId
-              ? { ...a, unlocked: true, unlockedDate: new Date(), progress: 100 }
+              ? {
+                  ...a,
+                  unlocked: true,
+                  unlockedDate: new Date(),
+                  progress: 100,
+                }
               : a
           ),
         }));
@@ -174,4 +184,3 @@ export const useGamificationStore = create<GamificationState>()(
     }
   )
 );
-

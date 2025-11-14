@@ -62,8 +62,11 @@ function saveStoredTips(tips: StoredTip[]) {
 function markAllAsRead(notificationIds: string[]) {
   try {
     const read = getReadNotifications();
-    notificationIds.forEach(id => read.add(id));
-    localStorage.setItem(READ_NOTIFICATIONS_KEY, JSON.stringify(Array.from(read)));
+    notificationIds.forEach((id) => read.add(id));
+    localStorage.setItem(
+      READ_NOTIFICATIONS_KEY,
+      JSON.stringify(Array.from(read))
+    );
   } catch {
     // Ignore errors
   }
@@ -71,7 +74,9 @@ function markAllAsRead(notificationIds: string[]) {
 
 export function NotificationMenu() {
   const [open, setOpen] = useState(false);
-  const [readNotifications, setReadNotifications] = useState<Set<string>>(getReadNotifications());
+  const [readNotifications, setReadNotifications] = useState<Set<string>>(
+    getReadNotifications()
+  );
   const [storedTips, setStoredTips] = useState<StoredTip[]>(getStoredTips());
   const { transactions, getStats } = useTransactions();
   const { settings } = useSettingsStore();
@@ -80,33 +85,42 @@ export function NotificationMenu() {
   // Monthly goal tracking
   const monthlyGoal = settings.monthlyGoal;
   const currentSavings = stats.monthlySavings;
-  const goalProgress = monthlyGoal > 0 ? Math.min(100, (currentSavings / monthlyGoal) * 100) : 0;
+  const goalProgress =
+    monthlyGoal > 0 ? Math.min(100, (currentSavings / monthlyGoal) * 100) : 0;
 
   // Only show goal notification if user has transactions (meaningful progress tracking)
   const hasTransactions = transactions.length > 0;
-  
+
   // Check if we're at the end of the month (last 3 days) for goal notification
   // This aligns with achievement logic - goal should be checked at month end
   const now = new Date();
   const dayOfMonth = now.getDate();
-  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const daysInMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    0
+  ).getDate();
   const isEndOfMonth = dayOfMonth >= daysInMonth - 2;
-  
+
   // Show notification only at end of month (when achievement can be unlocked)
-  const shouldShowGoalNotification = monthlyGoal > 0 && hasTransactions && isEndOfMonth;
+  const shouldShowGoalNotification =
+    monthlyGoal > 0 && hasTransactions && isEndOfMonth;
 
   // Get current tips and merge with stored tips
   const currentTips = getSavingsTips(transactions);
-  
+
   // Create ID for a tip
-  const createTipId = (tip: { category: string; message: string }, timestamp?: number): string => {
+  const createTipId = (
+    tip: { category: string; message: string },
+    timestamp?: number
+  ): string => {
     const categoryHash = tip.category.toLowerCase().replace(/\s+/g, '-');
     const messageHash = tip.message.replace(/\s+/g, '-');
     let hash = 0;
     const fullContent = `${categoryHash}-${messageHash}`;
     for (let i = 0; i < fullContent.length; i++) {
       const char = fullContent.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash;
     }
     const uniqueSuffix = timestamp || Date.now();
@@ -117,17 +131,17 @@ export function NotificationMenu() {
   useEffect(() => {
     const now = Date.now();
     const newTips: StoredTip[] = [];
-    const existingTipIds = new Set(storedTips.map(t => t.id));
-    
+    const existingTipIds = new Set(storedTips.map((t) => t.id));
+
     // Add new tips that don't exist in stored tips
-    currentTips.forEach(tip => {
+    currentTips.forEach((tip) => {
       const id = createTipId(tip, now);
       if (!existingTipIds.has(id)) {
         // Check if same message already exists with different ID
-        const messageExists = storedTips.some(st => 
-          st.category === tip.category && st.message === tip.message
+        const messageExists = storedTips.some(
+          (st) => st.category === tip.category && st.message === tip.message
         );
-        
+
         if (!messageExists) {
           newTips.push({
             id,
@@ -139,7 +153,7 @@ export function NotificationMenu() {
         }
       }
     });
-    
+
     // If there are new tips, update state and localStorage
     if (newTips.length > 0) {
       const combined = [...storedTips, ...newTips];
@@ -152,10 +166,12 @@ export function NotificationMenu() {
 
   // Generate notification IDs (reuse 'now' from above)
   const currentMonthKey = `${now.getFullYear()}-${now.getMonth()}`;
-  const goalNotificationId = shouldShowGoalNotification ? `goal-${currentMonthKey}` : null;
-  
+  const goalNotificationId = shouldShowGoalNotification
+    ? `goal-${currentMonthKey}`
+    : null;
+
   const tipNotificationIds = useMemo(() => {
-    return allTips.map(tip => tip.id);
+    return allTips.map((tip) => tip.id);
   }, [allTips]);
 
   // Get all current notification IDs
@@ -170,7 +186,7 @@ export function NotificationMenu() {
   const handleMarkAllAsRead = () => {
     if (allNotificationIds.length > 0) {
       markAllAsRead(allNotificationIds);
-      setReadNotifications(prev => new Set([...prev, ...allNotificationIds]));
+      setReadNotifications((prev) => new Set([...prev, ...allNotificationIds]));
     }
   };
 
@@ -180,7 +196,7 @@ export function NotificationMenu() {
     if (goalNotificationId && !readNotifications.has(goalNotificationId)) {
       count++;
     }
-    tipNotificationIds.forEach(id => {
+    tipNotificationIds.forEach((id) => {
       if (!readNotifications.has(id)) {
         count++;
       }
@@ -194,20 +210,20 @@ export function NotificationMenu() {
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
-            <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center">
+            <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
               {unreadCount}
             </span>
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-full sm:max-w-md flex flex-col">
+      <SheetContent side="right" className="flex w-full flex-col sm:max-w-md">
         <div className="sticky top-0 z-10 border-b bg-background">
           <SheetHeader className="relative px-6 pb-4 pt-6">
             <div className="flex items-center justify-center">
               <div className="flex-1" />
-              <div className="flex-1 flex flex-col items-center">
+              <div className="flex flex-1 flex-col items-center">
                 <SheetTitle className="text-center">Bildirimler</SheetTitle>
-                <SheetDescription className="text-center text-sm whitespace-nowrap">
+                <SheetDescription className="whitespace-nowrap text-center text-sm">
                   Tasarruf hedefiniz ve ipuçları
                 </SheetDescription>
               </div>
@@ -215,30 +231,33 @@ export function NotificationMenu() {
             </div>
           </SheetHeader>
         </div>
-        
+
         <div className="flex-1 overflow-y-auto overflow-x-clip px-4 py-4">
           <ul className="space-y-1">
             {/* Monthly Savings Goal */}
             {shouldShowGoalNotification && (
-              <li className="border-b border-border/50 pb-3 mb-3">
+              <li className="mb-3 border-b border-border/50 pb-3">
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    {goalNotificationId && !readNotifications.has(goalNotificationId) && (
-                      <span className="h-2 w-2 rounded-full bg-green-500 flex-shrink-0" />
-                    )}
-                    <Target className="h-4 w-4 text-primary/60 flex-shrink-0" />
+                  <div className="flex flex-shrink-0 items-center gap-2">
+                    {goalNotificationId &&
+                      !readNotifications.has(goalNotificationId) && (
+                        <span className="h-2 w-2 flex-shrink-0 rounded-full bg-green-500" />
+                      )}
+                    <Target className="h-4 w-4 flex-shrink-0 text-primary/60" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2 mb-1">
-                      <span className="text-xs font-semibold text-foreground/80 truncate">
-                        Aylık Hedef: {formatCurrency(currentSavings, settings.currency)} / {formatCurrency(monthlyGoal, settings.currency)}
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-1 flex items-center justify-between gap-2">
+                      <span className="truncate text-xs font-semibold text-foreground/80">
+                        Aylık Hedef:{' '}
+                        {formatCurrency(currentSavings, settings.currency)} /{' '}
+                        {formatCurrency(monthlyGoal, settings.currency)}
                       </span>
-                      <span className="text-xs font-semibold text-muted-foreground flex-shrink-0">
+                      <span className="flex-shrink-0 text-xs font-semibold text-muted-foreground">
                         {goalProgress.toFixed(0)}%
                       </span>
                     </div>
                     <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-secondary/20">
-                      <div 
+                      <div
                         className={`h-full transition-all ${
                           goalProgress >= 100 ? 'bg-secondary' : 'bg-primary'
                         }`}
@@ -254,26 +273,28 @@ export function NotificationMenu() {
             {allTips.map((tip, index) => {
               const tipId = tip.id;
               const isUnread = tipId && !readNotifications.has(tipId);
-              
+
               return (
-              <li 
-                key={tipId} 
-                className={`${
-                  index < allTips.length - 1 ? "border-b border-border/50 pb-3 mb-3" : ""
-                  } transition-colors hover:bg-muted/30 rounded-md py-1 cursor-default`}
-              >
+                <li
+                  key={tipId}
+                  className={`${
+                    index < allTips.length - 1
+                      ? 'mb-3 border-b border-border/50 pb-3'
+                      : ''
+                  } cursor-default rounded-md py-1 transition-colors hover:bg-muted/30`}
+                >
                   <div className="flex items-start gap-3">
-                    <div className="flex items-start gap-2 flex-shrink-0 pt-0.5">
+                    <div className="flex flex-shrink-0 items-start gap-2 pt-0.5">
                       {isUnread && (
-                        <span className="h-2 w-2 rounded-full bg-green-500 flex-shrink-0 mt-1.5" />
+                        <span className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-green-500" />
                       )}
                       <span className="text-sm opacity-70">{tip.icon}</span>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-foreground/80 mb-0.5">
+                    <div className="min-w-0 flex-1">
+                      <p className="mb-0.5 text-xs font-semibold text-foreground/80">
                         {tip.category}
                       </p>
-                      <p className="text-xs leading-snug line-clamp-2 text-muted-foreground">
+                      <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
                         {tip.message}
                       </p>
                     </div>
@@ -284,17 +305,22 @@ export function NotificationMenu() {
 
             {!shouldShowGoalNotification && allTips.length === 0 && (
               <li>
-                <div className="text-center py-12 text-muted-foreground">
-                  <Bell className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p className="text-sm font-medium mb-2">Henüz bildirim yok</p>
-                  <p className="text-xs mb-4">Aylık hedef belirleyin veya işlem ekleyin</p>
-                  <Button 
-                    asChild 
-                    size="sm" 
+                <div className="py-12 text-center text-muted-foreground">
+                  <Bell className="mx-auto mb-4 h-12 w-12 opacity-50" />
+                  <p className="mb-2 text-sm font-medium">Henüz bildirim yok</p>
+                  <p className="mb-4 text-xs">
+                    Aylık hedef belirleyin veya işlem ekleyin
+                  </p>
+                  <Button
+                    asChild
+                    size="sm"
                     variant="outline"
                     onClick={() => setOpen(false)}
                   >
-                    <Link to={ROUTES.SETTINGS} className="flex items-center gap-2">
+                    <Link
+                      to={ROUTES.SETTINGS}
+                      className="flex items-center gap-2"
+                    >
                       <Settings className="h-4 w-4" />
                       Ayarlara Git
                     </Link>
@@ -304,7 +330,7 @@ export function NotificationMenu() {
             )}
           </ul>
         </div>
-        
+
         {/* Mark all as read button at the bottom */}
         {unreadCount > 0 && (
           <div className="sticky bottom-0 z-10 mt-auto border-t border-border bg-background p-4">
@@ -314,7 +340,7 @@ export function NotificationMenu() {
               onClick={handleMarkAllAsRead}
               className="w-full"
             >
-              <Check className="h-4 w-4 mr-2" />
+              <Check className="mr-2 h-4 w-4" />
               Tümünü okundu işaretle
             </Button>
           </div>
@@ -323,4 +349,3 @@ export function NotificationMenu() {
     </Sheet>
   );
 }
-

@@ -184,7 +184,7 @@ describe('Settings Schema', () => {
     });
 
     it('should accept all theme options', () => {
-      ['light', 'dark', 'system'].forEach(theme => {
+      ['light', 'dark', 'system'].forEach((theme) => {
         const result = settingsSchema.safeParse({
           theme,
           currency: 'TRY',
@@ -197,7 +197,7 @@ describe('Settings Schema', () => {
     });
 
     it('should accept all currency options', () => {
-      ['TRY', 'USD', 'EUR'].forEach(currency => {
+      ['TRY', 'USD', 'EUR'].forEach((currency) => {
         const result = settingsSchema.safeParse({
           theme: 'light',
           currency,
@@ -264,4 +264,3 @@ describe('Settings Schema', () => {
     });
   });
 });
-

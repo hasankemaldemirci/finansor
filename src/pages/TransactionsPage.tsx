@@ -26,7 +26,7 @@ export function TransactionsPage() {
     <Container>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Tüm İşlemler</h1>
+          <h1 className="mb-2 text-3xl font-bold">Tüm İşlemler</h1>
           <p className="text-muted-foreground">
             Geçmiş işlemlerinizi görüntüleyin ve filtreleyin
           </p>
@@ -43,4 +43,3 @@ export function TransactionsPage() {
     </Container>
   );
 }
-

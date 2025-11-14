@@ -1,6 +1,9 @@
 import { Achievement } from '../types/achievement.types';
 
-export const ACHIEVEMENTS: Omit<Achievement, 'unlocked' | 'unlockedDate' | 'progress'>[] = [
+export const ACHIEVEMENTS: Omit<
+  Achievement,
+  'unlocked' | 'unlockedDate' | 'progress'
+>[] = [
   // First Steps
   {
     id: 'first-income',
@@ -148,7 +151,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'unlocked' | 'unlockedDate' | 'prog
   {
     id: 'level-5',
     name: 'Seviye 5',
-    description: 'Seviye 5\'e ulaş',
+    description: "Seviye 5'e ulaş",
     icon: '🎖️',
     type: 'goal',
     requirement: 5,
@@ -157,7 +160,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'unlocked' | 'unlockedDate' | 'prog
   {
     id: 'level-10',
     name: 'Seviye 10',
-    description: 'Seviye 10\'a ulaş',
+    description: "Seviye 10'a ulaş",
     icon: '🏅',
     type: 'goal',
     requirement: 10,
@@ -166,7 +169,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'unlocked' | 'unlockedDate' | 'prog
   {
     id: 'level-25',
     name: 'Seviye 25',
-    description: 'Seviye 25\'e ulaş',
+    description: "Seviye 25'e ulaş",
     icon: '🥇',
     type: 'goal',
     requirement: 25,
@@ -175,7 +178,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'unlocked' | 'unlockedDate' | 'prog
   {
     id: 'level-50',
     name: 'Yarı Yol',
-    description: 'Seviye 50\'ye ulaş',
+    description: "Seviye 50'ye ulaş",
     icon: '👑',
     type: 'goal',
     requirement: 50,
@@ -246,4 +249,3 @@ export const ACHIEVEMENT_CATEGORIES = {
   goal: { label: 'Hedef', color: 'text-purple-500' },
   special: { label: 'Özel', color: 'text-yellow-500' },
 };
-

@@ -45,7 +45,8 @@ function checkSingleAchievement(
   achievement: Achievement,
   context: AchievementCheckContext
 ): boolean {
-  const { transactions, currentSavings, consecutiveDays, currentLevel } = context;
+  const { transactions, currentSavings, consecutiveDays, currentLevel } =
+    context;
 
   switch (achievement.id) {
     // First actions
@@ -111,15 +112,23 @@ function checkSingleAchievement(
 
     case 'monthly-goal':
       // Monthly goal should be checked at the end of the month
-      if (!context.monthlySavings || !context.monthlyGoal || context.monthlyGoal === 0) {
+      if (
+        !context.monthlySavings ||
+        !context.monthlyGoal ||
+        context.monthlyGoal === 0
+      ) {
         return false;
       }
       // Check if we're at the end of the month (last 3 days) or past the month
       const now = new Date();
       const dayOfMonth = now.getDate();
-      const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+      const daysInMonth = new Date(
+        now.getFullYear(),
+        now.getMonth() + 1,
+        0
+      ).getDate();
       const isEndOfMonth = dayOfMonth >= daysInMonth - 2;
-      
+
       // Only unlock if goal is reached AND we're at the end of the month
       return context.monthlySavings >= context.monthlyGoal && isEndOfMonth;
 
@@ -135,7 +144,7 @@ function checkSavingsWithDuration(
   minDays: number
 ): boolean {
   if (transactions.length === 0) return false;
-  
+
   // Calculate current savings
   const totalIncome = transactions
     .filter((t) => t.type === 'income')
@@ -144,20 +153,20 @@ function checkSavingsWithDuration(
     .filter((t) => t.type === 'expense')
     .reduce((sum, t) => sum + t.amount, 0);
   const currentSavings = totalIncome - totalExpenses;
-  
+
   // Must reach target amount
   if (currentSavings < targetAmount) return false;
-  
+
   // Find first transaction date to check minimum duration
   const sortedTransactions = [...transactions].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
-  
+
   const firstTransactionDate = new Date(sortedTransactions[0].date);
   const daysSinceFirst = Math.floor(
     (Date.now() - firstTransactionDate.getTime()) / (1000 * 60 * 60 * 24)
   );
-  
+
   // Savings must be maintained for at least minDays since first transaction
   return daysSinceFirst >= minDays;
 }
@@ -227,10 +236,12 @@ export function calculateAchievementProgress(
 ): number {
   if (achievement.unlocked) return 100;
 
-  const { transactions, currentSavings, consecutiveDays, currentLevel } = context;
-  const requirement = typeof achievement.requirement === 'number' 
-    ? achievement.requirement 
-    : achievement.requirement.target;
+  const { transactions, currentSavings, consecutiveDays, currentLevel } =
+    context;
+  const requirement =
+    typeof achievement.requirement === 'number'
+      ? achievement.requirement
+      : achievement.requirement.target;
 
   switch (achievement.type) {
     case 'action':
@@ -252,4 +263,3 @@ export function calculateAchievementProgress(
       return 0;
   }
 }
-

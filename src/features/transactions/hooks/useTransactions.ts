@@ -4,7 +4,10 @@ import { useSettingsStore } from '@/features/settings/stores/settingsStore';
 import { calculateXPFromTransaction } from '../utils/transactionCalculations';
 import { toast } from '@/shared/hooks/useToast';
 import { CreateTransactionDto } from '../types/transaction.types';
-import { checkAchievements, calculateAchievementProgress } from '@/features/gamification/utils/achievementChecker';
+import {
+  checkAchievements,
+  calculateAchievementProgress,
+} from '@/features/gamification/utils/achievementChecker';
 import { Achievement } from '@/features/gamification/types/achievement.types';
 
 export const useTransactions = () => {
@@ -49,7 +52,7 @@ export const useTransactions = () => {
     const currentSavings = getSavings();
     const stats = getStats();
     const updatedTransactions = [...transactions, transaction];
-    
+
     const newlyUnlocked = checkAchievements({
       transactions: updatedTransactions,
       currentSavings,
@@ -97,7 +100,7 @@ export const useTransactions = () => {
 
   const editTransaction = (id: string, dto: CreateTransactionDto) => {
     const transaction = updateTransactionInStore(id, dto);
-    
+
     toast({
       title: '✅ İşlem güncellendi!',
       description: 'İşlem başarıyla düzenlendi',
@@ -127,4 +130,3 @@ export const useTransactions = () => {
     getStats,
   };
 };
-
