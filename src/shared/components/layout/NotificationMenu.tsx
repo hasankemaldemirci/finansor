@@ -216,8 +216,8 @@ export function NotificationMenu() {
           </SheetHeader>
         </div>
         
-        <div className="flex-1 overflow-y-auto overflow-x-hidden px-6">
-          <ul className="mt-6 space-y-1">
+        <div className="flex-1 overflow-y-auto overflow-x-clip px-4 py-4">
+          <ul className="space-y-1">
             {/* Monthly Savings Goal */}
             {shouldShowGoalNotification && (
               <li className="border-b border-border/50 pb-3 mb-3">

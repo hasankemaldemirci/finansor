@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 import { TransactionItem } from './TransactionItem';
 import { TransactionEditModal } from './TransactionEditModal';
@@ -60,17 +60,6 @@ export function TransactionList({
     useState<Transaction | null>(null);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [minAmountValue, setMinAmountValue] = useState<string>('');
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  useEffect(() => {
-    const checkDesktop = () => {
-      setIsDesktop(window.innerWidth >= 640); // sm breakpoint
-    };
-
-    checkDesktop();
-    window.addEventListener('resize', checkDesktop);
-    return () => window.removeEventListener('resize', checkDesktop);
-  }, []);
 
   // Currency configuration
   const currencyConfig = {
@@ -181,10 +170,8 @@ export function TransactionList({
             </Button>
           </SheetTrigger>
           <SheetContent
-            side={isDesktop ? 'right' : 'bottom'}
-            className={`${
-              isDesktop ? 'w-full sm:max-w-md' : 'h-screen'
-            } flex flex-col ${isDesktop ? '' : 'sm:rounded-t-2xl'}`}
+            side="right"
+            className="flex w-full flex-col sm:max-w-md"
           >
             <div className="sticky top-0 z-10 border-b bg-background">
               <SheetHeader className="relative px-6 pb-4 pt-6">
@@ -201,10 +188,10 @@ export function TransactionList({
               </SheetHeader>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4">
-              <div className="mb-6 space-y-4">
+            <div className="flex-1 overflow-y-auto overflow-x-clip px-4 py-4">
+              <div className="space-y-4">
                 {/* Search */}
-                <div className="space-y-2">
+                <div className="-mx-2 space-y-2 px-2">
                   <label className="text-sm font-medium">Ara</label>
                   <Input
                     placeholder="Açıklama veya kategori..."
@@ -276,7 +263,7 @@ export function TransactionList({
                 </div>
 
                 {/* Min Amount */}
-                <div className="space-y-2">
+                <div className="-mx-2 space-y-2 px-2">
                   <label className="text-sm font-medium">Minimum Tutar</label>
                   <CurrencyInput
                     placeholder={`0${config.decimalSeparator}00 ${config.prefix}`}
