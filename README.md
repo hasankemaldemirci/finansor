@@ -1,5 +1,7 @@
 # Finansör 💼📊
 
+**Tasarruf yapmanın en akıllı yolu: Finansör**
+
 Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) mekaniği ile gelir-gider takibi yapın, tasarruf hedeflerinize ulaşın!
 
 ## ✨ Özellikler
