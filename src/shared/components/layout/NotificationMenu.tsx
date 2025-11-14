@@ -84,7 +84,16 @@ export function NotificationMenu() {
 
   // Only show goal notification if user has transactions (meaningful progress tracking)
   const hasTransactions = transactions.length > 0;
-  const shouldShowGoalNotification = monthlyGoal > 0 && hasTransactions;
+  
+  // Check if we're at the end of the month (last 3 days) for goal notification
+  // This aligns with achievement logic - goal should be checked at month end
+  const now = new Date();
+  const dayOfMonth = now.getDate();
+  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const isEndOfMonth = dayOfMonth >= daysInMonth - 2;
+  
+  // Show notification only at end of month (when achievement can be unlocked)
+  const shouldShowGoalNotification = monthlyGoal > 0 && hasTransactions && isEndOfMonth;
 
   // Get current tips and merge with stored tips
   const currentTips = getSavingsTips(transactions);
@@ -141,8 +150,7 @@ export function NotificationMenu() {
 
   const allTips = storedTips;
 
-  // Generate notification IDs
-  const now = new Date();
+  // Generate notification IDs (reuse 'now' from above)
   const currentMonthKey = `${now.getFullYear()}-${now.getMonth()}`;
   const goalNotificationId = shouldShowGoalNotification ? `goal-${currentMonthKey}` : null;
   
@@ -193,12 +201,20 @@ export function NotificationMenu() {
         </Button>
       </SheetTrigger>
       <SheetContent side="right" className="w-full sm:max-w-md flex flex-col overflow-x-hidden">
-        <SheetHeader>
-          <SheetTitle>Bildirimler</SheetTitle>
-          <SheetDescription>
-            Tasarruf hedefiniz ve ipuçları
-          </SheetDescription>
-        </SheetHeader>
+        <div className="sticky top-0 z-10 bg-background border-b">
+          <SheetHeader className="px-6 pb-4 relative">
+            <div className="flex items-center justify-center">
+              <div className="flex-1" />
+              <div className="flex-1 flex flex-col items-center">
+                <SheetTitle className="text-center">Bildirimler</SheetTitle>
+                <SheetDescription className="text-center text-sm whitespace-nowrap">
+                  Tasarruf hedefiniz ve ipuçları
+                </SheetDescription>
+              </div>
+              <div className="flex-1" />
+            </div>
+          </SheetHeader>
+        </div>
         
         <div className="mt-6 flex-1 overflow-y-auto overflow-x-hidden">
           <ul className="space-y-1">

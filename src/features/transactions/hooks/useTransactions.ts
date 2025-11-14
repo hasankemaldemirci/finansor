@@ -81,11 +81,16 @@ export const useTransactions = () => {
       }
     });
 
-    toast({
-      title: '✅ İşlem eklendi!',
-      description: `+${xpGained} XP kazandın`,
-      variant: 'success',
-    });
+    // Only show toast if no special events (level up or achievement unlock)
+    // These important events have their own modals, no need for toast
+    if (!leveledUp && unlockedAchievements.length === 0) {
+      toast({
+        title: '✅ İşlem eklendi!',
+        description: `+${xpGained} XP kazandın`,
+        variant: 'success',
+      });
+    }
+    // No toast for level up or achievement - modals handle the celebration
 
     return { transaction, leveledUp, newLevel, xpGained, unlockedAchievements };
   };

@@ -65,17 +65,17 @@ function checkSingleAchievement(
     case 'transactions-500':
       return transactions.length >= 500;
 
-    // Savings milestones
+    // Savings milestones - require minimum 30 days of maintaining savings
     case 'savings-1000':
-      return currentSavings >= 1000;
+      return checkSavingsWithDuration(transactions, 1000, 30);
     case 'savings-5000':
-      return currentSavings >= 5000;
+      return checkSavingsWithDuration(transactions, 5000, 30);
     case 'savings-10000':
-      return currentSavings >= 10000;
+      return checkSavingsWithDuration(transactions, 10000, 30);
     case 'savings-50000':
-      return currentSavings >= 50000;
+      return checkSavingsWithDuration(transactions, 50000, 30);
     case 'savings-100000':
-      return currentSavings >= 100000;
+      return checkSavingsWithDuration(transactions, 100000, 30);
 
     // Streak achievements
     case 'streak-3':
@@ -110,10 +110,18 @@ function checkSingleAchievement(
       return checkTimeRange(transactions, 23, 1);
 
     case 'monthly-goal':
+      // Monthly goal should be checked at the end of the month
       if (!context.monthlySavings || !context.monthlyGoal || context.monthlyGoal === 0) {
         return false;
       }
-      return context.monthlySavings >= context.monthlyGoal;
+      // Check if we're at the end of the month (last 3 days) or past the month
+      const now = new Date();
+      const dayOfMonth = now.getDate();
+      const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+      const isEndOfMonth = dayOfMonth >= daysInMonth - 2;
+      
+      // Only unlock if goal is reached AND we're at the end of the month
+      return context.monthlySavings >= context.monthlyGoal && isEndOfMonth;
 
     default:
       return false;
@@ -121,6 +129,39 @@ function checkSingleAchievement(
 }
 
 // Helper functions
+function checkSavingsWithDuration(
+  transactions: Transaction[],
+  targetAmount: number,
+  minDays: number
+): boolean {
+  if (transactions.length === 0) return false;
+  
+  // Calculate current savings
+  const totalIncome = transactions
+    .filter((t) => t.type === 'income')
+    .reduce((sum, t) => sum + t.amount, 0);
+  const totalExpenses = transactions
+    .filter((t) => t.type === 'expense')
+    .reduce((sum, t) => sum + t.amount, 0);
+  const currentSavings = totalIncome - totalExpenses;
+  
+  // Must reach target amount
+  if (currentSavings < targetAmount) return false;
+  
+  // Find first transaction date to check minimum duration
+  const sortedTransactions = [...transactions].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
+  
+  const firstTransactionDate = new Date(sortedTransactions[0].date);
+  const daysSinceFirst = Math.floor(
+    (Date.now() - firstTransactionDate.getTime()) / (1000 * 60 * 60 * 24)
+  );
+  
+  // Savings must be maintained for at least minDays since first transaction
+  return daysSinceFirst >= minDays;
+}
+
 function checkPositiveMonth(transactions: Transaction[]): boolean {
   const now = new Date();
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);

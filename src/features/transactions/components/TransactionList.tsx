@@ -180,12 +180,20 @@ export function TransactionList({
                 : "h-screen"
             } overflow-y-auto ${isDesktop ? "" : "sm:rounded-t-2xl"}`}
           >
-            <SheetHeader>
-              <SheetTitle>Filtrele</SheetTitle>
-              <SheetDescription>
-                İşlemlerinizi filtreleyin
-              </SheetDescription>
-            </SheetHeader>
+            <div className="sticky top-0 z-10 bg-background border-b">
+              <SheetHeader className="px-6 pb-4 relative">
+                <div className="flex items-center justify-center">
+                  <div className="flex-1" />
+                  <div className="flex-1 flex flex-col items-center">
+                    <SheetTitle className="text-center">Filtrele</SheetTitle>
+                    <SheetDescription className="text-center text-sm whitespace-nowrap">
+                      İşlemlerinizi filtreleyin
+                    </SheetDescription>
+                  </div>
+                  <div className="flex-1" />
+                </div>
+              </SheetHeader>
+            </div>
 
             <div className="mt-6 space-y-4">
               {/* Search */}
