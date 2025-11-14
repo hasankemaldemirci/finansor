@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from 'react';
-import { Bell, Target, Lightbulb, Settings } from 'lucide-react';
+import { useState, useMemo, useEffect } from 'react';
+import { Bell, Target, Lightbulb, Settings, Check } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import {
   Sheet,
@@ -17,6 +17,15 @@ import { Link } from 'react-router-dom';
 import { ROUTES } from '@/shared/constants/routes';
 
 const READ_NOTIFICATIONS_KEY = 'finansor_read_notifications';
+const STORED_TIPS_KEY = 'finansor_stored_tips';
+
+interface StoredTip {
+  id: string;
+  category: string;
+  message: string;
+  icon: string;
+  timestamp: number;
+}
 
 function getReadNotifications(): Set<string> {
   try {
@@ -28,6 +37,26 @@ function getReadNotifications(): Set<string> {
     // Ignore errors
   }
   return new Set();
+}
+
+function getStoredTips(): StoredTip[] {
+  try {
+    const stored = localStorage.getItem(STORED_TIPS_KEY);
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch {
+    // Ignore errors
+  }
+  return [];
+}
+
+function saveStoredTips(tips: StoredTip[]) {
+  try {
+    localStorage.setItem(STORED_TIPS_KEY, JSON.stringify(tips));
+  } catch {
+    // Ignore errors
+  }
 }
 
 function markAllAsRead(notificationIds: string[]) {
@@ -43,6 +72,7 @@ function markAllAsRead(notificationIds: string[]) {
 export function NotificationMenu() {
   const [open, setOpen] = useState(false);
   const [readNotifications, setReadNotifications] = useState<Set<string>>(getReadNotifications());
+  const [storedTips, setStoredTips] = useState<StoredTip[]>(getStoredTips());
   const { transactions, getStats } = useTransactions();
   const { settings } = useSettingsStore();
   const stats = getStats();
@@ -52,36 +82,89 @@ export function NotificationMenu() {
   const currentSavings = stats.monthlySavings;
   const goalProgress = monthlyGoal > 0 ? Math.min(100, (currentSavings / monthlyGoal) * 100) : 0;
 
-  // Savings tips
-  const savingsTips = getSavingsTips(transactions);
+  // Only show goal notification if user has transactions (meaningful progress tracking)
+  const hasTransactions = transactions.length > 0;
+  const shouldShowGoalNotification = monthlyGoal > 0 && hasTransactions;
+
+  // Get current tips and merge with stored tips
+  const currentTips = getSavingsTips(transactions);
+  
+  // Create ID for a tip
+  const createTipId = (tip: { category: string; message: string }, timestamp?: number): string => {
+    const categoryHash = tip.category.toLowerCase().replace(/\s+/g, '-');
+    const messageHash = tip.message.replace(/\s+/g, '-');
+    let hash = 0;
+    const fullContent = `${categoryHash}-${messageHash}`;
+    for (let i = 0; i < fullContent.length; i++) {
+      const char = fullContent.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
+    }
+    const uniqueSuffix = timestamp || Date.now();
+    return `tip-${categoryHash}-${Math.abs(hash)}-${uniqueSuffix}`;
+  };
+
+  // Merge current tips with stored tips (add new ones, keep old ones)
+  useEffect(() => {
+    const now = Date.now();
+    const newTips: StoredTip[] = [];
+    const existingTipIds = new Set(storedTips.map(t => t.id));
+    
+    // Add new tips that don't exist in stored tips
+    currentTips.forEach(tip => {
+      const id = createTipId(tip, now);
+      if (!existingTipIds.has(id)) {
+        // Check if same message already exists with different ID
+        const messageExists = storedTips.some(st => 
+          st.category === tip.category && st.message === tip.message
+        );
+        
+        if (!messageExists) {
+          newTips.push({
+            id,
+            category: tip.category,
+            message: tip.message,
+            icon: tip.icon,
+            timestamp: now,
+          });
+        }
+      }
+    });
+    
+    // If there are new tips, update state and localStorage
+    if (newTips.length > 0) {
+      const combined = [...storedTips, ...newTips];
+      saveStoredTips(combined);
+      setStoredTips(combined);
+    }
+  }, [currentTips, storedTips]);
+
+  const allTips = storedTips;
 
   // Generate notification IDs
   const now = new Date();
   const currentMonthKey = `${now.getFullYear()}-${now.getMonth()}`;
-  const goalNotificationId = monthlyGoal > 0 ? `goal-${currentMonthKey}` : null;
+  const goalNotificationId = shouldShowGoalNotification ? `goal-${currentMonthKey}` : null;
   
   const tipNotificationIds = useMemo(() => {
-    return savingsTips.map((tip, index) => {
-      // Create unique ID based on category and message content
-      const messageHash = tip.message.substring(0, 50).replace(/\s+/g, '-');
-      return `tip-${tip.category}-${messageHash}-${index}`;
-    });
-  }, [savingsTips]);
+    return allTips.map(tip => tip.id);
+  }, [allTips]);
 
-  // Mark as read when menu opens
-  useEffect(() => {
-    if (open) {
-      const allNotificationIds = [
-        ...(goalNotificationId ? [goalNotificationId] : []),
-        ...tipNotificationIds,
-      ];
-      
-      if (allNotificationIds.length > 0) {
-        markAllAsRead(allNotificationIds);
-        setReadNotifications(prev => new Set([...prev, ...allNotificationIds]));
-      }
+  // Get all current notification IDs
+  const allNotificationIds = useMemo(() => {
+    return [
+      ...(goalNotificationId ? [goalNotificationId] : []),
+      ...tipNotificationIds,
+    ];
+  }, [goalNotificationId, tipNotificationIds]);
+
+  // Handle mark all as read
+  const handleMarkAllAsRead = () => {
+    if (allNotificationIds.length > 0) {
+      markAllAsRead(allNotificationIds);
+      setReadNotifications(prev => new Set([...prev, ...allNotificationIds]));
     }
-  }, [open, goalNotificationId, tipNotificationIds]);
+  };
 
   // Count unread notifications
   const unreadCount = useMemo(() => {
@@ -109,7 +192,7 @@ export function NotificationMenu() {
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-full sm:max-w-md overflow-y-auto">
+      <SheetContent side="right" className="w-full sm:max-w-md flex flex-col overflow-x-hidden">
         <SheetHeader>
           <SheetTitle>Bildirimler</SheetTitle>
           <SheetDescription>
@@ -117,16 +200,21 @@ export function NotificationMenu() {
           </SheetDescription>
         </SheetHeader>
         
-        <div className="mt-6">
+        <div className="mt-6 flex-1 overflow-y-auto overflow-x-hidden">
           <ul className="space-y-1">
             {/* Monthly Savings Goal */}
-            {monthlyGoal > 0 && (
+            {shouldShowGoalNotification && (
               <li className="border-b border-border/50 pb-3 mb-3">
                 <div className="flex items-center gap-3">
-                  <Target className="h-4 w-4 text-primary flex-shrink-0" />
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    {goalNotificationId && !readNotifications.has(goalNotificationId) && (
+                      <span className="h-2 w-2 rounded-full bg-green-500 flex-shrink-0" />
+                    )}
+                    <Target className="h-4 w-4 text-primary/60 flex-shrink-0" />
+                  </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2 mb-1">
-                      <span className="text-xs font-semibold text-foreground truncate">
+                      <span className="text-xs font-semibold text-foreground/80 truncate">
                         Aylık Hedef: {formatCurrency(currentSavings, settings.currency)} / {formatCurrency(monthlyGoal, settings.currency)}
                       </span>
                       <span className="text-xs font-semibold text-muted-foreground flex-shrink-0">
@@ -147,28 +235,38 @@ export function NotificationMenu() {
             )}
 
             {/* Savings Tips */}
-            {savingsTips.map((tip, index) => (
+            {allTips.map((tip, index) => {
+              const tipId = tip.id;
+              const isUnread = tipId && !readNotifications.has(tipId);
+              
+              return (
               <li 
-                key={index} 
+                key={tipId} 
                 className={`${
-                  index < savingsTips.length - 1 ? "border-b border-border/50 pb-3 mb-3" : ""
-                } transition-colors hover:bg-muted/30 rounded-md px-2 -mx-2 py-1 cursor-default`}
+                  index < allTips.length - 1 ? "border-b border-border/50 pb-3 mb-3" : ""
+                  } transition-colors hover:bg-muted/30 rounded-md py-1 cursor-default`}
               >
                   <div className="flex items-start gap-3">
-                    <span className="text-sm flex-shrink-0">{tip.icon}</span>
+                    <div className="flex items-start gap-2 flex-shrink-0 pt-0.5">
+                      {isUnread && (
+                        <span className="h-2 w-2 rounded-full bg-green-500 flex-shrink-0 mt-1.5" />
+                      )}
+                      <span className="text-sm opacity-70">{tip.icon}</span>
+                    </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-foreground mb-0.5">
+                      <p className="text-xs font-semibold text-foreground/80 mb-0.5">
                         {tip.category}
                       </p>
-                      <p className="text-xs text-muted-foreground leading-snug line-clamp-2">
+                      <p className="text-xs leading-snug line-clamp-2 text-muted-foreground">
                         {tip.message}
                       </p>
                     </div>
                   </div>
                 </li>
-            ))}
+              );
+            })}
 
-            {monthlyGoal === 0 && savingsTips.length === 0 && (
+            {!shouldShowGoalNotification && allTips.length === 0 && (
               <li>
                 <div className="text-center py-12 text-muted-foreground">
                   <Bell className="h-12 w-12 mx-auto mb-4 opacity-50" />
@@ -190,6 +288,21 @@ export function NotificationMenu() {
             )}
           </ul>
         </div>
+        
+        {/* Mark all as read button at the bottom */}
+        {unreadCount > 0 && (
+          <div className="mt-auto pt-4 border-t border-border">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleMarkAllAsRead}
+              className="w-full"
+            >
+              <Check className="h-4 w-4 mr-2" />
+              Tümünü okundu işaretle
+            </Button>
+          </div>
+        )}
       </SheetContent>
     </Sheet>
   );
