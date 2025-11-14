@@ -17,7 +17,7 @@ import { useTransactionStore } from '@/features/transactions/stores/transactionS
 import { useGamificationStore } from '@/features/gamification/stores/gamificationStore';
 import { Currency, Theme } from '@/shared/types/common.types';
 import { toast } from '@/shared/hooks/useToast';
-import { AlertTriangle, MessageSquare } from 'lucide-react';
+import { AlertTriangle, MessageSquare, Heart } from 'lucide-react';
 
 export function SettingsPanel() {
   const {
@@ -141,6 +141,30 @@ export function SettingsPanel() {
               className="flex h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-center text-4xl font-bold text-primary ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             />
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Support Card */}
+      <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Heart className="h-5 w-5 text-primary fill-primary" />
+            Projeyi Destekle
+          </CardTitle>
+          <CardDescription>
+            Finansör'ün gelişimine katkıda bulunun
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <Button 
+            onClick={() => window.open('https://www.buymeacoffee.com/hasankemaldemirci', '_blank')}
+            className="w-full bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-[#000000] font-semibold"
+          >
+            ☕ Buy Me a Coffee
+          </Button>
+          <p className="text-xs text-center text-muted-foreground">
+            Projeyi beğendiyseniz, gelişimine katkıda bulunabilirsiniz 💙
+          </p>
         </CardContent>
       </Card>
 

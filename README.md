@@ -79,6 +79,12 @@ Bu proje MIT lisansı altında lisanslanmıştır.
 
 Hasan Kemal Demirci
 
+## ☕ Destek
+
+Bu projeyi beğendiyseniz, gelişimine katkıda bulunabilirsiniz:
+
+[☕ Buy Me a Coffee](https://www.buymeacoffee.com/hasankemaldemirci)
+
 ---
 
 ⭐ Eğer bu projeyi beğendiyseniz yıldız vermeyi unutmayın!

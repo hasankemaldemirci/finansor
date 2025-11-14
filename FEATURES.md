@@ -36,6 +36,7 @@
 - PWA desteği (offline çalışır)
 - Özel logo tasarımı
 - Framer Motion animasyonlar
+- Buy Me a Coffee destek entegrasyonu
 
 ### 🔐 Güvenlik
 - AES-256 şifreleme

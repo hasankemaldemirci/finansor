@@ -9,6 +9,11 @@
 - Responsive tasarım (mobilde sadece logo)
 - SVG logo (manifest ve favicon)
 
+### ☕ Destek Sistemi
+- Buy Me a Coffee entegrasyonu
+- Settings panel'de destek kartı
+- Tek tıkla bağış yapma
+
 ---
 
 ## [1.3.0] - 2025-01-XX
