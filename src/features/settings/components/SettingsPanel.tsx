@@ -120,14 +120,14 @@ export function SettingsPanel() {
           </div>
 
           {/* Monthly Goal */}
-          <div className="space-y-2">
-            <Label htmlFor="monthlyGoal">Aylık Tasarruf Hedefi</Label>
+          <div className="space-y-3">
+            <Label htmlFor="monthlyGoal" className="text-base">Aylık Tasarruf Hedefi</Label>
             <CurrencyInput
               id="monthlyGoal"
-              placeholder={`0${config.decimalSeparator}00 ${config.prefix}`}
+              placeholder={`0${config.decimalSeparator}00 ${config.prefix.trim()}`}
               value={monthlyGoalValue}
               decimalsLimit={2}
-              suffix={' ' + config.prefix}
+              suffix={' ' + config.prefix.trim()}
               decimalSeparator={config.decimalSeparator}
               groupSeparator={config.groupSeparator}
               autoComplete="off"
@@ -138,7 +138,7 @@ export function SettingsPanel() {
                   updateMonthlyGoal(numValue);
                 }
               }}
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-center text-4xl font-bold text-primary ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             />
           </div>
         </CardContent>
