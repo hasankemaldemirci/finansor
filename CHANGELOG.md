@@ -1,5 +1,49 @@
 # Changelog - Finansör
 
+## [1.4.0] - 2025-01-XX
+
+### 🎨 Logo Sistemi
+
+#### 1️⃣ Logo Component
+- ✅ **HandCoins İkonu**: Lucide HandCoins ikonu ile özel logo
+- ✅ **Gradient Arka Plan**: Primary → Secondary gradient arka plan
+- ✅ **Shadow Efektleri**: İkon için drop-shadow efekti
+- ✅ **Responsive Tasarım**: Mobilde "Finansör" metni gizlenir
+- ✅ **SVG Logo**: Manifest ve favicon için SVG logo desteği
+
+**Dosyalar:**
+- `src/shared/components/Logo.tsx` (YENİ)
+- `public/logo.svg` (YENİ)
+- `src/shared/components/layout/Header.tsx` (Güncellendi)
+- `public/manifest.json` (Güncellendi)
+- `index.html` (Güncellendi)
+
+**Özellikler:**
+- HandCoins ikonu ortada, beyaz renkte
+- Gradient arka plan (Primary: #00D9A3 → Secondary: #8B7DD8)
+- Yuvarlatılmış köşeler (rounded-lg)
+- Shadow efektleri (ikon ve container)
+- Mobilde sadece logo, desktop'ta logo + "Finansör" metni
+- SVG logo manifest ve favicon olarak kullanılıyor
+
+### 🔧 İyileştirmeler
+
+- ✅ Logo component'i reusable yapıldı
+- ✅ Gradient renkleri tutarlı hale getirildi (logo.svg ve Logo.tsx aynı)
+- ✅ Header'da logo entegrasyonu
+- ✅ Manifest ve favicon güncellemeleri
+
+### 📝 Notlar
+
+Logo sistemi artık tamamen entegre! 🎨
+
+Kullanıcılar artık:
+- Modern ve tutarlı logo tasarımı görebilir
+- Mobilde daha temiz header deneyimi yaşar
+- PWA'da özel logo görür
+
+---
+
 ## [1.3.0] - 2025-01-XX
 
 ### 🔔 Bildirim Sistemi

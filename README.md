@@ -25,6 +25,7 @@ Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) 
 - 📱 **PWA Desteği**: Mobil cihazlara yüklenebilir
 - 🌗 **Dark Mode**: Açık/Koyu tema desteği
 - 💎 **Modern UI**: Tailwind CSS + shadcn/ui
+- 🎨 **Özel Logo**: HandCoins ikonu ile gradient arka planlı logo
 - ⚡ **Hızlı**: Vite ile optimize edilmiş build
 - 🔒 **Güvenli Local Storage**: AES-256 şifreleme ile verileriniz korunur
 - 🔔 **Akıllı Bildirimler**: 
@@ -32,6 +33,7 @@ Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) 
   - Kişiselleştirilmiş tasarruf ipuçları
   - Okunmamış bildirim göstergesi
   - Bildirim geçmişi saklama
+  - "Tümünü okundu işaretle" özelliği
 
 ### 🔐 Güvenlik
 - 🔐 **AES-256 Şifreleme**: Tüm veriler otomatik şifrelenir
