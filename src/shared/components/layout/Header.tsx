@@ -1,6 +1,7 @@
 import { useLevel } from '@/features/gamification/hooks/useLevel';
 import { ThemeToggle } from '@/features/settings/components/ThemeToggle';
 import { getLevelIcon } from '@/features/gamification/constants/levelConfig';
+import { NotificationMenu } from './NotificationMenu';
 
 export function Header() {
   const { level, title } = useLevel();
@@ -21,6 +22,7 @@ export function Header() {
               <p className="text-xs text-muted-foreground hidden sm:block">{title}</p>
             </div>
           </div>
+          <NotificationMenu />
           <ThemeToggle />
         </div>
       </div>

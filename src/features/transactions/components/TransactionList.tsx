@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 import { TransactionItem } from './TransactionItem';
 import { TransactionEditModal } from './TransactionEditModal';
@@ -17,11 +15,14 @@ import {
   SelectValue,
 } from '@/shared/components/ui/select';
 import {
-  Dialog,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/shared/components/ui/dialog';
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetFooter,
+} from '@/shared/components/ui/sheet';
 import { Transaction } from '../types/transaction.types';
 import { FilterOptions } from './TransactionFilters';
 import { useSettingsStore } from '@/features/settings/stores/settingsStore';
@@ -48,6 +49,17 @@ export function TransactionList({
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [minAmountValue, setMinAmountValue] = useState<string>('');
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 640); // sm breakpoint
+    };
+    
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
 
   // Currency configuration
   const currencyConfig = {
@@ -145,19 +157,146 @@ export function TransactionList({
   const filterButton = filters && onFiltersChange && (
     <div className="fixed bottom-16 left-0 right-0 z-40 bg-background/95 backdrop-blur-lg border-t shadow-[0_-2px_10px_rgba(0,0,0,0.1)] p-3">
       <div className="container mx-auto max-w-3xl space-y-2">
-        <Button
-          variant="outline"
-          onClick={() => setShowFilterModal(true)}
-          className="w-full gap-2"
-        >
-          <SlidersHorizontal className="h-4 w-4" />
-          Filtrele
-          {hasActiveFilters && (
-            <span className="ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
-              •
-            </span>
-          )}
-        </Button>
+        <Sheet open={showFilterModal} onOpenChange={setShowFilterModal}>
+          <SheetTrigger asChild>
+            <Button
+              variant="outline"
+              className="w-full gap-2"
+            >
+              <SlidersHorizontal className="h-4 w-4" />
+              Filtrele
+              {hasActiveFilters && (
+                <span className="ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
+                  •
+                </span>
+              )}
+            </Button>
+          </SheetTrigger>
+          <SheetContent 
+            side={isDesktop ? "right" : "bottom"} 
+            className={`${
+              isDesktop 
+                ? "w-full sm:max-w-md" 
+                : "h-screen"
+            } overflow-y-auto ${isDesktop ? "" : "sm:rounded-t-2xl"}`}
+          >
+            <SheetHeader>
+              <SheetTitle>Filtrele</SheetTitle>
+              <SheetDescription>
+                İşlemlerinizi filtreleyin
+              </SheetDescription>
+            </SheetHeader>
+
+            <div className="mt-6 space-y-4">
+              {/* Search */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Ara</label>
+                <Input
+                  placeholder="Açıklama veya kategori..."
+                  value={filters.searchTerm}
+                  onChange={(e) => updateFilter('searchTerm', e.target.value)}
+                />
+              </div>
+
+              {/* Type Filter */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">İşlem Tipi</label>
+                <Tabs
+                  value={filters.type}
+                  onValueChange={(value) => updateFilter('type', value)}
+                  className="w-full"
+                >
+                  <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="all">Tümü</TabsTrigger>
+                    <TabsTrigger value="income">💰 Gelir</TabsTrigger>
+                    <TabsTrigger value="expense">💸 Gider</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              </div>
+
+              {/* Date Range */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Tarih Aralığı</label>
+                <Select
+                  value={filters.dateRange}
+                  onValueChange={(value) => updateFilter('dateRange', value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tüm Zamanlar</SelectItem>
+                    <SelectItem value="7days">Son 7 Gün</SelectItem>
+                    <SelectItem value="30days">Son 30 Gün</SelectItem>
+                    <SelectItem value="90days">Son 90 Gün</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Category Filter */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Kategori</label>
+                <Select
+                  value={filters.category}
+                  onValueChange={(value) => updateFilter('category', value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Kategori seçiniz" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tüm Kategoriler</SelectItem>
+                    <SelectItem value="salary">Maaş</SelectItem>
+                    <SelectItem value="freelance">Serbest Çalışma</SelectItem>
+                    <SelectItem value="investment">Yatırım</SelectItem>
+                    <SelectItem value="rent">Kira</SelectItem>
+                    <SelectItem value="groceries">Market</SelectItem>
+                    <SelectItem value="transport">Ulaşım</SelectItem>
+                    <SelectItem value="entertainment">Eğlence</SelectItem>
+                    <SelectItem value="bills">Faturalar</SelectItem>
+                    <SelectItem value="health">Sağlık</SelectItem>
+                    <SelectItem value="shopping">Alışveriş</SelectItem>
+                    <SelectItem value="education">Eğitim</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Min Amount */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Minimum Tutar</label>
+                <CurrencyInput
+                  placeholder={`0${config.decimalSeparator}00 ${config.prefix}`}
+                  value={minAmountValue}
+                  decimalsLimit={2}
+                  suffix={' ' + config.prefix}
+                  decimalSeparator={config.decimalSeparator}
+                  groupSeparator={config.groupSeparator}
+                  autoComplete="off"
+                  onValueChange={(value) => {
+                    setMinAmountValue(value || '');
+                    updateFilter('minAmount', value ? parseFloat(value) : undefined);
+                  }}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                />
+              </div>
+            </div>
+
+            <SheetFooter className="mt-6 gap-2">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  onResetFilters?.();
+                  setShowFilterModal(false);
+                }}
+                className="flex-1"
+              >
+                Temizle
+              </Button>
+              <Button onClick={() => setShowFilterModal(false)} className="flex-1">
+                Uygula
+              </Button>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
 
         {/* Active Filters Info */}
         {hasActiveFilters && (
@@ -205,156 +344,6 @@ export function TransactionList({
           transaction={editingTransaction}
           onSave={handleSaveEdit}
         />
-      )}
-
-      {/* Filter Modal */}
-      {createPortal(
-        <AnimatePresence>
-          {filters && onFiltersChange && showFilterModal && (
-            <>
-              {/* Overlay */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="fixed inset-0 z-50 bg-black/80"
-                onClick={() => setShowFilterModal(false)}
-              />
-              
-              {/* Modal Content */}
-              <motion.div
-                initial={{ transform: 'translateY(100%)' }}
-                animate={{ transform: 'translateY(0%)' }}
-                exit={{ transform: 'translateY(100%)' }}
-                transition={{ type: 'tween', duration: 0.3, ease: 'easeOut' }}
-                className="fixed left-0 right-0 top-0 bottom-0 z-[60] bg-background flex flex-col"
-              >
-              <div className="px-6 py-4 border-b flex items-center justify-between">
-                <h2 className="text-base sm:text-lg font-semibold">Filtrele</h2>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setShowFilterModal(false)}
-                  className="h-8 w-8"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-
-              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
-              {/* Search */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Ara</label>
-                <Input
-                  placeholder="Açıklama veya kategori..."
-                  value={filters.searchTerm}
-                  onChange={(e) => updateFilter('searchTerm', e.target.value)}
-                />
-              </div>
-
-              {/* Type Filter */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">İşlem Tipi</label>
-                <Tabs
-                  value={filters.type}
-                  onValueChange={(value) => updateFilter('type', value)}
-                  className="w-full"
-                >
-                  <TabsList className="grid w-full grid-cols-3">
-                    <TabsTrigger value="all">Tümü</TabsTrigger>
-                    <TabsTrigger value="income">💰 Gelir</TabsTrigger>
-                    <TabsTrigger value="expense">💸 Gider</TabsTrigger>
-                  </TabsList>
-                </Tabs>
-              </div>
-
-              {/* Date Range */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Tarih Aralığı</label>
-                <Select
-                  value={filters.dateRange}
-                  onValueChange={(value) => updateFilter('dateRange', value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="z-[70]">
-                    <SelectItem value="all">Tüm Zamanlar</SelectItem>
-                    <SelectItem value="7days">Son 7 Gün</SelectItem>
-                    <SelectItem value="30days">Son 30 Gün</SelectItem>
-                    <SelectItem value="90days">Son 90 Gün</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Category Filter */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Kategori</label>
-                <Select
-                  value={filters.category}
-                  onValueChange={(value) => updateFilter('category', value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Kategori seçiniz" />
-                  </SelectTrigger>
-                  <SelectContent className="z-[70]">
-                    <SelectItem value="all">Tüm Kategoriler</SelectItem>
-                    <SelectItem value="salary">Maaş</SelectItem>
-                    <SelectItem value="freelance">Serbest Çalışma</SelectItem>
-                    <SelectItem value="investment">Yatırım</SelectItem>
-                    <SelectItem value="rent">Kira</SelectItem>
-                    <SelectItem value="groceries">Market</SelectItem>
-                    <SelectItem value="transport">Ulaşım</SelectItem>
-                    <SelectItem value="entertainment">Eğlence</SelectItem>
-                    <SelectItem value="bills">Faturalar</SelectItem>
-                    <SelectItem value="health">Sağlık</SelectItem>
-                    <SelectItem value="shopping">Alışveriş</SelectItem>
-                    <SelectItem value="education">Eğitim</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Min Amount */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Minimum Tutar</label>
-                <CurrencyInput
-                  placeholder={`0${config.decimalSeparator}00 ${config.prefix}`}
-                  value={minAmountValue}
-                  decimalsLimit={2}
-                  suffix={' ' + config.prefix}
-                  decimalSeparator={config.decimalSeparator}
-                  groupSeparator={config.groupSeparator}
-                  autoComplete="off"
-                  onValueChange={(value) => {
-                    setMinAmountValue(value || '');
-                    updateFilter('minAmount', value ? parseFloat(value) : undefined);
-                  }}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                />
-              </div>
-              </div>
-
-              <div className="px-6 py-4 border-t flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    onResetFilters?.();
-                    setShowFilterModal(false);
-                  }}
-                  className="flex-1"
-                >
-                  Temizle
-                </Button>
-                <Button onClick={() => setShowFilterModal(false)} className="flex-1">
-                  Uygula
-                </Button>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>,
-      document.body
       )}
     </>
   );

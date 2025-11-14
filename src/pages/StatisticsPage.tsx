@@ -28,23 +28,18 @@ import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 const COLORS = ['#00D9A3', '#6C5CE7', '#FDCB6E', '#E17055', '#74B9FF', '#A29BFE', '#FD79A8', '#81ECEC'];
 
 export function StatisticsPage() {
-  const { transactions } = useTransactions();
+  const { transactions, getStats } = useTransactions();
   const { settings } = useSettingsStore();
+  const stats = getStats();
 
   const monthlyData = getMonthlyStats(transactions, 6);
   const topExpenseCategories = getTopCategories(transactions, 'expense', 5);
   const topIncomeCategories = getTopCategories(transactions, 'income', 5);
   const trend = getRecentTrend(transactions, 30);
 
-  const totalIncome = transactions
-    .filter(t => t.type === 'income')
-    .reduce((sum, t) => sum + t.amount, 0);
-  
-  const totalExpenses = transactions
-    .filter(t => t.type === 'expense')
-    .reduce((sum, t) => sum + t.amount, 0);
-
-  const savingsRate = totalIncome > 0 ? ((totalIncome - totalExpenses) / totalIncome) * 100 : 0;
+  const totalIncome = stats.totalIncome;
+  const totalExpenses = stats.totalExpenses;
+  const savingsRate = stats.savingsRate;
 
   if (transactions.length === 0) {
     return (
@@ -72,7 +67,48 @@ export function StatisticsPage() {
         <h1 className="text-3xl font-bold">İstatistikler</h1>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Toplam Gelir
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <p className="text-2xl font-bold text-primary">
+                {formatCurrency(totalIncome, settings.currency)}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Toplam Gider
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <p className="text-2xl font-bold text-destructive">
+                {formatCurrency(totalExpenses, settings.currency)}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Bu Ay Tasarruf
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <p className={`text-2xl font-bold ${
+                stats.monthlySavings >= 0 ? 'text-secondary' : 'text-destructive'
+              }`}>
+                {formatCurrency(stats.monthlySavings, settings.currency)}
+              </p>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">

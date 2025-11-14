@@ -228,6 +228,15 @@ export const ACHIEVEMENTS: Omit<Achievement, 'unlocked' | 'unlockedDate' | 'prog
     requirement: 1,
     xpReward: 5,
   },
+  {
+    id: 'monthly-goal',
+    name: 'Aylık Hedef',
+    description: 'Aylık tasarruf hedefinize ulaşın',
+    icon: '🎯',
+    type: 'goal',
+    requirement: 1,
+    xpReward: 10,
+  },
 ];
 
 export const ACHIEVEMENT_CATEGORIES = {

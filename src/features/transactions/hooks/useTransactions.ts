@@ -1,5 +1,6 @@
 import { useTransactionStore } from '../stores/transactionStore';
 import { useGamificationStore } from '@/features/gamification/stores/gamificationStore';
+import { useSettingsStore } from '@/features/settings/stores/settingsStore';
 import { calculateXPFromTransaction } from '../utils/transactionCalculations';
 import { toast } from '@/shared/hooks/useToast';
 import { CreateTransactionDto } from '../types/transaction.types';
@@ -29,6 +30,8 @@ export const useTransactions = () => {
     updateActivity,
   } = useGamificationStore();
 
+  const { settings } = useSettingsStore();
+
   const createTransaction = (dto: CreateTransactionDto) => {
     const transaction = addTransaction(dto);
     const xpGained = calculateXPFromTransaction(transaction);
@@ -44,6 +47,7 @@ export const useTransactions = () => {
 
     // Check for achievements
     const currentSavings = getSavings();
+    const stats = getStats();
     const updatedTransactions = [...transactions, transaction];
     
     const newlyUnlocked = checkAchievements({
@@ -52,6 +56,8 @@ export const useTransactions = () => {
       consecutiveDays,
       currentLevel: level,
       achievements,
+      monthlySavings: stats.monthlySavings,
+      monthlyGoal: settings.monthlyGoal,
     });
 
     // Unlock new achievements

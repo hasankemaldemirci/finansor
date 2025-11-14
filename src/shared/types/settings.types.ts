@@ -1,11 +1,17 @@
 import { Currency, Theme } from './common.types';
 
+export interface CategoryBudget {
+  category: string;
+  limit: number;
+}
+
 export interface UserSettings {
   theme: Theme;
   notifications: boolean;
   currency: Currency;
   monthlyGoal: number;
   language: string;
+  categoryBudgets: CategoryBudget[];
 }
 
 export interface UserData {

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { UserSettings } from '@/shared/types/settings.types';
+import { UserSettings, CategoryBudget } from '@/shared/types/settings.types';
 import { Theme, Currency } from '@/shared/types/common.types';
 import { secureStorageAdapter } from '@/shared/utils/secureStorageAdapter';
 
@@ -11,6 +11,8 @@ interface SettingsState {
   updateMonthlyGoal: (goal: number) => void;
   toggleNotifications: () => void;
   updateLanguage: (language: string) => void;
+  setCategoryBudget: (category: string, limit: number) => void;
+  removeCategoryBudget: (category: string) => void;
   resetSettings: () => void;
 }
 
@@ -20,6 +22,7 @@ const defaultSettings: UserSettings = {
   currency: 'TRY',
   monthlyGoal: 5000,
   language: 'tr',
+  categoryBudgets: [],
 };
 
 export const useSettingsStore = create<SettingsState>()(
@@ -74,6 +77,33 @@ export const useSettingsStore = create<SettingsState>()(
         }));
       },
 
+      setCategoryBudget: (category: string, limit: number) => {
+        set((state) => {
+          const budgets = state.settings.categoryBudgets || [];
+          const existing = budgets.find((b) => b.category === category);
+          const updatedBudgets = existing
+            ? budgets.map((b) =>
+                b.category === category ? { ...b, limit } : b
+              )
+            : [...budgets, { category, limit }];
+          
+          return {
+            settings: { ...state.settings, categoryBudgets: updatedBudgets },
+          };
+        });
+      },
+
+      removeCategoryBudget: (category: string) => {
+        set((state) => ({
+          settings: {
+            ...state.settings,
+            categoryBudgets: (state.settings.categoryBudgets || []).filter(
+              (b) => b.category !== category
+            ),
+          },
+        }));
+      },
+
       resetSettings: () => {
         set({ settings: defaultSettings });
       },
@@ -81,6 +111,12 @@ export const useSettingsStore = create<SettingsState>()(
     {
       name: 'settings-storage',
       storage: secureStorageAdapter<SettingsState>(),
+      onRehydrateStorage: () => (state) => {
+        // Migration: Ensure categoryBudgets exists for old data
+        if (state?.settings && !state.settings.categoryBudgets) {
+          state.settings.categoryBudgets = [];
+        }
+      },
     }
   )
 );

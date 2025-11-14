@@ -8,6 +8,8 @@ export interface AchievementCheckContext {
   consecutiveDays: number;
   currentLevel: number;
   achievements: Achievement[];
+  monthlySavings?: number;
+  monthlyGoal?: number;
 }
 
 // Initialize achievements from constants
@@ -106,6 +108,12 @@ function checkSingleAchievement(
       return checkTimeRange(transactions, 6, 8);
     case 'night-owl':
       return checkTimeRange(transactions, 23, 1);
+
+    case 'monthly-goal':
+      if (!context.monthlySavings || !context.monthlyGoal || context.monthlyGoal === 0) {
+        return false;
+      }
+      return context.monthlySavings >= context.monthlyGoal;
 
     default:
       return false;

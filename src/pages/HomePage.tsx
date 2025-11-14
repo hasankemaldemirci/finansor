@@ -14,7 +14,10 @@ import { useSettingsStore } from '@/features/settings/stores/settingsStore';
 import { Achievement } from '@/features/gamification/types/achievement.types';
 import { Transaction } from '@/features/transactions/types/transaction.types';
 import { ROUTES } from '@/shared/constants/routes';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, AlertTriangle } from 'lucide-react';
+import { getCategoryLabel } from '@/features/transactions/utils/statisticsCalculations';
+import { useEffect, useRef } from 'react';
+import confetti from 'canvas-confetti';
 
 export function HomePage() {
   const [levelUpModal, setLevelUpModal] = useState<{
@@ -35,6 +38,90 @@ export function HomePage() {
 
   // Show only last 5 transactions
   const recentTransactions = transactions.slice(0, 5);
+
+  // Monthly goal tracking for celebration
+  const monthlyGoal = settings.monthlyGoal;
+  const currentSavings = stats.monthlySavings;
+  const goalProgress = monthlyGoal > 0 ? Math.min(100, (currentSavings / monthlyGoal) * 100) : 0;
+  
+  const previousGoalProgress = useRef(goalProgress);
+  const goalReachedRef = useRef(false);
+
+  // Budget warnings
+  const now = new Date();
+  const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+  const monthlyTransactions = transactions.filter(
+    (t) => new Date(t.date) >= currentMonth && new Date(t.date) <= endOfMonth
+  );
+
+  const budgetWarnings = (settings.categoryBudgets || [])
+    .map((budget) => {
+      const categorySpending = monthlyTransactions
+        .filter((t) => t.type === 'expense' && t.category === budget.category)
+        .reduce((sum, t) => sum + t.amount, 0);
+      
+      const percentage = budget.limit > 0 ? (categorySpending / budget.limit) * 100 : 0;
+      
+      if (percentage >= 100) {
+        return {
+          category: getCategoryLabel(budget.category),
+          spent: categorySpending,
+          limit: budget.limit,
+          exceeded: categorySpending - budget.limit,
+          percentage: 100,
+        };
+      } else if (percentage >= 80) {
+        return {
+          category: getCategoryLabel(budget.category),
+          spent: categorySpending,
+          limit: budget.limit,
+          exceeded: 0,
+          percentage,
+        };
+      }
+      return null;
+    })
+    .filter((w) => w !== null);
+
+  // Goal celebration effect
+  useEffect(() => {
+    if (goalProgress >= 100 && previousGoalProgress.current < 100 && !goalReachedRef.current) {
+      goalReachedRef.current = true;
+      
+      // Confetti celebration
+      const duration = 3000;
+      const animationEnd = Date.now() + duration;
+
+      const intervalId = setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          clearInterval(intervalId);
+          return;
+        }
+
+        // Burst from center
+        confetti({
+          particleCount: 10,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0.5, y: 0.5 },
+          colors: ['#00D9A3', '#6C5CE7', '#FDCB6E'],
+          useWorker: false,
+        });
+      }, 200);
+
+      return () => clearInterval(intervalId);
+    }
+    
+    previousGoalProgress.current = goalProgress;
+    
+    // Reset when goal progress drops below 100
+    if (goalProgress < 100) {
+      goalReachedRef.current = false;
+    }
+  }, [goalProgress]);
 
   const handleTransactionSuccess = (data: {
     leveledUp: boolean;
@@ -81,49 +168,52 @@ export function HomePage() {
           </CardContent>
         </Card>
 
-        {/* Stats Cards - Financial Overview */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Toplam Gelir
+        {/* Budget Warnings */}
+        {budgetWarnings.length > 0 && (
+          <Card className="border-2 border-destructive/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-destructive">
+                <AlertTriangle className="h-5 w-5" />
+                Bütçe Uyarıları
               </CardTitle>
             </CardHeader>
-            <CardContent className="pt-0">
-              <p className="text-2xl font-bold text-primary">
-                {formatCurrency(stats.totalIncome, settings.currency)}
-              </p>
+            <CardContent>
+              <div className="space-y-3">
+                {budgetWarnings.map((warning, index) => (
+                  <div
+                    key={index}
+                    className="p-3 rounded-lg bg-destructive/5 border border-destructive/20"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="font-semibold text-foreground">{warning.category}</p>
+                      <span className="text-sm font-medium text-destructive">
+                        {warning.percentage.toFixed(0)}%
+                      </span>
+                    </div>
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Harcanan</span>
+                        <span className="font-medium">
+                          {formatCurrency(warning.spent, settings.currency)} / {formatCurrency(warning.limit, settings.currency)}
+                        </span>
+                      </div>
+                      {warning.exceeded > 0 && (
+                        <p className="text-sm text-destructive font-medium">
+                          ⚠️ Bütçe aşıldı: {formatCurrency(warning.exceeded, settings.currency)}
+                        </p>
+                      )}
+                      {warning.exceeded === 0 && warning.percentage >= 80 && (
+                        <p className="text-sm text-orange-600 dark:text-orange-400 font-medium">
+                          ⚠️ Bütçenizin %80'ine ulaştınız
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </CardContent>
           </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Toplam Gider
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <p className="text-2xl font-bold text-destructive">
-                {formatCurrency(stats.totalExpenses, settings.currency)}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Bu Ay Tasarruf
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <p className={`text-2xl font-bold ${
-                stats.monthlySavings >= 0 ? 'text-secondary' : 'text-destructive'
-              }`}>
-                {formatCurrency(stats.monthlySavings, settings.currency)}
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+        )}
 
         {/* Recent Transactions */}
         <Card>
