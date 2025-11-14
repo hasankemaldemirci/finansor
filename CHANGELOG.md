@@ -1,5 +1,48 @@
 # Changelog - Finansör
 
+## [1.3.0] - 2025-01-XX
+
+### 🔔 Bildirim Sistemi
+
+#### 1️⃣ Bildirim Menüsü
+- ✅ **Bildirim Menüsü**: Header'da bildirim ikonu ve sayı badge'i
+- ✅ **Aylık Hedef Bildirimi**: Tasarruf hedefi ilerlemesi gösterimi
+- ✅ **Tasarruf İpuçları**: Kategori bazlı ve genel tasarruf önerileri
+- ✅ **Okunmamış Bildirim Göstergesi**: Yeşil nokta ile yeni bildirimler
+- ✅ **"Tümünü Okundu İşaretle" Butonu**: Tüm bildirimleri tek tıkla okundu işaretleme
+- ✅ **Bildirim Geçmişi**: Bildirimler localStorage'da saklanır ve birleştirilir
+
+**Dosyalar:**
+- `src/shared/components/layout/NotificationMenu.tsx` (YENİ)
+- `src/features/transactions/utils/savingsTips.ts` (Güncellendi)
+
+**Özellikler:**
+- Aylık tasarruf hedefi ilerleme çubuğu
+- Kategori bazlı tasarruf önerileri (Market, Ulaşım, Eğlence, vb.)
+- Genel tasarruf tavsiyeleri (gelir-harcama oranına göre)
+- Bildirimlerin akıllı birleştirilmesi (yeni bildirimler eski bildirimlere eklenir)
+- Okunmamış bildirim sayısı gösterimi
+- Minimal ve temiz tasarım
+
+### 🔧 İyileştirmeler
+
+- ✅ Bildirim sistemi performans optimizasyonu
+- ✅ Bildirim ID'lerinin benzersizliği garantisi
+- ✅ Yatay scroll sorunu düzeltildi
+- ✅ Bildirim görselleştirme iyileştirmeleri
+
+### 📝 Notlar
+
+Bildirim sistemi artık tamamen çalışır durumda! 🔔
+
+Kullanıcılar artık:
+- Aylık tasarruf hedeflerini takip edebilir
+- Kişiselleştirilmiş tasarruf ipuçları alabilir
+- Bildirimleri yönetebilir (okundu işaretleme)
+- Bildirim geçmişini görebilir
+
+---
+
 ## [1.2.0] - 2025-01-XX
 
 ### 🔐 Güvenlik Güncellemeleri

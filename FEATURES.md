@@ -41,6 +41,17 @@
 - ✅ Aylık tasarruf hedefi ayarı
 - ✅ Ayarları sıfırlama
 
+### 10. Notification System (Bildirim Sistemi) ✅ ⭐ YENİ
+- ✅ Aylık tasarruf hedefi bildirimi
+- ✅ Kişiselleştirilmiş tasarruf ipuçları
+- ✅ Okunmamış bildirim göstergesi (yeşil nokta)
+- ✅ Bildirim sayısı badge'i
+- ✅ "Tümünü okundu işaretle" butonu
+- ✅ Bildirim geçmişi saklama (localStorage)
+- ✅ Akıllı bildirim birleştirme (yeni bildirimler eski bildirimlere eklenir)
+- ✅ Kategori bazlı tasarruf önerileri
+- ✅ Genel tasarruf tavsiyeleri
+
 ### 5. UI/UX
 - ✅ Modern, responsive tasarım
 - ✅ Tailwind CSS + shadcn/ui components
@@ -129,10 +140,13 @@
 - [ ] Budget planning
   - Kategori bazlı bütçe limitleri
   - Bütçe aşım uyarıları
-- [ ] Notifications
-  - Daily reminder
-  - Goal achievement alerts
-  - Budget warnings
+- ✅ Notifications ⭐ TAMAMLANDI
+  - ✅ Aylık hedef bildirimi
+  - ✅ Tasarruf ipuçları
+  - ✅ Okunmamış bildirim göstergesi
+  - [ ] Daily reminder (gelecek)
+  - [ ] Goal achievement alerts (gelecek)
+  - [ ] Budget warnings (gelecek)
 - [ ] Multi-currency support
   - Döviz kurları
   - Otomatik çevrim

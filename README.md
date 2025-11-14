@@ -27,6 +27,11 @@ Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) 
 - 💎 **Modern UI**: Tailwind CSS + shadcn/ui
 - ⚡ **Hızlı**: Vite ile optimize edilmiş build
 - 🔒 **Güvenli Local Storage**: AES-256 şifreleme ile verileriniz korunur
+- 🔔 **Akıllı Bildirimler**: 
+  - Aylık tasarruf hedefi takibi
+  - Kişiselleştirilmiş tasarruf ipuçları
+  - Okunmamış bildirim göstergesi
+  - Bildirim geçmişi saklama
 
 ### 🔐 Güvenlik
 - 🔐 **AES-256 Şifreleme**: Tüm veriler otomatik şifrelenir
