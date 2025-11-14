@@ -200,9 +200,9 @@ export function NotificationMenu() {
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-full sm:max-w-md flex flex-col overflow-x-hidden">
-        <div className="sticky top-0 z-10 bg-background border-b">
-          <SheetHeader className="px-6 pb-4 relative">
+      <SheetContent side="right" className="w-full sm:max-w-md flex flex-col">
+        <div className="sticky top-0 z-10 border-b bg-background">
+          <SheetHeader className="relative px-6 pb-4 pt-6">
             <div className="flex items-center justify-center">
               <div className="flex-1" />
               <div className="flex-1 flex flex-col items-center">
@@ -216,8 +216,8 @@ export function NotificationMenu() {
           </SheetHeader>
         </div>
         
-        <div className="mt-6 flex-1 overflow-y-auto overflow-x-hidden">
-          <ul className="space-y-1">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-6">
+          <ul className="mt-6 space-y-1">
             {/* Monthly Savings Goal */}
             {shouldShowGoalNotification && (
               <li className="border-b border-border/50 pb-3 mb-3">
@@ -307,7 +307,7 @@ export function NotificationMenu() {
         
         {/* Mark all as read button at the bottom */}
         {unreadCount > 0 && (
-          <div className="mt-auto pt-4 border-t border-border">
+          <div className="sticky bottom-0 z-10 mt-auto border-t border-border bg-background p-4">
             <Button
               variant="outline"
               size="sm"

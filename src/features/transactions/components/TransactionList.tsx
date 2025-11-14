@@ -184,10 +184,10 @@ export function TransactionList({
             side={isDesktop ? 'right' : 'bottom'}
             className={`${
               isDesktop ? 'w-full sm:max-w-md' : 'h-screen'
-            } flex flex-col p-0 ${isDesktop ? '' : 'sm:rounded-t-2xl'}`}
+            } flex flex-col ${isDesktop ? '' : 'sm:rounded-t-2xl'}`}
           >
             <div className="sticky top-0 z-10 border-b bg-background">
-              <SheetHeader className="relative px-6 pt-6 pb-4">
+              <SheetHeader className="relative px-6 pb-4 pt-6">
                 <div className="flex items-center justify-center">
                   <div className="flex-1" />
                   <div className="flex flex-1 flex-col items-center">
@@ -201,8 +201,8 @@ export function TransactionList({
               </SheetHeader>
             </div>
 
-            <div className="flex-1 overflow-y-auto">
-              <div className="mb-6 mt-6 space-y-4 px-6">
+            <div className="flex-1 overflow-y-auto p-4">
+              <div className="mb-6 space-y-4">
                 {/* Search */}
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Ara</label>
@@ -299,7 +299,7 @@ export function TransactionList({
               </div>
             </div>
 
-            <SheetFooter className="sticky bottom-0 z-10 mt-0 gap-2 border-t bg-background px-6 py-4">
+            <SheetFooter className="sticky bottom-0 z-10 mt-0 gap-2 border-t bg-background p-4">
               <Button
                 variant="outline"
                 onClick={() => {
