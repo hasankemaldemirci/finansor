@@ -1,9 +1,6 @@
 <div align="center">
   
-  <img src="https://finansor.pages.dev/logo.svg" alt="Finansör Logo" width="64" height="64" style="display: inline-block; vertical-align: middle; margin-right: 12px;">
-  <h1 style="display: inline-block; vertical-align: middle; margin: 0;">Finansör</h1>
-  
-  <br>
+  <img src="https://finansor.pages.dev/logo.svg" alt="Finansör Logo" width="64" height="64"> &nbsp; # Finansör
   
   **Tasarruf yapmanın en akıllı yolu: Finansör**
   
