@@ -1,6 +1,6 @@
 # Changelog - Finansör
 
-## [1.4.0] - 2025-01-XX
+## [1.4.0] - 2025-11-15
 
 ### 🎨 Logo Sistemi
 - HandCoins ikonu ile özel logo tasarımı
@@ -16,7 +16,7 @@
 
 ---
 
-## [1.3.0] - 2025-01-XX
+## [1.3.0] - 2025-11-13
 
 ### 🔔 Bildirim Sistemi
 - Aylık tasarruf hedefi bildirimi
@@ -28,7 +28,7 @@
 
 ---
 
-## [1.2.0] - 2025-01-XX
+## [1.2.0] - 2025-11-11
 
 ### 🔐 Güvenlik Güncellemeleri
 - AES-256 şifreleme (LocalStorage)
