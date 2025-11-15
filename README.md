@@ -1,9 +1,18 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/hasankemaldemirci/finansor/main/public/logo.svg" alt="Finansör Logo" width="128" height="128">
   
-  # Finansör 💼📊
+  <table>
+    <tr>
+      <td valign="middle">
+        <img src="https://finansor.pages.dev/logo.svg" alt="Finansör Logo" width="64" height="64">
+      </td>
+      <td valign="middle">
+        <h1 style="margin: 0;">Finansör</h1>
+      </td>
+    </tr>
+  </table>
   
   **Tasarruf yapmanın en akıllı yolu: Finansör**
+  
 </div>
 
 Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) mekaniği ile gelir-gider takibi yapın, tasarruf hedeflerinize ulaşın!
