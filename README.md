@@ -2,7 +2,7 @@
   
   <img src="https://finansor.pages.dev/logo.svg" alt="Finansör Logo" width="64" height="64">
   
-  # Finansör
+  <h1 style="margin-top: 0;">Finansör</h1>
   
   **Tasarruf yapmanın en akıllı yolu: Finansör**
   
