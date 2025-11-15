@@ -1,5 +1,7 @@
 # Changelog - Finansör
 
+**Tasarrufun eğlenceli hali**
+
 ## [1.4.0] - 2025-11-15
 
 ### 🎨 Logo Sistemi

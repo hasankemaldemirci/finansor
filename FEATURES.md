@@ -1,5 +1,7 @@
 # Finansör - Özellik Listesi
 
+**Tasarrufun eğlenceli hali**
+
 ## ✅ Tamamlanan Özellikler
 
 ### 💰 Finansal Yönetim

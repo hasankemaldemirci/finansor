@@ -4,7 +4,7 @@
   
   # Finansör
   
-  **Tasarruf yapmanın en akıllı yolu: Finansör**
+  **Tasarrufun eğlenceli hali**
   
 </div>
 
