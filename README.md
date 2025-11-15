@@ -1,6 +1,6 @@
 <div align="center">
   
-  <img src="https://finansor.pages.dev/logo.svg" alt="Finansör Logo" width="64" height="64"> &nbsp; # Finansör
+  [![Finansör](https://finansor.pages.dev/logo.svg)](https://finansor.pages.dev/) # Finansör
   
   **Tasarruf yapmanın en akıllı yolu: Finansör**
   
