@@ -1,7 +1,7 @@
 {
-  "name": "Finansör - Tasarruf yapmanın en akıllı yolu",
+  "name": "Finansör - Tasarrufun eğlenceli hali",
   "short_name": "Finansör",
-  "description": "Tasarruf yapmanın en akıllı yolu: Finansör. Akıllı finansal yönetim uygulaması ile gelir-gider takibi yapın, tasarruf hedeflerinize ulaşın!",
+  "description": "Tasarrufun eğlenceli hali. Oyunlaştırma ile finansal yönetim uygulaması. Gelir-gider takibi yapın, tasarruf hedeflerinize ulaşın!",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",
