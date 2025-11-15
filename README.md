@@ -1,8 +1,22 @@
-# Finansör 💼📊
-
-**Tasarruf yapmanın en akıllı yolu: Finansör**
+<div align="center">
+  <img src="https://raw.githubusercontent.com/hasankemaldemirci/finansor/main/public/logo.svg" alt="Finansör Logo" width="128" height="128">
+  
+  # Finansör 💼📊
+  
+  **Tasarruf yapmanın en akıllı yolu: Finansör**
+</div>
 
 Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) mekaniği ile gelir-gider takibi yapın, tasarruf hedeflerinize ulaşın!
+
+<div align="center">
+
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-finansor.pages.dev-00D9A3?style=for-the-badge)](https://finansor.pages.dev/)
+[![Version](https://img.shields.io/badge/version-1.4.0-blue?style=for-the-badge)](https://github.com/hasankemaldemirci/finansor)
+[![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
+
+**🎯 [Canlı Demo'yu Deneyin →](https://finansor.pages.dev/)**
+
+</div>
 
 ## ✨ Özellikler
 
