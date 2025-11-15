@@ -16,8 +16,6 @@ Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) 
 [![Version](https://img.shields.io/badge/version-1.4.0-blue?style=for-the-badge)](https://github.com/hasankemaldemirci/finansor)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
-**🎯 [Canlı Demo'yu Deneyin →](https://finansor.pages.dev/)**
-
 </div>
 
 ## ✨ Özellikler
