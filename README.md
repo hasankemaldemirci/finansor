@@ -1,15 +1,8 @@
 <div align="center">
   
-  <table border="0" cellpadding="0" cellspacing="0">
-    <tr>
-      <td valign="middle" style="padding: 0; padding-right: 12px;">
-        <img src="https://finansor.pages.dev/logo.svg" alt="Finansör Logo" width="64" height="64">
-      </td>
-      <td valign="middle" style="padding: 0;">
-        <h1 style="margin: 0;">Finansör</h1>
-      </td>
-    </tr>
-  </table>
+  <img src="https://finansor.pages.dev/logo.svg" alt="Finansör Logo" width="64" height="64">
+  
+  # Finansör
   
   **Tasarruf yapmanın en akıllı yolu: Finansör**
   
