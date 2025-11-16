@@ -60,6 +60,19 @@ export function StatisticsPage() {
   const { transactions, getStats } = useTransactions();
   const { settings } = useSettingsStore();
   const stats = getStats();
+  
+  // Dark mode detection
+  const isDark = settings.theme === 'dark' || 
+    (settings.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  
+  // Chart colors optimized for dark mode
+  const chartColors = {
+    grid: isDark ? 'hsl(var(--border) / 0.3)' : 'hsl(var(--border) / 0.2)',
+    text: isDark ? 'hsl(var(--muted-foreground))' : 'hsl(var(--foreground) / 0.8)',
+    income: isDark ? '#4DD4B8' : '#00D9A3', // Lighter in dark mode
+    expense: isDark ? '#FF8A6B' : '#E17055', // Lighter in dark mode
+    savings: isDark ? '#8B7DFF' : '#6C5CE7', // Lighter in dark mode
+  };
   const {
     achievements,
     unlockedAchievements,
@@ -215,33 +228,51 @@ export function StatisticsPage() {
                   <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
                       <LineChart data={monthlyData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="month" />
-                        <YAxis />
+                        <CartesianGrid 
+                          strokeDasharray="3 3" 
+                          stroke={chartColors.grid}
+                        />
+                        <XAxis 
+                          dataKey="month" 
+                          tick={{ fill: chartColors.text }}
+                          axisLine={{ stroke: chartColors.grid }}
+                        />
+                        <YAxis 
+                          tick={{ fill: chartColors.text }}
+                          axisLine={{ stroke: chartColors.grid }}
+                        />
                         <Tooltip
                           formatter={(value: number) =>
                             formatCurrency(value, settings.currency)
                           }
+                          contentStyle={{
+                            backgroundColor: isDark ? 'hsl(var(--card))' : 'white',
+                            border: `1px solid ${chartColors.grid}`,
+                            borderRadius: '8px',
+                            color: chartColors.text,
+                          }}
                         />
-                        <Legend />
+                        <Legend 
+                          wrapperStyle={{ color: chartColors.text }}
+                        />
                         <Line
                           type="monotone"
                           dataKey="income"
-                          stroke="#00D9A3"
+                          stroke={chartColors.income}
                           strokeWidth={2}
                           name="Gelir"
                         />
                         <Line
                           type="monotone"
                           dataKey="expense"
-                          stroke="#E17055"
+                          stroke={chartColors.expense}
                           strokeWidth={2}
                           name="Gider"
                         />
                         <Line
                           type="monotone"
                           dataKey="savings"
-                          stroke="#6C5CE7"
+                          stroke={chartColors.savings}
                           strokeWidth={2}
                           name="Tasarruf"
                         />
@@ -258,17 +289,35 @@ export function StatisticsPage() {
                   <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
                       <BarChart data={monthlyData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="month" />
-                        <YAxis />
+                        <CartesianGrid 
+                          strokeDasharray="3 3" 
+                          stroke={chartColors.grid}
+                        />
+                        <XAxis 
+                          dataKey="month" 
+                          tick={{ fill: chartColors.text }}
+                          axisLine={{ stroke: chartColors.grid }}
+                        />
+                        <YAxis 
+                          tick={{ fill: chartColors.text }}
+                          axisLine={{ stroke: chartColors.grid }}
+                        />
                         <Tooltip
                           formatter={(value: number) =>
                             formatCurrency(value, settings.currency)
                           }
+                          contentStyle={{
+                            backgroundColor: isDark ? 'hsl(var(--card))' : 'white',
+                            border: `1px solid ${chartColors.grid}`,
+                            borderRadius: '8px',
+                            color: chartColors.text,
+                          }}
                         />
-                        <Legend />
-                        <Bar dataKey="income" fill="#00D9A3" name="Gelir" />
-                        <Bar dataKey="expense" fill="#E17055" name="Gider" />
+                        <Legend 
+                          wrapperStyle={{ color: chartColors.text }}
+                        />
+                        <Bar dataKey="income" fill={chartColors.income} name="Gelir" />
+                        <Bar dataKey="expense" fill={chartColors.expense} name="Gider" />
                       </BarChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -308,6 +357,12 @@ export function StatisticsPage() {
                               formatter={(value: number) =>
                                 formatCurrency(value, settings.currency)
                               }
+                              contentStyle={{
+                                backgroundColor: isDark ? 'hsl(var(--card))' : 'white',
+                                border: `1px solid ${chartColors.grid}`,
+                                borderRadius: '8px',
+                                color: chartColors.text,
+                              }}
                             />
                           </PieChart>
                         </ResponsiveContainer>
@@ -368,6 +423,12 @@ export function StatisticsPage() {
                               formatter={(value: number) =>
                                 formatCurrency(value, settings.currency)
                               }
+                              contentStyle={{
+                                backgroundColor: isDark ? 'hsl(var(--card))' : 'white',
+                                border: `1px solid ${chartColors.grid}`,
+                                borderRadius: '8px',
+                                color: chartColors.text,
+                              }}
                             />
                           </PieChart>
                         </ResponsiveContainer>

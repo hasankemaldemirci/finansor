@@ -57,7 +57,7 @@
     --accent: 33 85% 51%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84.2% 55%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
@@ -123,5 +123,22 @@
     to {
       transform: translateY(100%);
     }
+  }
+}
+
+/* Tab separators - only show when 3+ tabs exist */
+@layer components {
+  .has-multiple-tabs [role="tab"]::after {
+    display: block;
+  }
+  
+  /* Hide separator on the left side of active tab (active tab's own separator) */
+  .has-multiple-tabs [role="tab"][data-state="active"]::after {
+    display: none;
+  }
+  
+  /* Hide separator before active tab (the tab before active tab's separator) */
+  .has-multiple-tabs [role="tab"]:has(+ [role="tab"][data-state="active"])::after {
+    display: none;
   }
 }
