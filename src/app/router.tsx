@@ -5,6 +5,8 @@ import { TransactionsPage } from '@/pages/TransactionsPage';
 import { AchievementsPage } from '@/pages/AchievementsPage';
 import { StatisticsPage } from '@/pages/StatisticsPage';
 import { SettingsPage } from '@/pages/SettingsPage';
+import { NotFoundPage } from '@/pages/NotFoundPage';
+import { RouteErrorBoundary } from '@/shared/components/ErrorBoundary';
 import { ROUTES } from '@/shared/constants/routes';
 
 export const router = createBrowserRouter(
@@ -12,6 +14,7 @@ export const router = createBrowserRouter(
     {
       path: '/',
       element: <Layout />,
+      errorElement: <RouteErrorBoundary />,
       children: [
         {
           path: ROUTES.HOME,
@@ -32,6 +35,10 @@ export const router = createBrowserRouter(
         {
           path: ROUTES.SETTINGS,
           element: <SettingsPage />,
+        },
+        {
+          path: '*',
+          element: <NotFoundPage />,
         },
       ],
     },

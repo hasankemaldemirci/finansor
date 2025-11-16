@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Bell, Target, Lightbulb, Settings, Check } from 'lucide-react';
+import { Bell, Target, Settings, Check } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import {
   Sheet,
