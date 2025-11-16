@@ -12,7 +12,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '💰',
     type: 'action',
     requirement: 1,
-    xpReward: 5, // Reduced from 50
+    xpReward: 15, // Reduced from 25 - first step should be modest
   },
   {
     id: 'first-expense',
@@ -21,7 +21,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '💸',
     type: 'action',
     requirement: 1,
-    xpReward: 5, // Reduced from 50
+    xpReward: 10, // Lower reward for expense tracking
   },
 
   // Transaction Milestones
@@ -32,7 +32,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '🌱',
     type: 'action',
     requirement: 10,
-    xpReward: 5, // Reduced from 100
+    xpReward: 50, // Early milestone
   },
   {
     id: 'transactions-50',
@@ -41,7 +41,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '🌿',
     type: 'action',
     requirement: 50,
-    xpReward: 5, // Reduced from 250
+    xpReward: 150, // Mid milestone
   },
   {
     id: 'transactions-100',
@@ -50,7 +50,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '🌳',
     type: 'action',
     requirement: 100,
-    xpReward: 5, // Reduced from 500
+    xpReward: 300, // High milestone
   },
   {
     id: 'transactions-500',
@@ -59,10 +59,10 @@ export const ACHIEVEMENTS: Omit<
     icon: '🏆',
     type: 'action',
     requirement: 500,
-    xpReward: 5, // Reduced from 1000
+    xpReward: 500, // Master milestone
   },
 
-  // Savings Milestones
+  // Savings Milestones - Balanced rewards (reduced to prevent excessive leveling)
   {
     id: 'savings-1000',
     name: 'İlk Bin',
@@ -70,7 +70,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '💵',
     type: 'savings',
     requirement: 1000,
-    xpReward: 5, // Reduced from 150
+    xpReward: 50, // Reduced from 100 - milestone achievements should be meaningful but not excessive
   },
   {
     id: 'savings-5000',
@@ -79,7 +79,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '💴',
     type: 'savings',
     requirement: 5000,
-    xpReward: 5, // Reduced from 300
+    xpReward: 75, // Reduced from 200
   },
   {
     id: 'savings-10000',
@@ -88,7 +88,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '💶',
     type: 'savings',
     requirement: 10000,
-    xpReward: 5, // Reduced from 500
+    xpReward: 100, // Reduced from 350
   },
   {
     id: 'savings-50000',
@@ -97,7 +97,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '💷',
     type: 'savings',
     requirement: 50000,
-    xpReward: 5, // Reduced from 1000
+    xpReward: 150, // Reduced from 500
   },
   {
     id: 'savings-100000',
@@ -106,10 +106,10 @@ export const ACHIEVEMENTS: Omit<
     icon: '💎',
     type: 'savings',
     requirement: 100000,
-    xpReward: 5, // Reduced from 2000
+    xpReward: 200, // Reduced from 750
   },
 
-  // Streak Achievements
+  // Streak Achievements - Rewards consistency
   {
     id: 'streak-3',
     name: 'Kararlı',
@@ -117,7 +117,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '🔥',
     type: 'streak',
     requirement: 3,
-    xpReward: 5, // Reduced from 100
+    xpReward: 50, // Early consistency
   },
   {
     id: 'streak-7',
@@ -126,7 +126,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '⭐',
     type: 'streak',
     requirement: 7,
-    xpReward: 5, // Reduced from 250
+    xpReward: 150, // Weekly consistency
   },
   {
     id: 'streak-30',
@@ -135,7 +135,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '🌟',
     type: 'streak',
     requirement: 30,
-    xpReward: 5, // Reduced from 1000
+    xpReward: 400, // Monthly discipline
   },
   {
     id: 'streak-100',
@@ -144,10 +144,10 @@ export const ACHIEVEMENTS: Omit<
     icon: '✨',
     type: 'streak',
     requirement: 100,
-    xpReward: 5, // Reduced from 5000
+    xpReward: 600, // Exceptional consistency
   },
 
-  // Level Achievements
+  // Level Achievements - Rewards progression
   {
     id: 'level-5',
     name: 'Seviye 5',
@@ -155,7 +155,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '🎖️',
     type: 'goal',
     requirement: 5,
-    xpReward: 5,
+    xpReward: 75, // Early level
   },
   {
     id: 'level-10',
@@ -164,7 +164,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '🏅',
     type: 'goal',
     requirement: 10,
-    xpReward: 5,
+    xpReward: 150, // Mid level
   },
   {
     id: 'level-25',
@@ -173,7 +173,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '🥇',
     type: 'goal',
     requirement: 25,
-    xpReward: 5,
+    xpReward: 300, // High level
   },
   {
     id: 'level-50',
@@ -182,7 +182,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '👑',
     type: 'goal',
     requirement: 50,
-    xpReward: 5,
+    xpReward: 500, // Halfway milestone
   },
 
   // Special Achievements
@@ -193,7 +193,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '📈',
     type: 'special',
     requirement: 1,
-    xpReward: 5,
+    xpReward: 50, // Reduced from 200 - monthly achievement, not per transaction
   },
   {
     id: 'big-saver',
@@ -202,7 +202,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '🎉',
     type: 'special',
     requirement: 10000,
-    xpReward: 5,
+    xpReward: 15, // Reduced from 25 - large income already gives transaction bonus
   },
   {
     id: 'all-categories',
@@ -211,7 +211,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '🎨',
     type: 'special',
     requirement: 1,
-    xpReward: 5,
+    xpReward: 250, // Comprehensive tracking
   },
   {
     id: 'early-bird',
@@ -220,7 +220,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '🌅',
     type: 'special',
     requirement: 1,
-    xpReward: 5,
+    xpReward: 30, // Fun achievement
   },
   {
     id: 'night-owl',
@@ -229,7 +229,7 @@ export const ACHIEVEMENTS: Omit<
     icon: '🦉',
     type: 'special',
     requirement: 1,
-    xpReward: 5,
+    xpReward: 30, // Fun achievement
   },
   {
     id: 'monthly-goal',
@@ -238,7 +238,35 @@ export const ACHIEVEMENTS: Omit<
     icon: '🎯',
     type: 'goal',
     requirement: 1,
-    xpReward: 10,
+    xpReward: 300, // Important goal achievement
+  },
+  // Monthly Goal Progress Milestones - Reduced XP to prevent excessive leveling
+  {
+    id: 'monthly-goal-25',
+    name: 'Hedefin %25\'i',
+    description: 'Aylık tasarruf hedefinizin %25\'ine ulaşın',
+    icon: '📊',
+    type: 'goal',
+    requirement: 0.25,
+    xpReward: 10, // Reduced from 50 - early progress milestone
+  },
+  {
+    id: 'monthly-goal-50',
+    name: 'Hedefin Yarısı',
+    description: 'Aylık tasarruf hedefinizin %50\'sine ulaşın',
+    icon: '📈',
+    type: 'goal',
+    requirement: 0.5,
+    xpReward: 15, // Reduced from 100 - halfway progress
+  },
+  {
+    id: 'monthly-goal-75',
+    name: 'Hedefin %75\'i',
+    description: 'Aylık tasarruf hedefinizin %75\'ine ulaşın',
+    icon: '🚀',
+    type: 'goal',
+    requirement: 0.75,
+    xpReward: 20, // Reduced from 150 - near completion
   },
 ];
 

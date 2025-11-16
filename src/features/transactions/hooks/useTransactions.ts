@@ -1,7 +1,10 @@
 import { useTransactionStore } from '../stores/transactionStore';
 import { useGamificationStore } from '@/features/gamification/stores/gamificationStore';
 import { useSettingsStore } from '@/features/settings/stores/settingsStore';
-import { calculateXPFromTransaction } from '../utils/transactionCalculations';
+import { 
+  calculateXPFromTransaction,
+  calculateSavingsBonusXP 
+} from '../utils/transactionCalculations';
 import { toast } from '@/shared/hooks/useToast';
 import { CreateTransactionDto } from '../types/transaction.types';
 import {
@@ -36,21 +39,36 @@ export const useTransactions = () => {
   const { settings } = useSettingsStore();
 
   const createTransaction = (dto: CreateTransactionDto) => {
+    // Get previous monthly savings before adding transaction
+    const previousStats = getStats();
+    const previousMonthlySavings = previousStats.monthlySavings;
+
     const transaction = addTransaction(dto);
     const xpGained = calculateXPFromTransaction(transaction);
 
     // Update activity streak
     updateActivity();
 
-    // Add XP
-    const { leveledUp, newLevel } = addXP(
-      xpGained,
-      `${dto.type === 'income' ? 'Gelir' : 'Gider'} eklendi`
+    // Calculate savings bonus XP
+    const stats = getStats();
+    const savingsBonusXP = calculateSavingsBonusXP(
+      stats.monthlySavings,
+      previousMonthlySavings
     );
+
+    // Total XP = transaction XP + savings bonus
+    const totalXP = xpGained + savingsBonusXP;
+
+    // Add XP with appropriate message
+    let xpMessage = `${dto.type === 'income' ? 'Gelir' : 'Gider'} eklendi`;
+    if (savingsBonusXP > 0) {
+      xpMessage += ` (+${savingsBonusXP} XP tasarruf bonusu)`;
+    }
+
+    const { leveledUp, newLevel } = addXP(totalXP, xpMessage);
 
     // Check for achievements
     const currentSavings = getSavings();
-    const stats = getStats();
     const updatedTransactions = [...transactions, transaction];
 
     const newlyUnlocked = checkAchievements({
@@ -63,12 +81,21 @@ export const useTransactions = () => {
       monthlyGoal: settings.monthlyGoal,
     });
 
-    // Unlock new achievements
+    // Unlock new achievements and collect XP
     const unlockedAchievements: Achievement[] = [];
+    let totalAchievementXP = 0;
+    
     newlyUnlocked.forEach((achievement) => {
-      unlockAchievement(achievement.id);
+      // Don't add XP immediately, collect it first
+      unlockAchievement(achievement.id, false); // shouldAddXP = false
       unlockedAchievements.push(achievement);
+      totalAchievementXP += achievement.xpReward;
     });
+
+    // Add all achievement XP at once to prevent multiple level ups
+    if (totalAchievementXP > 0) {
+      addXP(totalAchievementXP, `${unlockedAchievements.length} achievement açıldı`);
+    }
 
     // Update progress for locked achievements
     achievements.forEach((achievement) => {
@@ -87,15 +114,19 @@ export const useTransactions = () => {
     // Only show toast if no special events (level up or achievement unlock)
     // These important events have their own modals, no need for toast
     if (!leveledUp && unlockedAchievements.length === 0) {
+      const xpMessage = savingsBonusXP > 0 
+        ? `+${totalXP} XP kazandın (${xpGained} işlem + ${savingsBonusXP} tasarruf bonusu)`
+        : `+${totalXP} XP kazandın`;
+      
       toast({
         title: '✅ İşlem eklendi!',
-        description: `+${xpGained} XP kazandın`,
+        description: xpMessage,
         variant: 'success',
       });
     }
     // No toast for level up or achievement - modals handle the celebration
 
-    return { transaction, leveledUp, newLevel, xpGained, unlockedAchievements };
+    return { transaction, leveledUp, newLevel, xpGained: totalXP, unlockedAchievements };
   };
 
   const editTransaction = (id: string, dto: CreateTransactionDto) => {

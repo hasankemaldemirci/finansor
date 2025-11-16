@@ -27,15 +27,32 @@ export function checkAchievements(
   context: AchievementCheckContext
 ): Achievement[] {
   const newlyUnlocked: Achievement[] = [];
+  const monthlyGoalMilestones: Achievement[] = [];
 
   context.achievements.forEach((achievement) => {
     if (achievement.unlocked) return;
 
     const isUnlocked = checkSingleAchievement(achievement, context);
     if (isUnlocked) {
-      newlyUnlocked.push(achievement);
+      // Collect monthly goal milestones separately to only unlock the highest one
+      if (achievement.id?.startsWith('monthly-goal-')) {
+        monthlyGoalMilestones.push(achievement);
+      } else {
+        newlyUnlocked.push(achievement);
+      }
     }
   });
+
+  // Only unlock the highest monthly goal milestone to prevent excessive XP
+  if (monthlyGoalMilestones.length > 0) {
+    // Sort by requirement (highest first) and only add the highest
+    monthlyGoalMilestones.sort((a, b) => {
+      const aReq = typeof a.requirement === 'number' ? a.requirement : 0;
+      const bReq = typeof b.requirement === 'number' ? b.requirement : 0;
+      return bReq - aReq; // Descending order
+    });
+    newlyUnlocked.push(monthlyGoalMilestones[0]); // Only the highest
+  }
 
   return newlyUnlocked;
 }
@@ -131,6 +148,29 @@ function checkSingleAchievement(
 
       // Only unlock if goal is reached AND we're at the end of the month
       return context.monthlySavings >= context.monthlyGoal && isEndOfMonth;
+
+    // Monthly goal progress milestones (only unlock if goal is set and reached)
+    case 'monthly-goal-25':
+    case 'monthly-goal-50':
+    case 'monthly-goal-75':
+      // Only unlock if monthly goal is actually set (greater than 0)
+      if (
+        !context.monthlySavings ||
+        !context.monthlyGoal ||
+        context.monthlyGoal === 0
+      ) {
+        return false;
+      }
+      // Only unlock if savings are positive and goal is meaningful
+      if (context.monthlySavings <= 0) {
+        return false;
+      }
+      const progressRatio = context.monthlySavings / context.monthlyGoal;
+      const requiredRatio =
+        typeof achievement.requirement === 'number'
+          ? achievement.requirement
+          : 0;
+      return progressRatio >= requiredRatio;
 
     default:
       return false;
@@ -257,6 +297,23 @@ export function calculateAchievementProgress(
       return Math.min(100, (consecutiveDays / requirement) * 100);
 
     case 'goal':
+      // Check if it's a monthly goal progress achievement
+      if (achievement.id?.startsWith('monthly-goal-')) {
+        if (
+          !context.monthlySavings ||
+          !context.monthlyGoal ||
+          context.monthlyGoal === 0
+        ) {
+          return 0;
+        }
+        const progressRatio = context.monthlySavings / context.monthlyGoal;
+        const requiredRatio =
+          typeof achievement.requirement === 'number'
+            ? achievement.requirement
+            : 0;
+        return Math.min(100, (progressRatio / requiredRatio) * 100);
+      }
+      // Regular level goal
       return Math.min(100, (currentLevel / requirement) * 100);
 
     default:

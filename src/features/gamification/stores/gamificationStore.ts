@@ -54,37 +54,39 @@ export const useGamificationStore = create<GamificationState>()(
       lastActivityDate: null,
 
       addXP: (amount, reason) => {
-        const currentXP = get().xp + amount;
-        const currentLevel = get().level;
-        const requiredXP = getRequiredXPForLevel(currentLevel + 1);
-
         const xpGain: XPGain = {
           amount,
           reason,
           timestamp: new Date(),
         };
 
-        if (currentXP >= requiredXP) {
-          const newLevel = currentLevel + 1;
-          const remainingXP = currentXP - requiredXP;
+        let currentXP = get().xp + amount;
+        let currentLevel = get().level;
+        let leveledUp = false;
+        let finalLevel = currentLevel;
 
-          set((state) => ({
-            xp: remainingXP,
-            level: newLevel,
-            totalXP: state.totalXP + amount,
-            xpHistory: [...state.xpHistory.slice(-50), xpGain], // Keep last 50
-          }));
-
-          return { leveledUp: true, newLevel };
+        // Handle multiple level ups if XP is sufficient
+        while (true) {
+          const requiredXP = getRequiredXPForLevel(currentLevel + 1);
+          
+          if (currentXP >= requiredXP) {
+            currentLevel += 1;
+            currentXP -= requiredXP;
+            leveledUp = true;
+            finalLevel = currentLevel;
+          } else {
+            break;
+          }
         }
 
         set((state) => ({
           xp: currentXP,
+          level: currentLevel,
           totalXP: state.totalXP + amount,
-          xpHistory: [...state.xpHistory.slice(-50), xpGain],
+          xpHistory: [...state.xpHistory.slice(-50), xpGain], // Keep last 50
         }));
 
-        return { leveledUp: false };
+        return { leveledUp, newLevel: leveledUp ? finalLevel : undefined };
       },
 
       setAchievements: (achievements) => {
