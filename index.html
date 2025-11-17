@@ -1,35 +1,42 @@
 <!doctype html>
 <html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#FFFFFF" />
-    <meta name="description" content="Tasarrufun eğlenceli hali. Oyunlaştırma ile finansal yönetim uygulaması. Gelir-gider takibi yapın, tasarruf hedeflerinize ulaşın!" />
-    
-    <!-- Security Headers -->
-    <!-- Note: frame-ancestors and X-Frame-Options only work via HTTP headers, not meta tags -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://static.cloudflareinsights.com https://cloudflareinsights.com; worker-src 'self' blob:;" />
-    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
-    
-    <!-- PWA -->
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    
-    <title>Finansör - Tasarrufun eğlenceli hali</title>
-    
-    <!-- Cloudflare Web Analytics -->
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "e215f0867f654e5c96c6e9655d5d038f"}'></script>
-    <!-- End Cloudflare Web Analytics -->
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/app/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFFFFF" />
+  <meta name="description"
+    content="Tasarrufun eğlenceli hali. Oyunlaştırma ile finansal yönetim uygulaması. Gelir-gider takibi yapın, tasarruf hedeflerinize ulaşın!" />
+
+  <!-- Security Headers -->
+  <!-- Note: frame-ancestors and X-Frame-Options only work via HTTP headers, not meta tags -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://static.cloudflareinsights.com https://cloudflareinsights.com; worker-src 'self' blob:; frame-ancestors 'none';" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <title>Finansör - Tasarrufun eğlenceli hali</title>
+
+  <!-- Cloudflare Web Analytics -->
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+    data-cf-beacon='{"token": "e215f0867f654e5c96c6e9655d5d038f"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/app/main.tsx"></script>
+</body>
+
 </html>
