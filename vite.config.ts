@@ -14,7 +14,7 @@ export default defineConfig({
         name: 'Finansör',
         short_name: 'Finansör',
         description: 'Akıllı finansal yönetim uygulaması',
-        theme_color: '#00D9A3',
+        theme_color: '#FFFFFF',
         background_color: '#FFFFFF',
         display: 'standalone',
         orientation: 'portrait',
