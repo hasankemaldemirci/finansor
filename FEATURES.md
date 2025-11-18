@@ -7,6 +7,7 @@
 ### 💰 Finansal Yönetim
 - Gelir/Gider ekleme, düzenleme, silme
 - Çoklu para birimi desteği (TRY, USD, EUR)
+- Çoklu dil desteği (Türkçe, İngilizce)
 - Gelişmiş filtreleme ve arama
 - Kategori bazlı işlem takibi
 - LocalStorage persistence
@@ -35,6 +36,7 @@
 ### 🎨 UI/UX
 - Modern, responsive tasarım
 - Dark/Light tema desteği
+- Çoklu dil desteği (Türkçe/İngilizce)
 - PWA desteği (offline çalışır)
 - Özel logo tasarımı
 - Framer Motion animasyonlar

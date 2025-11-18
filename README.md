@@ -22,6 +22,7 @@ Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) 
 
 - 💰 **Gelir-Gider Takibi**: Minimal ve hızlı işlem ekleme, düzenleme ve silme
 - 💱 **Çoklu Para Birimi**: TRY, USD, EUR desteği
+- 🌍 **Çoklu Dil Desteği**: Türkçe ve İngilizce dil seçenekleri
 - 🔍 **Gelişmiş Filtreleme**: Tarih, kategori, tutar ve arama
 - 📈 **Detaylı İstatistikler**: Aylık trendler, kategori analizleri, tasarruf oranı
 - 🎮 **Gamification**: XP sistemi, 100 seviye, 25+ başarı
@@ -49,6 +50,7 @@ Uygulama `http://localhost:5173` adresinde çalışacaktır.
 - **Frontend**: React 18 + TypeScript
 - **State**: Zustand
 - **UI**: Tailwind CSS + shadcn/ui
+- **i18n**: react-i18next + i18next
 - **Charts**: Recharts
 - **Build**: Vite 5
 - **PWA**: Vite PWA Plugin

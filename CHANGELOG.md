@@ -4,6 +4,15 @@
 
 ## [1.5.0] - 2025-01-XX
 
+### 🌍 Çoklu Dil Desteği (i18n)
+- Türkçe ve İngilizce dil seçenekleri
+- react-i18next ve i18next entegrasyonu
+- Tüm UI metinlerinin çevirisi
+- Dil tercihinin localStorage'da saklanması
+- Dinamik dil değiştirme (anında güncelleme)
+- Tarih formatlarının dil bazlı gösterimi
+- Validation mesajlarının çevirisi
+
 ### 🎯 Onboarding Sistemi
 - İlk kullanıcılar için 4 adımlı interaktif rehber
 - Hoş geldin ekranı ve özellik tanıtımı
