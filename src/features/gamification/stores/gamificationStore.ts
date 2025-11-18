@@ -5,6 +5,7 @@ import { Achievement } from '../types/achievement.types';
 import { initializeAchievements } from '../utils/achievementChecker';
 import { secureStorageAdapter } from '@/shared/utils/secureStorageAdapter';
 import { getLevelTitle as getLevelTitleFromConfig } from '../constants/levelConfig';
+import i18n from '@/shared/lib/i18n';
 
 interface GamificationState {
   level: number;
@@ -107,7 +108,8 @@ export const useGamificationStore = create<GamificationState>()(
 
         // Add XP reward
         if (shouldAddXP && achievement && !achievement.unlocked) {
-          get().addXP(achievement.xpReward, `Achievement: ${achievement.name}`);
+        const achievementName = i18n.t(achievement.name);
+        get().addXP(achievement.xpReward, `Achievement: ${achievementName}`);
         }
       },
 

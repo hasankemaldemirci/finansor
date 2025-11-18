@@ -181,7 +181,128 @@
     "shareTitle": "Unlocked Achievement!",
     "empty": "No achievements found in this category.",
     "great": "Great!",
-    "greatEmoji": "Great! 🎊"
+    "greatEmoji": "Great! 🎊",
+    "categories": {
+      "action": "Action",
+      "savings": "Savings",
+      "streak": "Streak",
+      "goal": "Goal",
+      "special": "Special"
+    },
+    "list": {
+      "first-income": {
+        "name": "First Income",
+        "description": "Add your first income entry"
+      },
+      "first-expense": {
+        "name": "First Expense",
+        "description": "Add your first expense entry"
+      },
+      "transactions-10": {
+        "name": "Getting Started",
+        "description": "Add 10 transactions"
+      },
+      "transactions-50": {
+        "name": "Experienced",
+        "description": "Add 50 transactions"
+      },
+      "transactions-100": {
+        "name": "Professional",
+        "description": "Add 100 transactions"
+      },
+      "transactions-500": {
+        "name": "Master",
+        "description": "Add 500 transactions"
+      },
+      "savings-1000": {
+        "name": "First Thousand",
+        "description": "Save 1,000 TL"
+      },
+      "savings-5000": {
+        "name": "Five Thousand Club",
+        "description": "Save 5,000 TL"
+      },
+      "savings-10000": {
+        "name": "Ten Thousand Milestone",
+        "description": "Save 10,000 TL"
+      },
+      "savings-50000": {
+        "name": "Savings Hero",
+        "description": "Save 50,000 TL"
+      },
+      "savings-100000": {
+        "name": "Six Figures",
+        "description": "Save 100,000 TL"
+      },
+      "streak-3": {
+        "name": "Determined",
+        "description": "Add transactions 3 days in a row"
+      },
+      "streak-7": {
+        "name": "Weekly Consistency",
+        "description": "Add transactions 7 days in a row"
+      },
+      "streak-30": {
+        "name": "Monthly Discipline",
+        "description": "Add transactions 30 days in a row"
+      },
+      "streak-100": {
+        "name": "Iron Will",
+        "description": "Add transactions 100 days in a row"
+      },
+      "level-5": {
+        "name": "Level 5",
+        "description": "Reach level 5"
+      },
+      "level-10": {
+        "name": "Level 10",
+        "description": "Reach level 10"
+      },
+      "level-25": {
+        "name": "Level 25",
+        "description": "Reach level 25"
+      },
+      "level-50": {
+        "name": "Halfway There",
+        "description": "Reach level 50"
+      },
+      "positive-month": {
+        "name": "Positive Month",
+        "description": "Earn more income than expenses in a month"
+      },
+      "big-saver": {
+        "name": "Big Saver",
+        "description": "Add a single income of 10,000 TL"
+      },
+      "all-categories": {
+        "name": "Variety Master",
+        "description": "Use every category at least once"
+      },
+      "early-bird": {
+        "name": "Early Bird",
+        "description": "Add a transaction between 6-8 AM"
+      },
+      "night-owl": {
+        "name": "Night Owl",
+        "description": "Add a transaction between 11 PM - 1 AM"
+      },
+      "monthly-goal": {
+        "name": "Monthly Goal",
+        "description": "Reach your monthly savings goal"
+      },
+      "monthly-goal-25": {
+        "name": "25% of Goal",
+        "description": "Reach 25% of your monthly savings goal"
+      },
+      "monthly-goal-50": {
+        "name": "Halfway to Goal",
+        "description": "Reach 50% of your monthly savings goal"
+      },
+      "monthly-goal-75": {
+        "name": "75% of Goal",
+        "description": "Reach 75% of your monthly savings goal"
+      }
+    }
   },
   "settings": {
     "title": "Settings",

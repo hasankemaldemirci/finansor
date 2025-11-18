@@ -76,6 +76,7 @@ export function AchievementsPage() {
           </button>
           {Object.entries(ACHIEVEMENT_CATEGORIES).map(([type, category]) => {
             const count = achievementsByType[type as AchievementType].length;
+            const label = t(category.labelKey);
             return (
               <button
                 key={type}
@@ -86,7 +87,7 @@ export function AchievementsPage() {
                     : 'bg-muted hover:bg-muted/80'
                 }`}
               >
-                {category.label} ({count})
+                {label} ({count})
               </button>
             );
           })}

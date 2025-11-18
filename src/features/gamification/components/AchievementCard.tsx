@@ -13,6 +13,9 @@ interface AchievementCardProps {
 export function AchievementCard({ achievement }: AchievementCardProps) {
   const { t } = useTranslation();
   const category = ACHIEVEMENT_CATEGORIES[achievement.type];
+  const name = t(achievement.name);
+  const description = t(achievement.description);
+  const categoryLabel = t(category.labelKey);
 
   return (
     <Card className={achievement.unlocked ? 'border-primary/50' : ''}>
@@ -28,16 +31,16 @@ export function AchievementCard({ achievement }: AchievementCardProps) {
                     : 'text-muted-foreground'
                 }`}
               >
-                {achievement.name}
+                {name}
               </h3>
               <span
                 className={`rounded-full px-2 py-0.5 text-xs ${category.color} bg-opacity-10`}
               >
-                {category.label}
+                {categoryLabel}
               </span>
             </div>
             <p className="mb-2 text-sm text-muted-foreground">
-              {achievement.description}
+              {description}
             </p>
             {!achievement.unlocked && achievement.progress !== undefined && (
               <div className="space-y-1">

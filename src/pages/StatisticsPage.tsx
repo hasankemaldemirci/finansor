@@ -520,13 +520,14 @@ export function StatisticsPage() {
                   ([type, category]) => {
                     const count =
                       achievementsByType[type as AchievementType]?.length || 0;
+                    const label = t(category.labelKey);
                     return (
                       <TabsTrigger
                         key={type}
                         value={type}
                         className="data-[state=active]:bg-primary data-[state=active]:text-white"
                       >
-                        {category.label} ({count})
+                        {label} ({count})
                       </TabsTrigger>
                     );
                   }

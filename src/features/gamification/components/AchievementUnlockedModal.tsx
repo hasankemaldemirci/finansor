@@ -73,6 +73,9 @@ export function AchievementUnlockedModal({
 
   if (!achievement) return null;
 
+  const achievementName = t(achievement.name);
+  const achievementDescription = t(achievement.description);
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent
@@ -82,7 +85,7 @@ export function AchievementUnlockedModal({
         <DialogHeader>
           <DialogTitle className="sr-only">{t('achievements.achievementUnlocked')}</DialogTitle>
           <DialogDescription className="sr-only">
-            {achievement.name} {t('achievements.achievementUnlockedDesc')}
+            {achievementName} {t('achievements.achievementUnlockedDesc')}
           </DialogDescription>
         </DialogHeader>
         <motion.div
@@ -109,10 +112,10 @@ export function AchievementUnlockedModal({
               🎉 {t('achievements.achievementUnlocked')}
             </h2>
             <p className="mb-2 text-2xl font-bold text-primary sm:text-3xl">
-              {achievement.name}
+              {achievementName}
             </p>
             <p className="mb-4 px-2 text-sm text-muted-foreground sm:text-base">
-              {achievement.description}
+              {achievementDescription}
             </p>
             <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-2 text-sm font-semibold text-primary sm:px-4 sm:text-base">
               <span>+{achievement.xpReward} XP</span>
@@ -125,8 +128,8 @@ export function AchievementUnlockedModal({
             {t('achievements.greatEmoji')}
           </Button>
           <ShareButton
-            title={`${achievement.name} ${t('achievements.shareTitle')}`}
-            text={generateAchievementShareText(achievement.name, level)}
+            title={`${achievementName} ${t('achievements.shareTitle')}`}
+            text={generateAchievementShareText(achievementName, level)}
             variant="outline"
             size="lg"
           />

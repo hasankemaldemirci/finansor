@@ -181,7 +181,128 @@
     "shareTitle": "Başarısını Açtım!",
     "empty": "Bu kategoride başarı bulunamadı.",
     "great": "Harika!",
-    "greatEmoji": "Harika! 🎊"
+    "greatEmoji": "Harika! 🎊",
+    "categories": {
+      "action": "İşlem",
+      "savings": "Tasarruf",
+      "streak": "Süreklilik",
+      "goal": "Hedef",
+      "special": "Özel"
+    },
+    "list": {
+      "first-income": {
+        "name": "İlk Gelir",
+        "description": "İlk gelir kaydını ekle"
+      },
+      "first-expense": {
+        "name": "İlk Gider",
+        "description": "İlk gider kaydını ekle"
+      },
+      "transactions-10": {
+        "name": "Başlangıç",
+        "description": "10 işlem ekle"
+      },
+      "transactions-50": {
+        "name": "Deneyimli",
+        "description": "50 işlem ekle"
+      },
+      "transactions-100": {
+        "name": "Profesyonel",
+        "description": "100 işlem ekle"
+      },
+      "transactions-500": {
+        "name": "Master",
+        "description": "500 işlem ekle"
+      },
+      "savings-1000": {
+        "name": "İlk Bin",
+        "description": "1.000 TL tasarruf et"
+      },
+      "savings-5000": {
+        "name": "Beş Bin Kulübü",
+        "description": "5.000 TL tasarruf et"
+      },
+      "savings-10000": {
+        "name": "On Bin Başarısı",
+        "description": "10.000 TL tasarruf et"
+      },
+      "savings-50000": {
+        "name": "Tasarruf Kahramanı",
+        "description": "50.000 TL tasarruf et"
+      },
+      "savings-100000": {
+        "name": "Altı Haneli",
+        "description": "100.000 TL tasarruf et"
+      },
+      "streak-3": {
+        "name": "Kararlı",
+        "description": "3 gün üst üste işlem ekle"
+      },
+      "streak-7": {
+        "name": "Haftalık Devamlılık",
+        "description": "7 gün üst üste işlem ekle"
+      },
+      "streak-30": {
+        "name": "Aylık Disiplin",
+        "description": "30 gün üst üste işlem ekle"
+      },
+      "streak-100": {
+        "name": "Demir İrade",
+        "description": "100 gün üst üste işlem ekle"
+      },
+      "level-5": {
+        "name": "Seviye 5",
+        "description": "Seviye 5'e ulaş"
+      },
+      "level-10": {
+        "name": "Seviye 10",
+        "description": "Seviye 10'a ulaş"
+      },
+      "level-25": {
+        "name": "Seviye 25",
+        "description": "Seviye 25'e ulaş"
+      },
+      "level-50": {
+        "name": "Yarı Yol",
+        "description": "Seviye 50'ye ulaş"
+      },
+      "positive-month": {
+        "name": "Pozitif Ay",
+        "description": "Bir ayda giderden fazla gelir elde et"
+      },
+      "big-saver": {
+        "name": "Büyük Tasarruf",
+        "description": "Tek seferde 10.000 TL gelir ekle"
+      },
+      "all-categories": {
+        "name": "Çeşitlilik",
+        "description": "Tüm kategorileri kullan"
+      },
+      "early-bird": {
+        "name": "Sabahçı",
+        "description": "Sabah 6-8 arası işlem ekle"
+      },
+      "night-owl": {
+        "name": "Gece Kuşu",
+        "description": "Gece 23-01 arası işlem ekle"
+      },
+      "monthly-goal": {
+        "name": "Aylık Hedef",
+        "description": "Aylık tasarruf hedefinize ulaşın"
+      },
+      "monthly-goal-25": {
+        "name": "Hedefin %25'i",
+        "description": "Aylık tasarruf hedefinizin %25'ine ulaşın"
+      },
+      "monthly-goal-50": {
+        "name": "Hedefin Yarısı",
+        "description": "Aylık tasarruf hedefinizin %50'sine ulaşın"
+      },
+      "monthly-goal-75": {
+        "name": "Hedefin %75'i",
+        "description": "Aylık tasarruf hedefinizin %75'ine ulaşın"
+      }
+    }
   },
   "settings": {
     "title": "Ayarlar",
