@@ -24,7 +24,17 @@
     "settings": "Ayarlar"
   },
   "level": {
-    "label": "Seviye"
+    "label": "Seviye",
+    "titles": {
+      "1": "Yeni Başlayan",
+      "5": "Birikim Avcısı",
+      "10": "Tasarruf Kahramanı",
+      "15": "Para Yöneticisi",
+      "20": "Bütçe Ustası",
+      "30": "Tasarruf Şampiyonu",
+      "40": "Yatırım Uzmanı",
+      "50": "Finans Gurusu"
+    }
   },
   "home": {
     "title": "Ana Sayfa",

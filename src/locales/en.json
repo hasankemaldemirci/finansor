@@ -24,7 +24,17 @@
     "settings": "Settings"
   },
   "level": {
-    "label": "Level"
+    "label": "Level",
+    "titles": {
+      "1": "Beginner",
+      "5": "Savings Hunter",
+      "10": "Savings Hero",
+      "15": "Money Manager",
+      "20": "Budget Master",
+      "30": "Savings Champion",
+      "40": "Investment Expert",
+      "50": "Finance Guru"
+    }
   },
   "home": {
     "title": "Home",

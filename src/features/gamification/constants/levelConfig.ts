@@ -1,28 +1,16 @@
 import { LevelConfig } from '../types/level.types';
+import i18n from '@/shared/lib/i18n';
 
-export const LEVEL_TITLES: Record<number, string> = {
-  1: 'Yeni Başlayan',
-  5: 'Birikim Avcısı',
-  10: 'Tasarruf Kahramanı',
-  15: 'Para Yöneticisi',
-  20: 'Bütçe Ustası',
-  30: 'Tasarruf Şampiyonu',
-  40: 'Yatırım Uzmanı',
-  50: 'Finans Gurusu',
-};
+const LEVEL_THRESHOLDS = [50, 40, 30, 20, 15, 10, 5, 1];
 
 export function getLevelTitle(level: number): string {
-  const levels = Object.keys(LEVEL_TITLES)
-    .map(Number)
-    .sort((a, b) => b - a);
-
-  for (const lvl of levels) {
-    if (level >= lvl) {
-      return LEVEL_TITLES[lvl];
+  for (const threshold of LEVEL_THRESHOLDS) {
+    if (level >= threshold) {
+      return i18n.t(`level.titles.${threshold}`, `Level ${level}`);
     }
   }
 
-  return LEVEL_TITLES[1];
+  return i18n.t('level.titles.1', 'Beginner');
 }
 
 export function getLevelIcon(level: number): string {

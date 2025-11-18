@@ -4,6 +4,7 @@ import { UserLevel, XPGain } from '../types/level.types';
 import { Achievement } from '../types/achievement.types';
 import { initializeAchievements } from '../utils/achievementChecker';
 import { secureStorageAdapter } from '@/shared/utils/secureStorageAdapter';
+import { getLevelTitle as getLevelTitleFromConfig } from '../constants/levelConfig';
 
 interface GamificationState {
   level: number;
@@ -32,14 +33,7 @@ const getRequiredXPForLevel = (level: number): number => {
 };
 
 const getLevelTitle = (level: number): string => {
-  if (level >= 50) return 'Finans Gurusu';
-  if (level >= 40) return 'Yatırım Uzmanı';
-  if (level >= 30) return 'Tasarruf Şampiyonu';
-  if (level >= 20) return 'Bütçe Ustası';
-  if (level >= 15) return 'Para Yöneticisi';
-  if (level >= 10) return 'Tasarruf Kahramanı';
-  if (level >= 5) return 'Birikim Avcısı';
-  return 'Yeni Başlayan';
+  return getLevelTitleFromConfig(level);
 };
 
 export const useGamificationStore = create<GamificationState>()(
