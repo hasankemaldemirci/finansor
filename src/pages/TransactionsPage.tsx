@@ -34,7 +34,7 @@ export function TransactionsPage() {
     filters.maxAmount !== undefined;
 
   return (
-    <Container>
+    <Container className="pb-32 sm:pb-36">
       <div className="space-y-6">
         <div>
           <h1 className="mb-2 text-3xl font-bold">{t('transactions.title')}</h1>

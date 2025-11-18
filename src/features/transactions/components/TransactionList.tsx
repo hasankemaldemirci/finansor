@@ -209,7 +209,7 @@ export function TransactionList({
 
   const filterButton = filters && onFiltersChange && (
     <div className="fixed bottom-16 left-0 right-0 z-40 border-t bg-background/95 p-3 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] backdrop-blur-lg">
-      <div className="container mx-auto max-w-3xl space-y-2">
+      <div className="container mx-auto max-w-3xl space-y-2 px-3">
         <Sheet open={showFilterModal} onOpenChange={setShowFilterModal}>
           <SheetTrigger asChild>
             <Button variant="outline" className="w-full gap-2">
@@ -227,7 +227,7 @@ export function TransactionList({
             className="flex w-full flex-col sm:max-w-md"
           >
             <div className="sticky top-0 z-10 border-b bg-background">
-              <SheetHeader className="relative px-6 pb-4 pt-6">
+              <SheetHeader className="px-6 pb-4 pt-6">
                 <div className="flex items-center justify-center">
                   <div className="flex-1" />
                   <div className="flex flex-1 flex-col items-center">
@@ -241,9 +241,9 @@ export function TransactionList({
               </SheetHeader>
             </div>
 
-            <div className="flex-1 overflow-y-auto overflow-x-clip px-4 py-4">
+            <div className="flex-1 overflow-y-auto overflow-x-clip px-4">
               {localFilters && (
-                <div className="space-y-4">
+                <div className="space-y-4 py-4">
                   {/* Search */}
                   <div className="-mx-2 space-y-2 px-2">
                     <label className="text-sm font-medium">{t('transactions.search')}</label>
@@ -396,7 +396,7 @@ export function TransactionList({
               )}
             </div>
 
-            <SheetFooter className="sticky bottom-0 z-10 mt-0 gap-2 border-t bg-background p-4">
+            <SheetFooter className="sticky bottom-0 z-10 mt-auto gap-2 border-t bg-background p-4 shrink-0">
               <Button
                 onClick={handleApplyFilters}
                 className="w-full"
