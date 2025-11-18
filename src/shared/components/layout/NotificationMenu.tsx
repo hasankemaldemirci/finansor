@@ -15,6 +15,7 @@ import { formatCurrency } from '@/shared/utils/currency';
 import { getSavingsTips } from '@/features/transactions/utils/savingsTips';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '@/shared/constants/routes';
+import { useTranslation } from 'react-i18next';
 
 const READ_NOTIFICATIONS_KEY = 'finansor_read_notifications';
 const STORED_TIPS_KEY = 'finansor_stored_tips';
@@ -73,6 +74,7 @@ function markAllAsRead(notificationIds: string[]) {
 }
 
 export function NotificationMenu() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [readNotifications, setReadNotifications] = useState<Set<string>>(
     getReadNotifications()
@@ -222,9 +224,9 @@ export function NotificationMenu() {
             <div className="flex items-center justify-center">
               <div className="flex-1" />
               <div className="flex flex-1 flex-col items-center">
-                <SheetTitle className="text-center">Bildirimler</SheetTitle>
+                <SheetTitle className="text-center">{t('notifications.title')}</SheetTitle>
                 <SheetDescription className="whitespace-nowrap text-center text-sm">
-                  Tasarruf hedefiniz ve ipuçları
+                  {t('notifications.description')}
                 </SheetDescription>
               </div>
               <div className="flex-1" />
@@ -248,7 +250,7 @@ export function NotificationMenu() {
                   <div className="min-w-0 flex-1">
                     <div className="mb-1 flex items-center justify-between gap-2">
                       <span className="truncate text-xs font-semibold text-foreground/80">
-                        Aylık Hedef:{' '}
+                        {t('notifications.monthlyGoal')}:{' '}
                         {formatCurrency(currentSavings, settings.currency)} /{' '}
                         {formatCurrency(monthlyGoal, settings.currency)}
                       </span>
@@ -307,9 +309,9 @@ export function NotificationMenu() {
               <li>
                 <div className="py-12 text-center text-muted-foreground">
                   <Bell className="mx-auto mb-4 h-12 w-12 opacity-50" />
-                  <p className="mb-2 text-sm font-medium">Henüz bildirim yok</p>
+                  <p className="mb-2 text-sm font-medium">{t('notifications.empty')}</p>
                   <p className="mb-4 text-xs">
-                    Aylık hedef belirleyin veya işlem ekleyin
+                    {t('notifications.emptyDescription')}
                   </p>
                   <Button
                     asChild
@@ -322,7 +324,7 @@ export function NotificationMenu() {
                       className="flex items-center gap-2"
                     >
                       <Settings className="h-4 w-4" />
-                      Ayarlara Git
+                      {t('notifications.goToSettings')}
                     </Link>
                   </Button>
                 </div>
@@ -341,7 +343,7 @@ export function NotificationMenu() {
               className="w-full"
             >
               <Check className="mr-2 h-4 w-4" />
-              Tümünü okundu işaretle
+              {t('notifications.markAllAsRead')}
             </Button>
           </div>
         )}

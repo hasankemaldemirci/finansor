@@ -132,10 +132,11 @@
     "addedSuccess": "✅ İşlem eklendi!",
     "updatedSuccess": "✅ İşlem güncellendi!",
     "updatedDescription": "İşlem başarıyla düzenlendi",
-    "deletedSuccess": "İşlem silindi",
-    "deletedDescription": "İşlem başarıyla kaldırıldı",
-    "general": "Genel"
-  },
+        "deletedSuccess": "İşlem silindi",
+        "deletedDescription": "İşlem başarıyla kaldırıldı",
+        "general": "Genel",
+        "apply": "Uygula"
+      },
   "statistics": {
     "title": "İstatistikler",
     "general": "Genel",
@@ -437,6 +438,67 @@
     "achievement": "🎉 {{achievement}} başarısını açtım! Finansör ile finansal hedeflerime ulaşıyorum. 🚀\n\n#Finansör #Tasarruf #FinansalYönetim",
     "achievementWithLevel": "🎉 {{achievement}} başarısını açtım ve {{level}}. seviyeye ulaştım! Finansör ile finansal hedeflerime ulaşıyorum. 🚀\n\n#Finansör #Tasarruf #FinansalYönetim",
     "stats": "💰 Bu ay {{savings}} tasarruf ettim ve {{level}}. seviyeye ulaştım! Finansör ile finansal hedeflerime ulaşıyorum. 🚀\n\n#Finansör #Tasarruf #FinansalYönetim"
+  },
+  "notifications": {
+    "title": "Bildirimler",
+    "description": "Tasarruf hedefiniz ve ipuçları",
+    "monthlyGoal": "Aylık Hedef",
+    "empty": "Henüz bildirim yok",
+    "emptyDescription": "Aylık hedef belirleyin veya işlem ekleyin",
+    "goToSettings": "Ayarlara Git",
+    "markAllAsRead": "Tümünü okundu işaretle"
+  },
+  "tips": {
+    "groceries": {
+      "0": "Market harcamalarınız yüksek. Toplu alışveriş yaparak ve indirimleri takip ederek tasarruf edebilirsiniz.",
+      "1": "Haftalık menü planlaması yaparak gereksiz alışverişlerden kaçınabilirsiniz.",
+      "2": "Markette liste yapmadan gitmeyin. Bu, gereksiz harcamaları önler."
+    },
+    "transport": {
+      "0": "Ulaşım maliyetlerinizi azaltmak için toplu taşıma kullanmayı düşünebilirsiniz.",
+      "1": "Yakın mesafeler için yürüyüş veya bisiklet kullanarak hem sağlık hem de para tasarrufu yapabilirsiniz.",
+      "2": "Araç paylaşımı veya ortak yolculuk yaparak ulaşım maliyetlerini düşürebilirsiniz."
+    },
+    "entertainment": {
+      "0": "Eğlence harcamalarınızı azaltmak için evde aktiviteler planlayabilirsiniz.",
+      "1": "Ücretsiz etkinlikleri ve promosyonları takip edebilirsiniz.",
+      "2": "Aylık eğlence bütçesi belirleyerek kontrol altına alabilirsiniz."
+    },
+    "shopping": {
+      "0": "Alışveriş yapmadan önce gerçekten ihtiyacınız olup olmadığını düşünün.",
+      "1": "İndirim dönemlerini bekleyerek daha uygun fiyatlara alabilirsiniz.",
+      "2": "İkinci el alışverişi değerlendirebilirsiniz."
+    },
+    "bills": {
+      "0": "Faturalarınızı zamanında ödeyerek gecikme ücretlerinden kaçınabilirsiniz.",
+      "1": "Enerji tasarruflu cihazlar kullanarak elektrik faturalarınızı düşürebilirsiniz.",
+      "2": "Farklı sağlayıcıları karşılaştırarak daha uygun paketler bulabilirsiniz."
+    },
+    "health": {
+      "0": "Düzenli sağlık kontrolleri yaparak büyük sağlık harcamalarından kaçınabilirsiniz.",
+      "1": "Sağlıklı yaşam tarzı benimseyerek uzun vadede sağlık maliyetlerini azaltabilirsiniz.",
+      "2": "Sağlık sigortası seçeneklerini değerlendirebilirsiniz."
+    },
+    "rent": {
+      "0": "Kira maliyetlerinizi düşürmek için daha uygun bölgeleri araştırabilirsiniz.",
+      "1": "Ev arkadaşı ile yaşayarak kira maliyetlerini paylaşabilirsiniz.",
+      "2": "Kira sözleşmesi yenileme zamanında pazarlık yapabilirsiniz."
+    },
+    "education": {
+      "0": "Ücretsiz online kursları değerlendirebilirsiniz.",
+      "1": "Kütüphane kaynaklarını kullanarak kitap maliyetlerini azaltabilirsiniz.",
+      "2": "Burs ve eğitim desteklerini araştırabilirsiniz."
+    },
+    "general": {
+      "highExpenses80": "Harcamalarınız gelirinizin %80'inden fazla. Tasarruf yapmak için harcamalarınızı gözden geçirin.",
+      "highExpenses60": "Harcamalarınız gelirinizin %60'ından fazla. Bütçe planlaması yaparak kontrol altına alabilirsiniz."
+    }
+  },
+  "notFound": {
+    "title": "Sayfa Bulunamadı",
+    "description": "Aradığınız sayfa mevcut değil veya taşınmış olabilir.",
+    "goHome": "Ana Sayfaya Dön",
+    "goBack": "Geri Dön"
   }
 }
 

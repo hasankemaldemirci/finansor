@@ -297,13 +297,13 @@ export function TransactionList({
                 }}
                 className="flex-1"
               >
-                Temizle
+                {t('transactions.clear')}
               </Button>
               <Button
                 onClick={() => setShowFilterModal(false)}
                 className="flex-1"
               >
-                Uygula
+                {t('transactions.apply')}
               </Button>
             </SheetFooter>
           </SheetContent>
@@ -322,7 +322,7 @@ export function TransactionList({
               className="h-8 text-muted-foreground"
             >
               <X className="mr-1 h-4 w-4" />
-              Temizle
+              {t('transactions.clear')}
             </Button>
           </div>
         )}

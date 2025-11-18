@@ -132,10 +132,11 @@
     "addedSuccess": "✅ Transaction added!",
     "updatedSuccess": "✅ Transaction updated!",
     "updatedDescription": "Transaction successfully edited",
-    "deletedSuccess": "Transaction deleted",
-    "deletedDescription": "Transaction successfully removed",
-    "general": "General"
-  },
+        "deletedSuccess": "Transaction deleted",
+        "deletedDescription": "Transaction successfully removed",
+        "general": "General",
+        "apply": "Apply"
+      },
   "statistics": {
     "title": "Statistics",
     "general": "General",
@@ -437,6 +438,67 @@
     "achievement": "🎉 I unlocked the {{achievement}} achievement! I'm reaching my financial goals with Finansör. 🚀\n\n#Finansör #Savings #FinancialManagement",
     "achievementWithLevel": "🎉 I unlocked the {{achievement}} achievement and reached level {{level}}! I'm reaching my financial goals with Finansör. 🚀\n\n#Finansör #Savings #FinancialManagement",
     "stats": "💰 This month I saved {{savings}} and reached level {{level}}! I'm reaching my financial goals with Finansör. 🚀\n\n#Finansör #Savings #FinancialManagement"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "description": "Your savings goal and tips",
+    "monthlyGoal": "Monthly Goal",
+    "empty": "No notifications yet",
+    "emptyDescription": "Set a monthly goal or add transactions",
+    "goToSettings": "Go to Settings",
+    "markAllAsRead": "Mark all as read"
+  },
+  "tips": {
+    "groceries": {
+      "0": "Your grocery spending is high. You can save by bulk shopping and tracking discounts.",
+      "1": "You can avoid unnecessary shopping by planning weekly menus.",
+      "2": "Don't go to the store without a list. This prevents unnecessary spending."
+    },
+    "transport": {
+      "0": "You might consider using public transport to reduce your transportation costs.",
+      "1": "You can save both health and money by walking or cycling for short distances.",
+      "2": "You can reduce transportation costs by car sharing or carpooling."
+    },
+    "entertainment": {
+      "0": "You can plan home activities to reduce your entertainment spending.",
+      "1": "You can track free events and promotions.",
+      "2": "You can take control by setting a monthly entertainment budget."
+    },
+    "shopping": {
+      "0": "Think about whether you really need it before shopping.",
+      "1": "You can buy at more affordable prices by waiting for discount periods.",
+      "2": "You can consider second-hand shopping."
+    },
+    "bills": {
+      "0": "You can avoid late fees by paying your bills on time.",
+      "1": "You can reduce your electricity bills by using energy-efficient devices.",
+      "2": "You can find more affordable packages by comparing different providers."
+    },
+    "health": {
+      "0": "You can avoid major health expenses by having regular health checkups.",
+      "1": "You can reduce health costs in the long term by adopting a healthy lifestyle.",
+      "2": "You can evaluate health insurance options."
+    },
+    "rent": {
+      "0": "You can research more affordable areas to reduce your rent costs.",
+      "1": "You can share rent costs by living with a roommate.",
+      "2": "You can negotiate when renewing your rental agreement."
+    },
+    "education": {
+      "0": "You can take advantage of free online courses.",
+      "1": "You can reduce book costs by using library resources.",
+      "2": "You can research scholarships and education support."
+    },
+    "general": {
+      "highExpenses80": "Your expenses are more than 80% of your income. Review your expenses to save money.",
+      "highExpenses60": "Your expenses are more than 60% of your income. You can take control by making budget planning."
+    }
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for may not exist or may have been moved.",
+    "goHome": "Go to Home",
+    "goBack": "Go Back"
   }
 }
 
