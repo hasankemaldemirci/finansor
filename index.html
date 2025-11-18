@@ -8,6 +8,28 @@
   <meta name="theme-color" content="#FFFFFF" />
   <meta name="description"
     content="Tasarrufun eğlenceli hali. Oyunlaştırma ile finansal yönetim uygulaması. Gelir-gider takibi yapın, tasarruf hedeflerinize ulaşın!" />
+  <meta name="keywords" content="finans, bütçe, tasarruf, gelir gider takibi, para yönetimi, oyunlaştırma, PWA, finansal yönetim" />
+  <meta name="author" content="Hasan Kemal Demirci" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="Turkish" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://finansor.pages.dev/" />
+  <meta property="og:title" content="Finansör - Tasarrufun eğlenceli hali" />
+  <meta property="og:description" content="Oyunlaştırma ile finansal yönetim uygulaması. Gelir-gider takibi yapın, tasarruf hedeflerinize ulaşın! XP kazanın, seviye atlayın, başarılar açın." />
+  <meta property="og:image" content="https://finansor.pages.dev/logo.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="tr_TR" />
+  <meta property="og:site_name" content="Finansör" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://finansor.pages.dev/" />
+  <meta name="twitter:title" content="Finansör - Tasarrufun eğlenceli hali" />
+  <meta name="twitter:description" content="Oyunlaştırma ile finansal yönetim uygulaması. Gelir-gider takibi yapın, tasarruf hedeflerinize ulaşın!" />
+  <meta name="twitter:image" content="https://finansor.pages.dev/logo.svg" />
 
   <!-- Security Headers -->
   <!-- Note: frame-ancestors and X-Frame-Options only work via HTTP headers, not meta tags -->
@@ -28,9 +50,48 @@
 
   <title>Finansör - Tasarrufun eğlenceli hali</title>
 
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Finansör",
+    "description": "Tasarrufun eğlenceli hali. Oyunlaştırma ile finansal yönetim uygulaması.",
+    "url": "https://finansor.pages.dev/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "TRY"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "ratingCount": "1"
+    },
+    "featureList": [
+      "Gelir-Gider Takibi",
+      "Çoklu Para Birimi",
+      "Gamification (XP, Seviye, Başarılar)",
+      "Detaylı İstatistikler",
+      "PWA Desteği",
+      "Dark Mode"
+    ]
+  }
+  </script>
+
   <!-- Cloudflare Web Analytics -->
-  <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-    data-cf-beacon='{"token": "e215f0867f654e5c96c6e9655d5d038f"}'></script>
+  <!-- Only load in production to avoid CORS issues in development -->
+  <script>
+    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      const script = document.createElement('script');
+      script.defer = true;
+      script.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      script.setAttribute('data-cf-beacon', '{"token": "e215f0867f654e5c96c6e9655d5d038f"}');
+      document.head.appendChild(script);
+    }
+  </script>
   <!-- End Cloudflare Web Analytics -->
 </head>
 

@@ -41,6 +41,9 @@ import { useAchievements } from '@/features/gamification/hooks/useAchievements';
 import { AchievementCard } from '@/features/gamification/components/AchievementCard';
 import { AchievementType } from '@/features/gamification/types/achievement.types';
 import { ACHIEVEMENT_CATEGORIES } from '@/features/gamification/constants/achievements';
+import { useLevel } from '@/features/gamification/hooks/useLevel';
+import { ShareButton } from '@/shared/components/ShareButton';
+import { generateStatsShareText } from '@/shared/utils/socialShare';
 
 const COLORS = [
   '#00D9A3',
@@ -79,6 +82,7 @@ export function StatisticsPage() {
     completionPercentage,
     achievementsByType,
   } = useAchievements();
+  const { level } = useLevel();
 
   const filteredAchievements =
     selectedType === 'all' ? achievements : achievementsByType[selectedType];
@@ -175,7 +179,21 @@ export function StatisticsPage() {
   return (
     <Container>
       <div className="space-y-6">
-        <h1 className="text-3xl font-bold">İstatistikler</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold">İstatistikler</h1>
+          {hasTransactions && (
+            <ShareButton
+              title="Finansör İstatistiklerim"
+              text={generateStatsShareText(
+                stats.monthlySavings,
+                settings.currency,
+                level
+              )}
+              variant="outline"
+              size="sm"
+            />
+          )}
+        </div>
 
         <Tabs defaultValue="statistics" className="w-full">
           <TabsList className="grid w-full grid-cols-2">

@@ -1,8 +1,7 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { Button } from './ui/button';
-import { useNavigate, useRouteError, isRouteErrorResponse } from 'react-router-dom';
-import { ROUTES } from '@/shared/constants/routes';
+import { useRouteError, isRouteErrorResponse } from 'react-router-dom';
 
 interface Props {
   children: ReactNode;
@@ -42,15 +41,12 @@ class ErrorBoundaryClass extends Component<Props, State> {
 }
 
 function ErrorFallback({ error }: { error?: Error | null }) {
-  const navigate = useNavigate();
-
   const handleReload = () => {
     window.location.reload();
   };
 
   const handleGoHome = () => {
-    navigate(ROUTES.HOME);
-    window.location.reload();
+    window.location.href = '/';
   };
 
   const errorMessage = error?.message || 'Bilinmeyen bir hata oluştu';

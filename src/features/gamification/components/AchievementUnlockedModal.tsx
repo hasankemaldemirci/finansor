@@ -10,6 +10,9 @@ import {
 import { Button } from '@/shared/components/ui/button';
 import { Achievement } from '../types/achievement.types';
 import { AchievementBadge } from './AchievementBadge';
+import { ShareButton } from '@/shared/components/ShareButton';
+import { generateAchievementShareText } from '@/shared/utils/socialShare';
+import { useLevel } from '../hooks/useLevel';
 import confetti from 'canvas-confetti';
 
 interface AchievementUnlockedModalProps {
@@ -25,6 +28,8 @@ export function AchievementUnlockedModal({
   achievement,
   hideOverlay,
 }: AchievementUnlockedModalProps) {
+  const { level } = useLevel();
+
   useEffect(() => {
     if (open && achievement) {
       // Continuous confetti from sides
@@ -113,9 +118,17 @@ export function AchievementUnlockedModal({
             </div>
           </motion.div>
         </motion.div>
-        <Button onClick={onClose} size="lg" className="w-full">
-          Harika! 🎊
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={onClose} size="lg" className="flex-1">
+            Harika! 🎊
+          </Button>
+          <ShareButton
+            title={`${achievement.name} Başarısını Açtım!`}
+            text={generateAchievementShareText(achievement.name, level)}
+            variant="outline"
+            size="lg"
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );
