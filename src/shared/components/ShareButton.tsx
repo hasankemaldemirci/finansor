@@ -22,6 +22,7 @@ import {
   copyToClipboard,
 } from '@/shared/utils/socialShare';
 import { useToast } from '@/shared/hooks/useToast';
+import { useTranslation } from 'react-i18next';
 
 interface ShareButtonProps {
   title: string;
@@ -38,6 +39,7 @@ export function ShareButton({
   variant = 'outline',
   size = 'default',
 }: ShareButtonProps) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
 
@@ -55,8 +57,8 @@ export function ShareButton({
     if (success) {
       setCopied(true);
       toast({
-        title: 'Kopyalandı!',
-        description: 'Paylaşım linki panoya kopyalandı.',
+        title: t('share.copied'),
+        description: t('share.copiedDescription'),
       });
       setTimeout(() => setCopied(false), 2000);
     }
@@ -81,7 +83,7 @@ export function ShareButton({
     return (
       <Button onClick={handleNativeShare} variant={variant} size={size}>
         <Share2 className="mr-2 h-4 w-4" />
-        Paylaş
+        {t('share.share')}
       </Button>
     );
   }
@@ -91,32 +93,32 @@ export function ShareButton({
       <DropdownMenuTrigger asChild>
         <Button variant={variant} size={size}>
           <Share2 className="mr-2 h-4 w-4" />
-          Paylaş
+          {t('share.share')}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={handleTwitter}>
           <Twitter className="mr-2 h-4 w-4" />
-          Twitter
+          {t('share.twitter')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleFacebook}>
           <Facebook className="mr-2 h-4 w-4" />
-          Facebook
+          {t('share.facebook')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleWhatsApp}>
           <MessageCircle className="mr-2 h-4 w-4" />
-          WhatsApp
+          {t('share.whatsapp')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleCopy}>
           {copied ? (
             <>
               <Check className="mr-2 h-4 w-4" />
-              Kopyalandı!
+              {t('share.copied')}
             </>
           ) : (
             <>
               <Copy className="mr-2 h-4 w-4" />
-              Linki Kopyala
+              {t('share.copyLink')}
             </>
           )}
         </DropdownMenuItem>

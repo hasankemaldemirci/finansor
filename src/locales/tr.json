@@ -425,6 +425,18 @@
     "typeInvalid": "Geçersiz işlem tipi",
     "categoryRequired": "Kategori seçilmelidir",
     "descriptionTooLong": "Açıklama çok uzun (max {{max}} karakter)"
+  },
+  "share": {
+    "share": "Paylaş",
+    "twitter": "Twitter",
+    "facebook": "Facebook",
+    "whatsapp": "WhatsApp",
+    "copyLink": "Linki Kopyala",
+    "copied": "Kopyalandı!",
+    "copiedDescription": "Paylaşım linki panoya kopyalandı.",
+    "achievement": "🎉 {{achievement}} başarısını açtım! Finansör ile finansal hedeflerime ulaşıyorum. 🚀\n\n#Finansör #Tasarruf #FinansalYönetim",
+    "achievementWithLevel": "🎉 {{achievement}} başarısını açtım ve {{level}}. seviyeye ulaştım! Finansör ile finansal hedeflerime ulaşıyorum. 🚀\n\n#Finansör #Tasarruf #FinansalYönetim",
+    "stats": "💰 Bu ay {{savings}} tasarruf ettim ve {{level}}. seviyeye ulaştım! Finansör ile finansal hedeflerime ulaşıyorum. 🚀\n\n#Finansör #Tasarruf #FinansalYönetim"
   }
 }
 

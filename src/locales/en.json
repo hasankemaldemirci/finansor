@@ -425,6 +425,18 @@
     "typeInvalid": "Invalid transaction type",
     "categoryRequired": "Category must be selected",
     "descriptionTooLong": "Description is too long (max {{max}} characters)"
+  },
+  "share": {
+    "share": "Share",
+    "twitter": "Twitter",
+    "facebook": "Facebook",
+    "whatsapp": "WhatsApp",
+    "copyLink": "Copy Link",
+    "copied": "Copied!",
+    "copiedDescription": "Share link copied to clipboard.",
+    "achievement": "🎉 I unlocked the {{achievement}} achievement! I'm reaching my financial goals with Finansör. 🚀\n\n#Finansör #Savings #FinancialManagement",
+    "achievementWithLevel": "🎉 I unlocked the {{achievement}} achievement and reached level {{level}}! I'm reaching my financial goals with Finansör. 🚀\n\n#Finansör #Savings #FinancialManagement",
+    "stats": "💰 This month I saved {{savings}} and reached level {{level}}! I'm reaching my financial goals with Finansör. 🚀\n\n#Finansör #Savings #FinancialManagement"
   }
 }
 

@@ -1,3 +1,5 @@
+import i18n from '@/shared/lib/i18n';
+
 export interface ShareData {
   title: string;
   text: string;
@@ -53,9 +55,12 @@ export function generateAchievementShareText(
   level?: number
 ): string {
   if (level) {
-    return `🎉 ${achievementName} başarısını açtım ve ${level}. seviyeye ulaştım! Finansör ile finansal hedeflerime ulaşıyorum. 🚀\n\n#Finansör #Tasarruf #FinansalYönetim`;
+    return i18n.t('share.achievementWithLevel', {
+      achievement: achievementName,
+      level,
+    });
   }
-  return `🎉 ${achievementName} başarısını açtım! Finansör ile finansal hedeflerime ulaşıyorum. 🚀\n\n#Finansör #Tasarruf #FinansalYönetim`;
+  return i18n.t('share.achievement', { achievement: achievementName });
 }
 
 export function generateStatsShareText(
@@ -63,11 +68,15 @@ export function generateStatsShareText(
   currency: string,
   level: number
 ): string {
-  const formattedSavings = new Intl.NumberFormat('tr-TR', {
+  const locale = i18n.language === 'tr' ? 'tr-TR' : 'en-US';
+  const formattedSavings = new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: currency,
   }).format(monthlySavings);
 
-  return `💰 Bu ay ${formattedSavings} tasarruf ettim ve ${level}. seviyeye ulaştım! Finansör ile finansal hedeflerime ulaşıyorum. 🚀\n\n#Finansör #Tasarruf #FinansalYönetim`;
+  return i18n.t('share.stats', {
+    savings: formattedSavings,
+    level,
+  });
 }
 
