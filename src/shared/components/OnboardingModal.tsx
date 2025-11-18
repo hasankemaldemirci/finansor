@@ -1,16 +1,10 @@
 import { useEffect, useState } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/shared/components/ui/dialog';
 import { Button } from '@/shared/components/ui/button';
 import { useOnboarding, OnboardingStep } from '@/shared/hooks/useOnboarding';
 import { Wallet, TrendingUp, Trophy, Sparkles, ArrowRight, X } from 'lucide-react';
 import { ROUTES } from '@/shared/constants/routes';
 import { useTranslation } from 'react-i18next';
+import { cn } from '@/shared/lib/utils';
 
 export function OnboardingModal() {
   const { t } = useTranslation();
@@ -173,45 +167,70 @@ export function OnboardingModal() {
     }
   };
 
+  if (!open) return null;
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Overlay - Only visible on desktop */}
+      <div
+        className="hidden sm:block fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+        onClick={handleSkip}
+      />
+      
+      {/* Content */}
+      <div
+        className={cn(
+          'relative z-50 w-full h-full bg-background',
+          'sm:h-auto sm:max-h-[90vh] sm:max-w-[500px] sm:rounded-lg sm:shadow-lg',
+          'flex flex-col overflow-hidden'
+        )}
+      >
+        {/* Header */}
+        <div className="flex-shrink-0 px-6 pt-6 pb-4">
           <div className="flex items-center justify-center mb-4">
             {stepData.icon}
           </div>
-          <DialogTitle className="text-center text-2xl">
+          <h2 className="text-center text-2xl font-semibold">
             {stepData.title}
-          </DialogTitle>
-          <DialogDescription className="text-center">
+          </h2>
+          <p className="text-center text-sm text-muted-foreground mt-2">
             {stepData.description}
-          </DialogDescription>
-        </DialogHeader>
-        <div className="py-4">{stepData.content}</div>
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={handleSkip} className="flex-1">
-            <X className="mr-2 h-4 w-4" />
-            {t('onboarding.skip')}
-          </Button>
-          <Button onClick={handleNext} className="flex-1">
-            {stepData.nextLabel}
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+          </p>
         </div>
-        <div className="flex justify-center gap-1">
-          {Object.keys(steps).map((step) => (
-            <div
-              key={step}
-              className={`h-1.5 rounded-full transition-all ${
-                Object.keys(steps).indexOf(currentStep) >= Object.keys(steps).indexOf(step)
-                  ? 'w-6 bg-primary'
-                  : 'w-1.5 bg-muted'
-              }`}
-            />
-          ))}
+
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto px-6 py-4">
+          {stepData.content}
         </div>
-      </DialogContent>
-    </Dialog>
+
+        {/* Footer */}
+        <div className="flex-shrink-0 px-6 pb-6 pt-4 space-y-4 border-t">
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={handleSkip} className="flex-1">
+              <X className="mr-2 h-4 w-4" />
+              {t('onboarding.skip')}
+            </Button>
+            <Button onClick={handleNext} className="flex-1">
+              {stepData.nextLabel}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+          <div className="flex justify-center gap-1">
+            {Object.keys(steps).map((step) => (
+              <div
+                key={step}
+                className={cn(
+                  'h-1.5 rounded-full transition-all',
+                  Object.keys(steps).indexOf(currentStep) >= Object.keys(steps).indexOf(step)
+                    ? 'w-6 bg-primary'
+                    : 'w-1.5 bg-muted'
+                )}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
