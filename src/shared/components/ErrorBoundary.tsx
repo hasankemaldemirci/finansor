@@ -2,6 +2,7 @@ import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { Button } from './ui/button';
 import { useRouteError, isRouteErrorResponse } from 'react-router-dom';
+import i18n from '@/shared/lib/i18n';
 
 interface Props {
   children: ReactNode;
@@ -49,7 +50,7 @@ function ErrorFallback({ error }: { error?: Error | null }) {
     window.location.href = '/';
   };
 
-  const errorMessage = error?.message || 'Bilinmeyen bir hata oluştu';
+  const errorMessage = error?.message || i18n.t('error.unknown', 'Bilinmeyen bir hata oluştu');
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
@@ -60,18 +61,17 @@ function ErrorFallback({ error }: { error?: Error | null }) {
 
         <div className="space-y-2">
           <h1 className="text-2xl font-bold text-foreground">
-            Bir Hata Oluştu
+            {i18n.t('error.title')}
           </h1>
           <p className="text-sm text-muted-foreground">
-            Üzgünüz, beklenmeyen bir hata oluştu. Lütfen sayfayı yenileyin veya
-            ana sayfaya dönün.
+            {i18n.t('error.description')}
           </p>
         </div>
 
         {error && process.env.NODE_ENV === 'development' && (
           <div className="rounded-md bg-muted p-3 text-left">
             <p className="text-xs font-semibold text-destructive">
-              Hata Detayı (Sadece Development):
+              {i18n.t('error.detail', 'Hata Detayı (Sadece Development):')}
             </p>
             <p className="mt-1 text-xs text-muted-foreground font-mono">
               {errorMessage}
@@ -82,7 +82,7 @@ function ErrorFallback({ error }: { error?: Error | null }) {
         <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
           <Button onClick={handleReload} className="w-full sm:w-auto">
             <RefreshCw className="mr-2 h-4 w-4" />
-            Sayfayı Yenile
+            {i18n.t('error.reload')}
           </Button>
           <Button
             onClick={handleGoHome}
@@ -90,7 +90,7 @@ function ErrorFallback({ error }: { error?: Error | null }) {
             className="w-full sm:w-auto"
           >
             <Home className="mr-2 h-4 w-4" />
-            Ana Sayfaya Dön
+            {i18n.t('error.goHome')}
           </Button>
         </div>
       </div>
@@ -101,7 +101,7 @@ function ErrorFallback({ error }: { error?: Error | null }) {
 // React Router için error element
 export function RouteErrorBoundary() {
   const error = useRouteError();
-  let errorMessage = 'Bilinmeyen bir hata oluştu';
+  let errorMessage = i18n.t('error.unknown', 'Bilinmeyen bir hata oluştu');
   let errorDetails: Error | null = null;
 
   if (isRouteErrorResponse(error)) {

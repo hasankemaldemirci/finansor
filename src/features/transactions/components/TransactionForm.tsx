@@ -6,12 +6,14 @@ import { useTransactionForm } from '../hooks/useTransactionForm';
 import { useTransactions } from '../hooks/useTransactions';
 import { TransactionType } from '@/shared/types/common.types';
 import { useSettingsStore } from '@/features/settings/stores/settingsStore';
+import { useTranslation } from 'react-i18next';
 
 interface TransactionFormProps {
   onSuccess?: (data: { leveledUp: boolean; newLevel?: number }) => void;
 }
 
 export function TransactionForm({ onSuccess }: TransactionFormProps) {
+  const { t } = useTranslation();
   const { handleSubmit, formState, watch, setValue, reset } =
     useTransactionForm();
   const { createTransaction } = useTransactions();
@@ -61,10 +63,10 @@ export function TransactionForm({ onSuccess }: TransactionFormProps) {
       >
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="income" className="text-base">
-            💰 Gelir
+            💰 {t('transactions.type.income')}
           </TabsTrigger>
           <TabsTrigger value="expense" className="text-base">
-            💸 Gider
+            💸 {t('transactions.type.expense')}
           </TabsTrigger>
         </TabsList>
       </Tabs>
@@ -101,7 +103,7 @@ export function TransactionForm({ onSuccess }: TransactionFormProps) {
         className="h-12 w-full text-base font-semibold"
         disabled={isSubmitting}
       >
-        {isSubmitting ? 'Ekleniyor...' : 'İşlem Ekle'}
+        {isSubmitting ? t('transactions.adding') : t('transactions.addButton')}
       </Button>
     </form>
   );

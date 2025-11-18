@@ -4,8 +4,10 @@ import { ThemeToggle } from '@/features/settings/components/ThemeToggle';
 import { getLevelIcon } from '@/features/gamification/constants/levelConfig';
 import { NotificationMenu } from './NotificationMenu';
 import { Logo } from '@/shared/components/Logo';
+import { useTranslation } from 'react-i18next';
 
 export function Header() {
+  const { t } = useTranslation();
   const { level, title } = useLevel();
 
   return (
@@ -24,7 +26,7 @@ export function Header() {
           <div className="flex items-center gap-2">
             <span className="text-2xl">{getLevelIcon(level)}</span>
             <div>
-              <p className="text-sm font-semibold">Seviye {level}</p>
+              <p className="text-sm font-semibold">{t('level.label')} {level}</p>
               <p className="hidden text-xs text-muted-foreground sm:block">
                 {title}
               </p>

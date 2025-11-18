@@ -4,6 +4,7 @@ import { TransactionList } from '@/features/transactions/components/TransactionL
 import { FilterOptions } from '@/features/transactions/components/TransactionFilters';
 import { useTransactions } from '@/features/transactions/hooks/useTransactions';
 import { filterTransactions } from '@/features/transactions/utils/filterTransactions';
+import { useTranslation } from 'react-i18next';
 
 const defaultFilters: FilterOptions = {
   searchTerm: '',
@@ -13,6 +14,7 @@ const defaultFilters: FilterOptions = {
 };
 
 export function TransactionsPage() {
+  const { t } = useTranslation();
   const [filters, setFilters] = useState<FilterOptions>(defaultFilters);
   const { transactions } = useTransactions();
 
@@ -26,9 +28,9 @@ export function TransactionsPage() {
     <Container>
       <div className="space-y-6">
         <div>
-          <h1 className="mb-2 text-3xl font-bold">Tüm İşlemler</h1>
+          <h1 className="mb-2 text-3xl font-bold">{t('transactions.title')}</h1>
           <p className="text-muted-foreground">
-            Geçmiş işlemlerinizi görüntüleyin ve filtreleyin
+            {t('transactions.description')}
           </p>
         </div>
 

@@ -2,15 +2,17 @@ import { Home, List, BarChart3, Settings } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/shared/lib/utils';
 import { ROUTES } from '@/shared/constants/routes';
+import { useTranslation } from 'react-i18next';
 
 export function Navigation() {
+  const { t } = useTranslation();
   const location = useLocation();
 
   const navItems = [
-    { icon: Home, label: 'Ana Sayfa', path: ROUTES.HOME },
-    { icon: List, label: 'İşlemler', path: ROUTES.TRANSACTIONS },
-    { icon: BarChart3, label: 'İstatistikler', path: ROUTES.STATISTICS },
-    { icon: Settings, label: 'Ayarlar', path: ROUTES.SETTINGS },
+    { icon: Home, label: t('nav.home'), path: ROUTES.HOME },
+    { icon: List, label: t('nav.transactions'), path: ROUTES.TRANSACTIONS },
+    { icon: BarChart3, label: t('nav.statistics'), path: ROUTES.STATISTICS },
+    { icon: Settings, label: t('nav.settings'), path: ROUTES.SETTINGS },
   ];
 
   return (

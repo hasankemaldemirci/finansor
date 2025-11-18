@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/components/ui/dropdown-menu';
 import { useSettingsStore } from '@/features/settings/stores/settingsStore';
+import { useTranslation } from 'react-i18next';
 
 interface TransactionItemProps {
   transaction: Transaction;
@@ -17,29 +18,18 @@ interface TransactionItemProps {
   onEdit: (id: string) => void;
 }
 
-const categoryLabels: Record<string, string> = {
-  salary: 'Maaş',
-  freelance: 'Serbest Çalışma',
-  investment: 'Yatırım',
-  gift: 'Hediye',
-  rent: 'Kira',
-  groceries: 'Market',
-  transport: 'Ulaşım',
-  entertainment: 'Eğlence',
-  bills: 'Faturalar',
-  health: 'Sağlık',
-  shopping: 'Alışveriş',
-  education: 'Eğitim',
-  other: 'Diğer',
-};
-
 export function TransactionItem({
   transaction,
   onDelete,
   onEdit,
 }: TransactionItemProps) {
+  const { t } = useTranslation();
   const { settings } = useSettingsStore();
   const isIncome = transaction.type === 'income';
+  
+  const getCategoryLabel = (category: string) => {
+    return t(`transactions.category.${category}`, category);
+  };
 
   return (
     <div className="flex items-center justify-between rounded-lg border p-3 transition-colors hover:bg-muted/50 sm:p-4">
@@ -54,7 +44,7 @@ export function TransactionItem({
             {formatCurrency(transaction.amount, settings.currency)}
           </span>
           <span className="rounded-full bg-secondary/20 px-2 py-1 text-xs text-secondary">
-            {categoryLabels[transaction.category] || transaction.category}
+            {getCategoryLabel(transaction.category)}
           </span>
         </div>
         {transaction.description && (
@@ -70,7 +60,7 @@ export function TransactionItem({
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon" className="h-8 w-8">
             <MoreVertical className="h-4 w-4" />
-            <span className="sr-only">İşlem menüsü</span>
+            <span className="sr-only">{t('transactions.menuLabel')}</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -79,14 +69,14 @@ export function TransactionItem({
             className="cursor-pointer"
           >
             <Pencil className="mr-2 h-4 w-4" />
-            Düzenle
+            {t('common.edit')}
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => onDelete(transaction.id)}
             className="cursor-pointer text-destructive focus:text-destructive"
           >
             <Trash2 className="mr-2 h-4 w-4" />
-            Sil
+            {t('common.delete')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

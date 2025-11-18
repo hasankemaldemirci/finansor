@@ -10,26 +10,30 @@ import {
   isYesterday,
   differenceInDays,
 } from 'date-fns';
-import { tr } from 'date-fns/locale';
+import { tr, enUS } from 'date-fns/locale';
+import i18n from '@/shared/lib/i18n';
 
 export function formatDate(
   date: Date,
   formatStr: string = 'dd MMMM yyyy'
 ): string {
-  return format(date, formatStr, { locale: tr });
+  const locale = i18n.language === 'tr' ? tr : enUS;
+  return format(date, formatStr, { locale });
 }
 
 export function formatRelativeDate(date: Date): string {
+  const locale = i18n.language === 'tr' ? tr : enUS;
+  
   if (isToday(date)) {
-    return 'Bugün';
+    return i18n.t('date.today', 'Bugün');
   }
   if (isYesterday(date)) {
-    return 'Dün';
+    return i18n.t('date.yesterday', 'Dün');
   }
 
   const daysDiff = differenceInDays(new Date(), date);
   if (daysDiff < 7) {
-    return format(date, 'EEEE', { locale: tr });
+    return format(date, 'EEEE', { locale });
   }
 
   return formatDate(date, 'dd MMM');
@@ -40,6 +44,7 @@ export function getDateRange(period: 'today' | 'week' | 'month'): {
   end: Date;
 } {
   const now = new Date();
+  const locale = i18n.language === 'tr' ? tr : enUS;
 
   switch (period) {
     case 'today':
@@ -49,8 +54,8 @@ export function getDateRange(period: 'today' | 'week' | 'month'): {
       };
     case 'week':
       return {
-        start: startOfWeek(now, { locale: tr }),
-        end: endOfWeek(now, { locale: tr }),
+        start: startOfWeek(now, { locale }),
+        end: endOfWeek(now, { locale }),
       };
     case 'month':
       return {

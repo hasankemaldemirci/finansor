@@ -23,8 +23,10 @@ import { ArrowRight, AlertTriangle } from 'lucide-react';
 import { getCategoryLabel } from '@/features/transactions/utils/statisticsCalculations';
 import { useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
+import { useTranslation } from 'react-i18next';
 
 export function HomePage() {
+  const { t } = useTranslation();
   const [levelUpModal, setLevelUpModal] = useState<{
     open: boolean;
     level: number;
@@ -133,7 +135,6 @@ export function HomePage() {
           spread: 55,
           origin: { x: 0.5, y: 0.5 },
           colors: ['#00D9A3', '#6C5CE7', '#FDCB6E'],
-          useWorker: false,
         });
       }, 200);
 
@@ -189,7 +190,7 @@ export function HomePage() {
         {/* Transaction Form - First Priority */}
         <Card>
           <CardHeader>
-            <CardTitle>Yeni İşlem Ekle</CardTitle>
+            <CardTitle>{t('home.addTransaction')}</CardTitle>
           </CardHeader>
           <CardContent>
             <TransactionForm onSuccess={handleTransactionSuccess} />
@@ -202,7 +203,7 @@ export function HomePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-destructive">
                 <AlertTriangle className="h-5 w-5" />
-                Bütçe Uyarıları
+                {t('home.budgetWarnings')}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -222,7 +223,7 @@ export function HomePage() {
                     </div>
                     <div className="space-y-1">
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">Harcanan</span>
+                        <span className="text-muted-foreground">{t('home.spent')}</span>
                         <span className="font-medium">
                           {formatCurrency(warning.spent, settings.currency)} /{' '}
                           {formatCurrency(warning.limit, settings.currency)}
@@ -230,13 +231,13 @@ export function HomePage() {
                       </div>
                       {warning.exceeded > 0 && (
                         <p className="text-sm font-medium text-destructive">
-                          ⚠️ Bütçe aşıldı:{' '}
+                          ⚠️ {t('home.budgetExceeded')}:{' '}
                           {formatCurrency(warning.exceeded, settings.currency)}
                         </p>
                       )}
                       {warning.exceeded === 0 && warning.percentage >= 80 && (
                         <p className="text-sm font-medium text-orange-600 dark:text-orange-400">
-                          ⚠️ Bütçenizin %80'ine ulaştınız
+                          ⚠️ {t('home.budget80Percent')}
                         </p>
                       )}
                     </div>
@@ -250,14 +251,14 @@ export function HomePage() {
         {/* Recent Transactions */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Son İşlemler</CardTitle>
+            <CardTitle>{t('home.recentTransactions')}</CardTitle>
             {transactions.length > 5 && (
               <Button variant="ghost" size="sm" asChild>
                 <Link
                   to={ROUTES.TRANSACTIONS}
                   className="flex items-center gap-1"
                 >
-                  Tümü
+                  {t('common.all')}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
@@ -266,9 +267,9 @@ export function HomePage() {
           <CardContent>
             {recentTransactions.length === 0 ? (
               <div className="py-8 text-center text-muted-foreground">
-                <p>Henüz işlem eklenmedi</p>
+                <p>{t('home.noTransactions')}</p>
                 <p className="mt-2 text-sm">
-                  Yukarıdaki formdan ilk işleminizi ekleyin
+                  {t('home.noTransactionsDesc')}
                 </p>
               </div>
             ) : (

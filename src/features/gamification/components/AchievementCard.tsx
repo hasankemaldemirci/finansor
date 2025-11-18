@@ -4,12 +4,14 @@ import { Card, CardContent } from '@/shared/components/ui/card';
 import { Progress } from '@/shared/components/ui/progress';
 import { ACHIEVEMENT_CATEGORIES } from '../constants/achievements';
 import { formatDate } from '@/shared/utils/date';
+import { useTranslation } from 'react-i18next';
 
 interface AchievementCardProps {
   achievement: Achievement;
 }
 
 export function AchievementCard({ achievement }: AchievementCardProps) {
+  const { t } = useTranslation();
   const category = ACHIEVEMENT_CATEGORIES[achievement.type];
 
   return (
@@ -41,7 +43,7 @@ export function AchievementCard({ achievement }: AchievementCardProps) {
               <div className="space-y-1">
                 <Progress value={achievement.progress} className="h-2" />
                 <p className="text-xs text-muted-foreground">
-                  {Math.floor(achievement.progress)}% tamamlandı
+                  {Math.floor(achievement.progress)}% {t('achievements.completed')}
                 </p>
               </div>
             )}

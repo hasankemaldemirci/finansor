@@ -1,5 +1,6 @@
 import { Transaction } from '../types/transaction.types';
 import { getCategoryLabel } from './statisticsCalculations';
+import i18n from '@/shared/lib/i18n';
 
 export interface SavingsTip {
   category: string;
@@ -122,7 +123,7 @@ export function getSavingsTips(transactions: Transaction[]): SavingsTip[] {
   GENERAL_TIPS.forEach((tip) => {
     if (tip.condition(totalExpenses, totalIncome)) {
       tips.push({
-        category: 'Genel',
+        category: i18n.t('transactions.general'),
         message: tip.message,
         icon: tip.icon,
         priority: 0.5,

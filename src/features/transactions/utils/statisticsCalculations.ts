@@ -1,5 +1,6 @@
 import { Transaction } from '../types/transaction.types';
 import { TransactionType } from '@/shared/types/common.types';
+import i18n from '@/shared/lib/i18n';
 
 export interface MonthlyData {
   month: string;
@@ -43,21 +44,10 @@ export const getMonthlyStats = (
     }
   });
 
-  // Convert to array with Turkish month names
-  const monthNames = [
-    'Oca',
-    'Şub',
-    'Mar',
-    'Nis',
-    'May',
-    'Haz',
-    'Tem',
-    'Ağu',
-    'Eyl',
-    'Eki',
-    'Kas',
-    'Ara',
-  ];
+  // Convert to array with localized month names
+  const monthNames = i18n.language === 'tr' 
+    ? ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara']
+    : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   return Array.from(monthlyMap.entries()).map(([key, data]) => {
     const [year, month] = key.split('-');
@@ -106,22 +96,7 @@ export const getTopCategories = (
 };
 
 export const getCategoryLabel = (category: string): string => {
-  const labels: Record<string, string> = {
-    salary: 'Maaş',
-    freelance: 'Serbest Çalışma',
-    investment: 'Yatırım',
-    gift: 'Hediye',
-    rent: 'Kira',
-    groceries: 'Market',
-    transport: 'Ulaşım',
-    entertainment: 'Eğlence',
-    bills: 'Faturalar',
-    health: 'Sağlık',
-    shopping: 'Alışveriş',
-    education: 'Eğitim',
-    other: 'Diğer',
-  };
-  return labels[category] || category;
+  return i18n.t(`transactions.category.${category}`, category);
 };
 
 export const getRecentTrend = (

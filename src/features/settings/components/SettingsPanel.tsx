@@ -24,6 +24,7 @@ import { useGamificationStore } from '@/features/gamification/stores/gamificatio
 import { Currency, Theme } from '@/shared/types/common.types';
 import { toast } from '@/shared/hooks/useToast';
 import { AlertTriangle, MessageSquare, Heart } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export function SettingsPanel() {
   const {
@@ -31,8 +32,10 @@ export function SettingsPanel() {
     updateTheme,
     updateCurrency,
     updateMonthlyGoal,
+    updateLanguage,
     resetSettings,
   } = useSettings();
+  const { t } = useTranslation();
 
   const { clearAllTransactions } = useTransactionStore();
   const { resetProgress } = useGamificationStore();
@@ -56,8 +59,8 @@ export function SettingsPanel() {
     resetSettings();
     setShowResetDialog(false);
     toast({
-      title: 'Ayarlar sıfırlandı',
-      description: 'Tüm ayarlar varsayılan değerlere döndürüldü',
+      title: t('settings.resetSuccess'),
+      description: t('settings.resetSuccessDesc'),
     });
   };
 
@@ -70,9 +73,8 @@ export function SettingsPanel() {
     setShowResetAllDialog(false);
 
     toast({
-      title: '🎯 Tüm veriler sıfırlandı',
-      description:
-        'İşlemler, seviye ve ayarlar temizlendi. Yeni bir başlangıç!',
+      title: t('settings.resetAllSuccess'),
+      description: t('settings.resetAllSuccessDesc'),
     });
 
     // Reload page to ensure fresh state
@@ -82,10 +84,8 @@ export function SettingsPanel() {
   };
 
   const handleSendFeedback = () => {
-    const subject = encodeURIComponent('Finansör - Geri Bildirim');
-    const body = encodeURIComponent(
-      'Merhaba,\n\n[Mesajınızı buraya yazabilirsiniz]\n\n'
-    );
+    const subject = encodeURIComponent(t('settings.feedbackSubject'));
+    const body = encodeURIComponent(t('settings.feedbackBody'));
     const mailtoLink = `mailto:hasankemal.demirci@gmail.com?subject=${subject}&body=${body}`;
 
     window.location.href = mailtoLink;
@@ -95,28 +95,43 @@ export function SettingsPanel() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Genel Ayarlar</CardTitle>
+          <CardTitle>{t('settings.general')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Theme */}
           <div className="space-y-2">
-            <Label>Tema</Label>
+            <Label>{t('settings.theme')}</Label>
             <Tabs
               value={settings.theme}
               onValueChange={(value) => updateTheme(value as Theme)}
               className="w-full"
             >
               <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="light">☀️ Açık</TabsTrigger>
-                <TabsTrigger value="dark">🌙 Koyu</TabsTrigger>
-                <TabsTrigger value="system">💻 Sistem</TabsTrigger>
+                <TabsTrigger value="light">{t('settings.themeLight')}</TabsTrigger>
+                <TabsTrigger value="dark">{t('settings.themeDark')}</TabsTrigger>
+                <TabsTrigger value="system">{t('settings.themeSystem')}</TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+
+          {/* Language */}
+          <div className="space-y-2">
+            <Label>{t('settings.language')}</Label>
+            <Tabs
+              value={settings.language}
+              onValueChange={(value) => updateLanguage(value)}
+              className="w-full"
+            >
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="tr">{t('settings.languageTurkish')}</TabsTrigger>
+                <TabsTrigger value="en">{t('settings.languageEnglish')}</TabsTrigger>
               </TabsList>
             </Tabs>
           </div>
 
           {/* Currency */}
           <div className="space-y-2">
-            <Label>Para Birimi</Label>
+            <Label>{t('settings.currency')}</Label>
             <Tabs
               value={settings.currency}
               onValueChange={(value) => updateCurrency(value as Currency)}
@@ -133,7 +148,7 @@ export function SettingsPanel() {
           {/* Monthly Goal */}
           <div className="space-y-3">
             <Label htmlFor="monthlyGoal" className="text-base">
-              Aylık Tasarruf Hedefi
+              {t('settings.monthlyGoal')}
             </Label>
             <CurrencyInput
               id="monthlyGoal"
@@ -162,10 +177,10 @@ export function SettingsPanel() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Heart className="h-5 w-5 fill-primary text-primary" />
-            Projeyi Destekle
+            {t('settings.support')}
           </CardTitle>
           <CardDescription>
-            Finansör'ün gelişimine katkıda bulunun
+            {t('settings.supportDesc')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -178,10 +193,10 @@ export function SettingsPanel() {
             }
             className="w-full bg-[#FFDD00] font-semibold text-[#000000] hover:bg-[#FFDD00]/90"
           >
-            ☕ Buy Me a Coffee
+            {t('settings.supportButton')}
           </Button>
           <p className="text-center text-xs text-muted-foreground">
-            Projeyi beğendiyseniz, gelişimine katkıda bulunabilirsiniz 💙
+            {t('settings.supportText')}
           </p>
         </CardContent>
       </Card>
@@ -191,10 +206,10 @@ export function SettingsPanel() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <MessageSquare className="h-5 w-5" />
-            Geri Bildirim
+            {t('settings.feedback')}
           </CardTitle>
           <CardDescription>
-            Görüş, öneri veya hata bildirimi için bize ulaşın
+            {t('settings.feedbackDesc')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -203,7 +218,7 @@ export function SettingsPanel() {
             variant="outline"
             className="w-full"
           >
-            📧 Geri Bildirim Gönder
+            {t('settings.feedbackButton')}
           </Button>
         </CardContent>
       </Card>
@@ -212,36 +227,36 @@ export function SettingsPanel() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-destructive">
             <AlertTriangle className="h-5 w-5" />
-            Tehlikeli Bölge
+            {t('settings.dangerZone')}
           </CardTitle>
           <CardDescription>
-            Bu işlemler geri alınamaz. Dikkatli olun!
+            {t('settings.dangerZoneDesc')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="space-y-2">
             <p className="text-sm text-muted-foreground">
-              Sadece tema, para birimi gibi ayarları sıfırla
+              {t('settings.resetSettingsDesc')}
             </p>
             <Button
               variant="outline"
               onClick={() => setShowResetDialog(true)}
               className="w-full"
             >
-              Ayarları Sıfırla
+              {t('settings.resetSettings')}
             </Button>
           </div>
 
           <div className="space-y-2 border-t pt-3">
             <p className="text-sm font-medium text-muted-foreground">
-              ⚠️ Tüm verileri temizle (işlemler, seviye, başarılar)
+              {t('settings.resetAllDesc')}
             </p>
             <Button
               variant="destructive"
               onClick={() => setShowResetAllDialog(true)}
               className="w-full"
             >
-              Tüm Verileri Sıfırla
+              {t('settings.resetAll')}
             </Button>
           </div>
         </CardContent>
@@ -251,32 +266,32 @@ export function SettingsPanel() {
       <Dialog open={showResetDialog} onOpenChange={setShowResetDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Ayarları Sıfırla?</DialogTitle>
+            <DialogTitle>{t('settings.resetSettingsTitle')}</DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Aşağıdaki ayarlar varsayılan değerlere dönecek:
+              {t('settings.resetSettingsConfirm')}
             </p>
 
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-primary">•</span>
-                <span>Tema tercihi</span>
+                <span>{t('settings.resetSettingsItems.theme')}</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-primary">•</span>
-                <span>Para birimi</span>
+                <span>{t('settings.resetSettingsItems.currency')}</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-primary">•</span>
-                <span>Aylık tasarruf hedefi</span>
+                <span>{t('settings.resetSettingsItems.monthlyGoal')}</span>
               </li>
             </ul>
 
             <div className="rounded-lg border border-primary/30 bg-primary/15 p-3">
               <p className="text-center text-sm font-medium text-primary">
-                ✓ İşlemleriniz ve seviyeniz korunacak
+                {t('settings.resetSettingsNote')}
               </p>
             </div>
           </div>
@@ -287,14 +302,14 @@ export function SettingsPanel() {
               onClick={() => setShowResetDialog(false)}
               className="sm:flex-1"
             >
-              İptal
+              {t('common.cancel')}
             </Button>
             <Button
               variant="destructive"
               onClick={handleReset}
               className="sm:flex-1"
             >
-              Sıfırla
+              {t('settings.resetSettings')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -306,42 +321,42 @@ export function SettingsPanel() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-destructive">
               <AlertTriangle className="h-5 w-5" />
-              Tüm Verileri Sil?
+              {t('settings.resetAllTitle')}
             </DialogTitle>
           </DialogHeader>
 
           <p className="text-sm font-semibold text-destructive">
-            Bu işlem geri alınamaz!
+            {t('settings.resetAllWarning')}
           </p>
 
           <div className="space-y-4">
             <div className="space-y-3">
               <p className="text-sm font-medium text-foreground">
-                Silinecekler:
+                {t('settings.resetAllTitle')}:
               </p>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <span className="mt-0.5 text-destructive">•</span>
-                  <span>Tüm işlemler (gelir & gider)</span>
+                  <span>{t('settings.resetAllItems.transactions')}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-0.5 text-destructive">•</span>
-                  <span>Seviye ve XP ilerlemeniz</span>
+                  <span>{t('settings.resetAllItems.progress')}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-0.5 text-destructive">•</span>
-                  <span>Kilidi açılmış başarılar</span>
+                  <span>{t('settings.resetAllItems.achievements')}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-0.5 text-destructive">•</span>
-                  <span>Tüm ayarlar</span>
+                  <span>{t('settings.resetAllItems.settings')}</span>
                 </li>
               </ul>
             </div>
 
             <div className="rounded-lg border border-destructive/30 bg-destructive/15 p-3">
               <p className="text-center text-sm font-medium text-destructive">
-                ⚠️ Uygulamaya sıfırdan başlayacaksınız
+                {t('settings.resetAllNote')}
               </p>
             </div>
           </div>
@@ -352,14 +367,14 @@ export function SettingsPanel() {
               onClick={() => setShowResetAllDialog(false)}
               className="sm:flex-1"
             >
-              İptal
+              {t('common.cancel')}
             </Button>
             <Button
               variant="destructive"
               onClick={handleResetAll}
               className="sm:flex-1"
             >
-              Evet, Tüm Verileri Sil
+              {t('common.yes')}, {t('settings.resetAll')}
             </Button>
           </DialogFooter>
         </DialogContent>

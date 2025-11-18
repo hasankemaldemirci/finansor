@@ -32,6 +32,7 @@ import { Transaction } from '../types/transaction.types';
 import { FilterOptions } from './TransactionFilters';
 import { useSettingsStore } from '@/features/settings/stores/settingsStore';
 import { SlidersHorizontal, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface TransactionListProps {
   transactions?: Transaction[];
@@ -48,6 +49,7 @@ export function TransactionList({
   onResetFilters,
   hideCard = false,
 }: TransactionListProps) {
+  const { t } = useTranslation();
   const {
     transactions: allTransactions,
     deleteTransaction,
@@ -104,9 +106,9 @@ export function TransactionList({
   if (transactions.length === 0) {
     const emptyContent = (
       <div className="py-8 text-center text-muted-foreground">
-        <p>Henüz işlem eklemediniz.</p>
+        <p>{t('transactions.noTransactionsYet')}</p>
         <p className="mt-2 text-sm">
-          İlk işleminizi ekleyerek XP kazanmaya başlayın!
+          {t('transactions.startEarningXP')}
         </p>
       </div>
     );
@@ -118,7 +120,7 @@ export function TransactionList({
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Son İşlemler</CardTitle>
+          <CardTitle>{t('transactions.recentTransactions')}</CardTitle>
         </CardHeader>
         <CardContent>{emptyContent}</CardContent>
       </Card>
@@ -142,13 +144,13 @@ export function TransactionList({
           onClick={() => setShowAll(!showAll)}
         >
           {showAll
-            ? 'Daha Az Göster'
-            : `Tümünü Göster (${transactions.length})`}
+            ? t('transactions.showLess')
+            : `${t('transactions.showAll')} (${transactions.length})`}
         </Button>
       )}
       {transactions.length > 0 && (
         <p className="mt-2 text-center text-sm text-muted-foreground">
-          {transactions.length} işlem bulundu
+          {transactions.length} {t('transactions.transactionsFound')}
         </p>
       )}
     </div>
@@ -161,7 +163,7 @@ export function TransactionList({
           <SheetTrigger asChild>
             <Button variant="outline" className="w-full gap-2">
               <SlidersHorizontal className="h-4 w-4" />
-              Filtrele
+              {t('transactions.filter')}
               {hasActiveFilters && (
                 <span className="ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
                   •
@@ -178,9 +180,9 @@ export function TransactionList({
                 <div className="flex items-center justify-center">
                   <div className="flex-1" />
                   <div className="flex flex-1 flex-col items-center">
-                    <SheetTitle className="text-center">Filtrele</SheetTitle>
+                    <SheetTitle className="text-center">{t('transactions.filter')}</SheetTitle>
                     <SheetDescription className="whitespace-nowrap text-center text-sm">
-                      İşlemlerinizi filtreleyin
+                      {t('transactions.filterDescription')}
                     </SheetDescription>
                   </div>
                   <div className="flex-1" />
@@ -192,9 +194,9 @@ export function TransactionList({
               <div className="space-y-4">
                 {/* Search */}
                 <div className="-mx-2 space-y-2 px-2">
-                  <label className="text-sm font-medium">Ara</label>
+                  <label className="text-sm font-medium">{t('transactions.search')}</label>
                   <Input
-                    placeholder="Açıklama veya kategori..."
+                    placeholder={t('transactions.searchPlaceholder')}
                     value={filters.searchTerm}
                     onChange={(e) => updateFilter('searchTerm', e.target.value)}
                   />
@@ -202,23 +204,23 @@ export function TransactionList({
 
                 {/* Type Filter */}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">İşlem Tipi</label>
+                  <label className="text-sm font-medium">{t('transactions.form.type')}</label>
                   <Tabs
                     value={filters.type}
                     onValueChange={(value) => updateFilter('type', value)}
                     className="w-full"
                   >
                     <TabsList className="grid w-full grid-cols-3">
-                      <TabsTrigger value="all">Tümü</TabsTrigger>
-                      <TabsTrigger value="income">💰 Gelir</TabsTrigger>
-                      <TabsTrigger value="expense">💸 Gider</TabsTrigger>
+                      <TabsTrigger value="all">{t('transactions.type.all')}</TabsTrigger>
+                      <TabsTrigger value="income">💰 {t('transactions.type.income')}</TabsTrigger>
+                      <TabsTrigger value="expense">💸 {t('transactions.type.expense')}</TabsTrigger>
                     </TabsList>
                   </Tabs>
                 </div>
 
                 {/* Date Range */}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Tarih Aralığı</label>
+                  <label className="text-sm font-medium">{t('transactions.dateRange')}</label>
                   <Select
                     value={filters.dateRange}
                     onValueChange={(value) => updateFilter('dateRange', value)}
@@ -227,44 +229,44 @@ export function TransactionList({
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">Tüm Zamanlar</SelectItem>
-                      <SelectItem value="7days">Son 7 Gün</SelectItem>
-                      <SelectItem value="30days">Son 30 Gün</SelectItem>
-                      <SelectItem value="90days">Son 90 Gün</SelectItem>
+                      <SelectItem value="all">{t('transactions.allTime')}</SelectItem>
+                      <SelectItem value="7days">{t('transactions.last7Days')}</SelectItem>
+                      <SelectItem value="30days">{t('transactions.last30Days')}</SelectItem>
+                      <SelectItem value="90days">{t('transactions.last90Days')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 {/* Category Filter */}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Kategori</label>
+                  <label className="text-sm font-medium">{t('transactions.categoryLabel')}</label>
                   <Select
                     value={filters.category}
                     onValueChange={(value) => updateFilter('category', value)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Kategori seçiniz" />
+                      <SelectValue placeholder={t('transactions.selectCategory')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">Tüm Kategoriler</SelectItem>
-                      <SelectItem value="salary">Maaş</SelectItem>
-                      <SelectItem value="freelance">Serbest Çalışma</SelectItem>
-                      <SelectItem value="investment">Yatırım</SelectItem>
-                      <SelectItem value="rent">Kira</SelectItem>
-                      <SelectItem value="groceries">Market</SelectItem>
-                      <SelectItem value="transport">Ulaşım</SelectItem>
-                      <SelectItem value="entertainment">Eğlence</SelectItem>
-                      <SelectItem value="bills">Faturalar</SelectItem>
-                      <SelectItem value="health">Sağlık</SelectItem>
-                      <SelectItem value="shopping">Alışveriş</SelectItem>
-                      <SelectItem value="education">Eğitim</SelectItem>
+                      <SelectItem value="all">{t('transactions.category.all')}</SelectItem>
+                      <SelectItem value="salary">{t('transactions.category.salary')}</SelectItem>
+                      <SelectItem value="freelance">{t('transactions.category.freelance')}</SelectItem>
+                      <SelectItem value="investment">{t('transactions.category.investment')}</SelectItem>
+                      <SelectItem value="rent">{t('transactions.category.rent')}</SelectItem>
+                      <SelectItem value="groceries">{t('transactions.category.groceries')}</SelectItem>
+                      <SelectItem value="transport">{t('transactions.category.transport')}</SelectItem>
+                      <SelectItem value="entertainment">{t('transactions.category.entertainment')}</SelectItem>
+                      <SelectItem value="bills">{t('transactions.category.bills')}</SelectItem>
+                      <SelectItem value="health">{t('transactions.category.health')}</SelectItem>
+                      <SelectItem value="shopping">{t('transactions.category.shopping')}</SelectItem>
+                      <SelectItem value="education">{t('transactions.category.education')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 {/* Min Amount */}
                 <div className="-mx-2 space-y-2 px-2">
-                  <label className="text-sm font-medium">Minimum Tutar</label>
+                  <label className="text-sm font-medium">{t('transactions.form.amount')}</label>
                   <CurrencyInput
                     placeholder={`0${config.decimalSeparator}00 ${config.prefix}`}
                     value={minAmountValue}
@@ -311,7 +313,7 @@ export function TransactionList({
         {hasActiveFilters && (
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">
-              {transactions.length} sonuç bulundu
+              {transactions.length} {t('transactions.resultsFound')}
             </span>
             <Button
               variant="ghost"
@@ -338,7 +340,7 @@ export function TransactionList({
       ) : (
         <Card>
           <CardHeader>
-            <CardTitle>İşlemler</CardTitle>
+            <CardTitle>{t('transactions.title')}</CardTitle>
           </CardHeader>
           <CardContent>{listContent}</CardContent>
         </Card>

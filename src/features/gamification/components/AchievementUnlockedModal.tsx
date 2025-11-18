@@ -14,6 +14,7 @@ import { ShareButton } from '@/shared/components/ShareButton';
 import { generateAchievementShareText } from '@/shared/utils/socialShare';
 import { useLevel } from '../hooks/useLevel';
 import confetti from 'canvas-confetti';
+import { useTranslation } from 'react-i18next';
 
 interface AchievementUnlockedModalProps {
   open: boolean;
@@ -28,6 +29,7 @@ export function AchievementUnlockedModal({
   achievement,
   hideOverlay,
 }: AchievementUnlockedModalProps) {
+  const { t } = useTranslation();
   const { level } = useLevel();
 
   useEffect(() => {
@@ -78,9 +80,9 @@ export function AchievementUnlockedModal({
         hideOverlay={hideOverlay}
       >
         <DialogHeader>
-          <DialogTitle className="sr-only">Başarı Kilidi Açıldı!</DialogTitle>
+          <DialogTitle className="sr-only">{t('achievements.achievementUnlocked')}</DialogTitle>
           <DialogDescription className="sr-only">
-            {achievement.name} başarısının kilidi açıldı
+            {achievement.name} {t('achievements.achievementUnlockedDesc')}
           </DialogDescription>
         </DialogHeader>
         <motion.div
@@ -104,7 +106,7 @@ export function AchievementUnlockedModal({
             transition={{ delay: 0.3 }}
           >
             <h2 className="mb-2 text-xl font-bold sm:text-2xl">
-              🎉 Başarı Kilidi Açıldı!
+              🎉 {t('achievements.achievementUnlocked')}
             </h2>
             <p className="mb-2 text-2xl font-bold text-primary sm:text-3xl">
               {achievement.name}
@@ -120,10 +122,10 @@ export function AchievementUnlockedModal({
         </motion.div>
         <div className="flex gap-2">
           <Button onClick={onClose} size="lg" className="flex-1">
-            Harika! 🎊
+            {t('achievements.greatEmoji')}
           </Button>
           <ShareButton
-            title={`${achievement.name} Başarısını Açtım!`}
+            title={`${achievement.name} ${t('achievements.shareTitle')}`}
             text={generateAchievementShareText(achievement.name, level)}
             variant="outline"
             size="lg"

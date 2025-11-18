@@ -24,26 +24,7 @@ import {
 } from '../types/transaction.types';
 import { TransactionType } from '@/shared/types/common.types';
 import { useSettingsStore } from '@/features/settings/stores/settingsStore';
-
-const incomeCategories: { value: IncomeCategory; label: string }[] = [
-  { value: 'salary', label: 'Maaş' },
-  { value: 'freelance', label: 'Serbest Çalışma' },
-  { value: 'investment', label: 'Yatırım' },
-  { value: 'gift', label: 'Hediye' },
-  { value: 'other', label: 'Diğer' },
-];
-
-const expenseCategories: { value: ExpenseCategory; label: string }[] = [
-  { value: 'rent', label: 'Kira' },
-  { value: 'groceries', label: 'Market' },
-  { value: 'transport', label: 'Ulaşım' },
-  { value: 'entertainment', label: 'Eğlence' },
-  { value: 'bills', label: 'Faturalar' },
-  { value: 'health', label: 'Sağlık' },
-  { value: 'shopping', label: 'Alışveriş' },
-  { value: 'education', label: 'Eğitim' },
-  { value: 'other', label: 'Diğer' },
-];
+import { useTranslation } from 'react-i18next';
 
 interface TransactionEditModalProps {
   open: boolean;
@@ -67,6 +48,7 @@ export function TransactionEditModal({
   transaction,
   onSave,
 }: TransactionEditModalProps) {
+  const { t } = useTranslation();
   const { settings } = useSettingsStore();
   const [formData, setFormData] = useState({
     type: transaction.type,
@@ -77,6 +59,26 @@ export function TransactionEditModal({
   const [amountValue, setAmountValue] = useState<string>(
     transaction.amount.toString()
   );
+  
+  const incomeCategories: { value: IncomeCategory; label: string }[] = [
+    { value: 'salary', label: t('transactions.category.salary') },
+    { value: 'freelance', label: t('transactions.category.freelance') },
+    { value: 'investment', label: t('transactions.category.investment') },
+    { value: 'gift', label: t('transactions.category.gift') },
+    { value: 'other', label: t('transactions.category.other') },
+  ];
+
+  const expenseCategories: { value: ExpenseCategory; label: string }[] = [
+    { value: 'rent', label: t('transactions.category.rent') },
+    { value: 'groceries', label: t('transactions.category.groceries') },
+    { value: 'transport', label: t('transactions.category.transport') },
+    { value: 'entertainment', label: t('transactions.category.entertainment') },
+    { value: 'bills', label: t('transactions.category.bills') },
+    { value: 'health', label: t('transactions.category.health') },
+    { value: 'shopping', label: t('transactions.category.shopping') },
+    { value: 'education', label: t('transactions.category.education') },
+    { value: 'other', label: t('transactions.category.other') },
+  ];
 
   // Currency configuration based on settings
   const currencyConfig = {
@@ -133,7 +135,7 @@ export function TransactionEditModal({
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="w-[calc(100%-2rem)] max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>İşlemi Düzenle</DialogTitle>
+          <DialogTitle>{t('transactions.edit')}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Transaction Type Tabs */}
@@ -144,10 +146,10 @@ export function TransactionEditModal({
           >
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="income" className="text-base">
-                💰 Gelir
+                💰 {t('transactions.type.income')}
               </TabsTrigger>
               <TabsTrigger value="expense" className="text-base">
-                💸 Gider
+                💸 {t('transactions.type.expense')}
               </TabsTrigger>
             </TabsList>
           </Tabs>
@@ -179,7 +181,7 @@ export function TransactionEditModal({
 
           {/* Category */}
           <div className="space-y-2">
-            <Label>Kategori</Label>
+            <Label>{t('transactions.categoryLabel')}</Label>
             <Select
               value={formData.category}
               onValueChange={(value) =>
@@ -187,7 +189,7 @@ export function TransactionEditModal({
               }
             >
               <SelectTrigger>
-                <SelectValue placeholder="Kategori seçiniz" />
+                <SelectValue placeholder={t('transactions.selectCategory')} />
               </SelectTrigger>
               <SelectContent>
                 {categories.map((cat) => (
@@ -201,10 +203,10 @@ export function TransactionEditModal({
 
           {/* Description */}
           <div className="space-y-2">
-            <Label htmlFor="edit-description">Açıklama (Opsiyonel)</Label>
+            <Label htmlFor="edit-description">{t('transactions.form.description')} ({t('common.optional', 'Opsiyonel')})</Label>
             <Input
               id="edit-description"
-              placeholder="Açıklama giriniz..."
+              placeholder={t('transactions.form.descriptionPlaceholder')}
               value={formData.description}
               onChange={(e) =>
                 setFormData((prev) => ({
@@ -217,10 +219,10 @@ export function TransactionEditModal({
 
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={onClose}>
-              İptal
+              {t('common.cancel')}
             </Button>
             <Button type="submit" className="font-semibold">
-              💾 Kaydet
+              💾 {t('common.save')}
             </Button>
           </div>
         </form>

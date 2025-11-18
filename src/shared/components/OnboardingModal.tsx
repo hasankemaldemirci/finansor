@@ -10,8 +10,10 @@ import { Button } from '@/shared/components/ui/button';
 import { useOnboarding, OnboardingStep } from '@/shared/hooks/useOnboarding';
 import { Wallet, TrendingUp, Trophy, Sparkles, ArrowRight, X } from 'lucide-react';
 import { ROUTES } from '@/shared/constants/routes';
+import { useTranslation } from 'react-i18next';
 
 export function OnboardingModal() {
+  const { t } = useTranslation();
   const { isCompleted, currentStep, setStep, completeOnboarding } =
     useOnboarding();
   const [open, setOpen] = useState(false);
@@ -38,67 +40,64 @@ export function OnboardingModal() {
     }
   > = {
     welcome: {
-      title: 'Finansör\'e Hoş Geldiniz! 🎉',
-      description: 'Tasarrufun eğlenceli hali ile tanışın',
+      title: t('onboarding.welcome.title'),
+      description: t('onboarding.welcome.description'),
       icon: <Sparkles className="h-12 w-12 text-primary" />,
       content: (
         <div className="space-y-4">
           <p className="text-muted-foreground">
-            Finansör, finansal yönetiminizi oyunlaştırarak eğlenceli hale getirir.
-            Gelir-gider takibi yapın, XP kazanın, seviye atlayın ve başarılar açın!
+            {t('onboarding.welcome.content')}
           </p>
           <div className="space-y-2 rounded-lg bg-primary/5 p-4">
-            <h4 className="font-semibold">Özellikler:</h4>
+            <h4 className="font-semibold">{t('onboarding.welcome.features')}</h4>
             <ul className="space-y-1 text-sm text-muted-foreground">
-              <li>• 💰 Hızlı gelir-gider takibi</li>
-              <li>• 📊 Detaylı istatistikler ve grafikler</li>
-              <li>• 🎮 100 seviye ve 25+ başarı</li>
-              <li>• 📱 PWA desteği (offline çalışır)</li>
-              <li>• 🔒 Verileriniz cihazınızda güvende</li>
+              <li>• {t('onboarding.welcome.feature1')}</li>
+              <li>• {t('onboarding.welcome.feature2')}</li>
+              <li>• {t('onboarding.welcome.feature3')}</li>
+              <li>• {t('onboarding.welcome.feature4')}</li>
+              <li>• {t('onboarding.welcome.feature5')}</li>
             </ul>
           </div>
         </div>
       ),
-      nextLabel: 'Başlayalım',
+      nextLabel: t('onboarding.welcome.next'),
     },
     'add-transaction': {
-      title: 'İşlem Ekleme',
-      description: 'Gelir ve giderlerinizi kolayca takip edin',
+      title: t('onboarding.addTransaction.title'),
+      description: t('onboarding.addTransaction.description'),
       icon: <Wallet className="h-12 w-12 text-primary" />,
       content: (
         <div className="space-y-4">
           <p className="text-muted-foreground">
-            Ana sayfadaki formdan gelir veya gider ekleyebilirsiniz. Her işlem
-            için XP kazanırsınız ve seviye atlayabilirsiniz!
+            {t('onboarding.addTransaction.content')}
           </p>
           <div className="space-y-2 rounded-lg bg-primary/5 p-4">
-            <h4 className="font-semibold">İpuçları:</h4>
+            <h4 className="font-semibold">{t('onboarding.addTransaction.tips')}</h4>
             <ul className="space-y-1 text-sm text-muted-foreground">
-              <li>• Gelir eklemek daha fazla XP kazandırır</li>
-              <li>• Kategorileri kullanarak harcamalarınızı organize edin</li>
-              <li>• Düzenli işlem eklemek başarılar açmanıza yardımcı olur</li>
+              <li>• {t('onboarding.addTransaction.tip1')}</li>
+              <li>• {t('onboarding.addTransaction.tip2')}</li>
+              <li>• {t('onboarding.addTransaction.tip3')}</li>
             </ul>
           </div>
         </div>
       ),
-      nextLabel: 'Devam Et',
+      nextLabel: t('onboarding.addTransaction.next'),
     },
     'view-stats': {
-      title: 'İstatistikler',
-      description: 'Finansal durumunuzu analiz edin',
+      title: t('onboarding.viewStats.title'),
+      description: t('onboarding.viewStats.description'),
       icon: <TrendingUp className="h-12 w-12 text-primary" />,
       content: (
         <div className="space-y-4">
           <p className="text-muted-foreground">
-            İstatistikler sayfasında aylık trendler, kategori analizleri ve
-            tasarruf oranınızı görebilirsiniz.
+            {t('onboarding.viewStats.content')}
           </p>
           <div className="space-y-2 rounded-lg bg-primary/5 p-4">
-            <h4 className="font-semibold">Grafikler:</h4>
+            <h4 className="font-semibold">{t('onboarding.viewStats.charts')}</h4>
             <ul className="space-y-1 text-sm text-muted-foreground">
-              <li>• Aylık gelir-gider trendi</li>
-              <li>• Kategori bazlı pasta grafikleri</li>
-              <li>• Tasarruf oranı analizi</li>
+              <li>• {t('onboarding.viewStats.chart1')}</li>
+              <li>• {t('onboarding.viewStats.chart2')}</li>
+              <li>• {t('onboarding.viewStats.chart3')}</li>
             </ul>
           </div>
           <Button
@@ -109,30 +108,29 @@ export function OnboardingModal() {
               window.location.href = ROUTES.STATISTICS;
             }}
           >
-            İstatistikleri Görüntüle
+            {t('onboarding.viewStats.viewButton')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
       ),
-      nextLabel: 'Devam Et',
+      nextLabel: t('onboarding.viewStats.next'),
     },
     achievements: {
-      title: 'Başarılar ve Seviyeler',
-      description: 'Oyunlaştırma ile motivasyonunuzu artırın',
+      title: t('onboarding.achievements.title'),
+      description: t('onboarding.achievements.description'),
       icon: <Trophy className="h-12 w-12 text-primary" />,
       content: (
         <div className="space-y-4">
           <p className="text-muted-foreground">
-            Her işlem için XP kazanın, seviye atlayın ve 25+ farklı başarıyı
-            açın. Başarılarınızı sosyal medyada paylaşabilirsiniz!
+            {t('onboarding.achievements.content')}
           </p>
           <div className="space-y-2 rounded-lg bg-primary/5 p-4">
-            <h4 className="font-semibold">Sistem:</h4>
+            <h4 className="font-semibold">{t('onboarding.achievements.system')}</h4>
             <ul className="space-y-1 text-sm text-muted-foreground">
-              <li>• 100 seviye sistemi</li>
-              <li>• Seviye bazlı başlıklar</li>
-              <li>• 25+ farklı başarı</li>
-              <li>• Başarılarınızı paylaşın</li>
+              <li>• {t('onboarding.achievements.system1')}</li>
+              <li>• {t('onboarding.achievements.system2')}</li>
+              <li>• {t('onboarding.achievements.system3')}</li>
+              <li>• {t('onboarding.achievements.system4')}</li>
             </ul>
           </div>
           <Button
@@ -143,12 +141,12 @@ export function OnboardingModal() {
               window.location.href = ROUTES.ACHIEVEMENTS;
             }}
           >
-            Başarıları Görüntüle
+            {t('onboarding.achievements.viewButton')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
       ),
-      nextLabel: 'Tamamla',
+      nextLabel: t('onboarding.achievements.next'),
     },
   };
 
@@ -193,7 +191,7 @@ export function OnboardingModal() {
         <div className="flex gap-2">
           <Button variant="outline" onClick={handleSkip} className="flex-1">
             <X className="mr-2 h-4 w-4" />
-            Atla
+            {t('onboarding.skip')}
           </Button>
           <Button onClick={handleNext} className="flex-1">
             {stepData.nextLabel}

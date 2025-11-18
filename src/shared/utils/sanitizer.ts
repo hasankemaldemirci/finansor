@@ -1,4 +1,5 @@
 // XSS ve injection saldırılarına karşı input temizleme
+import i18n from '@/shared/lib/i18n';
 
 export class InputSanitizer {
   // HTML karakterlerini escape et
@@ -173,23 +174,23 @@ export const useInputValidation = () => {
     const errors: string[] = [];
 
     if (!data.type || !['income', 'expense'].includes(data.type)) {
-      errors.push('Geçersiz işlem tipi');
+      errors.push(i18n.t('validation.typeInvalid'));
     }
 
     const amount = InputSanitizer.sanitizeNumber(data.amount);
     if (amount <= 0) {
-      errors.push("Tutar 0'dan büyük olmalıdır");
+      errors.push(i18n.t('validation.amountPositive'));
     }
     if (amount > 999999999) {
-      errors.push('Tutar çok yüksek');
+      errors.push(i18n.t('validation.amountTooHigh'));
     }
 
     if (!data.category || data.category.length === 0) {
-      errors.push('Kategori seçilmelidir');
+      errors.push(i18n.t('validation.categoryRequired'));
     }
 
     if (data.description && data.description.length > 500) {
-      errors.push('Açıklama çok uzun (max 500 karakter)');
+      errors.push(i18n.t('validation.descriptionTooLong', { max: 500 }));
     }
 
     return errors;

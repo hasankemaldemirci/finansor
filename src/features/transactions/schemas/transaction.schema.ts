@@ -1,32 +1,33 @@
 import { z } from 'zod';
 import { InputSanitizer } from '@/shared/utils/sanitizer';
+import i18n from '@/shared/lib/i18n';
 
 // Güvenli string validation (XSS koruması)
 const safeString = z
   .string()
-  .max(500, 'Maksimum 500 karakter')
+  .max(500, () => i18n.t('validation.maxLength', { max: 500 }))
   .transform((val) => InputSanitizer.sanitizeText(val));
 
 // Kategori validation
 const categorySchema = z
   .string()
-  .max(50, 'Kategori adı çok uzun')
+  .max(50, () => i18n.t('validation.categoryTooLong'))
   .transform((val) => InputSanitizer.sanitizeCategory(val));
 
 // Amount validation (güvenli sayı)
 const amountSchema = z
   .number({
-    required_error: 'Miktar giriniz',
-    invalid_type_error: 'Geçerli bir miktar giriniz',
+    required_error: () => i18n.t('validation.amountRequired'),
+    invalid_type_error: () => i18n.t('validation.amountInvalid'),
   })
-  .positive('Miktar sıfırdan büyük olmalıdır')
-  .max(999999999, 'Miktar çok yüksek')
+  .positive(() => i18n.t('validation.amountPositive'))
+  .max(999999999, () => i18n.t('validation.amountTooHigh'))
   .transform((val) => InputSanitizer.sanitizeNumber(val));
 
 // Tarih validation
 const dateSchema = z
   .date({
-    invalid_type_error: 'Geçerli bir tarih giriniz',
+    invalid_type_error: () => i18n.t('validation.dateInvalid'),
   })
   .optional()
   .transform((val) => {
@@ -37,8 +38,8 @@ const dateSchema = z
 
 export const transactionSchema = z.object({
   type: z.enum(['income', 'expense'], {
-    required_error: 'İşlem tipi seçmelisiniz',
-    invalid_type_error: 'Geçersiz işlem tipi',
+    required_error: () => i18n.t('validation.typeRequired'),
+    invalid_type_error: () => i18n.t('validation.typeInvalid'),
   }),
   amount: amountSchema,
   category: categorySchema.optional(),

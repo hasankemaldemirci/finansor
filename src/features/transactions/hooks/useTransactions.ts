@@ -12,6 +12,7 @@ import {
   calculateAchievementProgress,
 } from '@/features/gamification/utils/achievementChecker';
 import { Achievement } from '@/features/gamification/types/achievement.types';
+import i18n from '@/shared/lib/i18n';
 
 export const useTransactions = () => {
   const {
@@ -60,9 +61,9 @@ export const useTransactions = () => {
     const totalXP = xpGained + savingsBonusXP;
 
     // Add XP with appropriate message
-    let xpMessage = `${dto.type === 'income' ? 'Gelir' : 'Gider'} eklendi`;
+    let xpMessage = `${dto.type === 'income' ? i18n.t('transactions.type.income') : i18n.t('transactions.type.expense')} ${i18n.t('transactions.added')}`;
     if (savingsBonusXP > 0) {
-      xpMessage += ` (+${savingsBonusXP} XP tasarruf bonusu)`;
+      xpMessage += ` (+${savingsBonusXP} XP ${i18n.t('transactions.savingsBonus')})`;
     }
 
     const { leveledUp, newLevel } = addXP(totalXP, xpMessage);
@@ -94,7 +95,7 @@ export const useTransactions = () => {
 
     // Add all achievement XP at once to prevent multiple level ups
     if (totalAchievementXP > 0) {
-      addXP(totalAchievementXP, `${unlockedAchievements.length} achievement açıldı`);
+      addXP(totalAchievementXP, i18n.t('transactions.achievementsUnlocked', { count: unlockedAchievements.length }));
     }
 
     // Update progress for locked achievements
@@ -115,11 +116,11 @@ export const useTransactions = () => {
     // These important events have their own modals, no need for toast
     if (!leveledUp && unlockedAchievements.length === 0) {
       const xpMessage = savingsBonusXP > 0 
-        ? `+${totalXP} XP kazandın (${xpGained} işlem + ${savingsBonusXP} tasarruf bonusu)`
-        : `+${totalXP} XP kazandın`;
+        ? i18n.t('transactions.xpEarnedWithBonus', { total: totalXP, transaction: xpGained, bonus: savingsBonusXP })
+        : i18n.t('transactions.xpEarned', { total: totalXP });
       
       toast({
-        title: '✅ İşlem eklendi!',
+        title: i18n.t('transactions.addedSuccess'),
         description: xpMessage,
         variant: 'success',
       });
@@ -133,8 +134,8 @@ export const useTransactions = () => {
     const transaction = updateTransactionInStore(id, dto);
 
     toast({
-      title: '✅ İşlem güncellendi!',
-      description: 'İşlem başarıyla düzenlendi',
+      title: i18n.t('transactions.updatedSuccess'),
+      description: i18n.t('transactions.updatedDescription'),
       variant: 'success',
     });
 
@@ -144,8 +145,8 @@ export const useTransactions = () => {
   const deleteTransaction = (id: string) => {
     removeTransaction(id);
     toast({
-      title: 'İşlem silindi',
-      description: 'İşlem başarıyla kaldırıldı',
+      title: i18n.t('transactions.deletedSuccess'),
+      description: i18n.t('transactions.deletedDescription'),
     });
   };
 

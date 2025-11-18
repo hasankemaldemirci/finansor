@@ -10,6 +10,7 @@ import {
 import { Button } from '@/shared/components/ui/button';
 import { getLevelIcon, getLevelTitle } from '../constants/levelConfig';
 import confetti from 'canvas-confetti';
+import { useTranslation } from 'react-i18next';
 
 interface LevelUpModalProps {
   open: boolean;
@@ -18,6 +19,7 @@ interface LevelUpModalProps {
 }
 
 export function LevelUpModal({ open, onClose, newLevel }: LevelUpModalProps) {
+  const { t } = useTranslation();
   const title = getLevelTitle(newLevel);
   const icon = getLevelIcon(newLevel);
 
@@ -64,9 +66,9 @@ export function LevelUpModal({ open, onClose, newLevel }: LevelUpModalProps) {
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="w-[calc(100%-2rem)] max-w-md">
         <DialogHeader>
-          <DialogTitle className="sr-only">Seviye Atladın!</DialogTitle>
+          <DialogTitle className="sr-only">{t('achievements.levelUpTitle')}</DialogTitle>
           <DialogDescription className="sr-only">
-            Level {newLevel} seviyesine ulaştınız: {title}
+            {t('level.label')} {newLevel} {t('achievements.levelReached')}: {title}
           </DialogDescription>
         </DialogHeader>
         <motion.div
@@ -84,7 +86,7 @@ export function LevelUpModal({ open, onClose, newLevel }: LevelUpModalProps) {
             {icon}
           </motion.div>
           <h2 className="mb-3 bg-gradient-to-r from-primary to-secondary bg-clip-text text-2xl font-bold text-transparent sm:mb-4 sm:text-4xl">
-            Seviye Atladın!
+            {t('achievements.levelUpTitle')}
           </h2>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -92,13 +94,13 @@ export function LevelUpModal({ open, onClose, newLevel }: LevelUpModalProps) {
             transition={{ delay: 0.5 }}
           >
             <p className="mb-2 text-4xl font-bold text-primary sm:text-6xl">
-              Level {newLevel}
+              {t('level.label')} {newLevel}
             </p>
             <p className="text-lg text-muted-foreground sm:text-2xl">{title}</p>
           </motion.div>
         </motion.div>
         <Button onClick={onClose} className="mt-4 w-full" size="lg">
-          Harika! 🎉
+          {t('common.great')}
         </Button>
       </DialogContent>
     </Dialog>

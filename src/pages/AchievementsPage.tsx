@@ -11,8 +11,10 @@ import {
 import { Progress } from '@/shared/components/ui/progress';
 import { AchievementType } from '@/features/gamification/types/achievement.types';
 import { ACHIEVEMENT_CATEGORIES } from '@/features/gamification/constants/achievements';
+import { useTranslation } from 'react-i18next';
 
 export function AchievementsPage() {
+  const { t } = useTranslation();
   const {
     achievements,
     unlockedAchievements,
@@ -31,22 +33,22 @@ export function AchievementsPage() {
     <Container>
       <div className="space-y-6">
         <div>
-          <h1 className="mb-2 text-3xl font-bold">Başarılar</h1>
+          <h1 className="mb-2 text-3xl font-bold">{t('achievements.title')}</h1>
           <p className="text-muted-foreground">
-            İşlemler yaparak başarılar kazan ve XP topla!
+            {t('achievements.description')}
           </p>
         </div>
 
         {/* Progress Card */}
         <Card className="bg-gradient-to-r from-primary/10 to-secondary/10">
           <CardHeader>
-            <CardTitle>Genel İlerleme</CardTitle>
+            <CardTitle>{t('achievements.generalProgress')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">
-                  Açılan Başarılar
+                  {t('achievements.unlockedAchievements')}
                 </span>
                 <span className="text-lg font-bold">
                   {unlockedAchievements.length} / {achievements.length}
@@ -54,7 +56,7 @@ export function AchievementsPage() {
               </div>
               <Progress value={completionPercentage} className="h-3" />
               <p className="text-center text-sm font-semibold text-primary">
-                %{completionPercentage} Tamamlandı
+                %{completionPercentage.toFixed(0)} {t('achievements.completed')}
               </p>
             </div>
           </CardContent>
@@ -70,7 +72,7 @@ export function AchievementsPage() {
                 : 'bg-muted hover:bg-muted/80'
             }`}
           >
-            Tümü ({achievements.length})
+            {t('common.all')} ({achievements.length})
           </button>
           {Object.entries(ACHIEVEMENT_CATEGORIES).map(([type, category]) => {
             const count = achievementsByType[type as AchievementType].length;
@@ -95,7 +97,7 @@ export function AchievementsPage() {
           {filteredAchievements.length === 0 ? (
             <Card>
               <CardContent className="p-8 text-center text-muted-foreground">
-                Bu kategoride başarı bulunamadı.
+                {t('achievements.empty')}
               </CardContent>
             </Card>
           ) : (

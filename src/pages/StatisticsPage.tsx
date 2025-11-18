@@ -44,6 +44,7 @@ import { ACHIEVEMENT_CATEGORIES } from '@/features/gamification/constants/achiev
 import { useLevel } from '@/features/gamification/hooks/useLevel';
 import { ShareButton } from '@/shared/components/ShareButton';
 import { generateStatsShareText } from '@/shared/utils/socialShare';
+import { useTranslation } from 'react-i18next';
 
 const COLORS = [
   '#00D9A3',
@@ -57,6 +58,7 @@ const COLORS = [
 ];
 
 export function StatisticsPage() {
+  const { t } = useTranslation();
   const [selectedType, setSelectedType] = useState<AchievementType | 'all'>(
     'all'
   );
@@ -98,17 +100,17 @@ export function StatisticsPage() {
   // Summary cards data
   const summaryCards = [
     {
-      title: 'Toplam Gelir',
+      title: t('statistics.totalIncome'),
       value: formatCurrency(totalIncome, settings.currency),
       className: 'text-primary',
     },
     {
-      title: 'Toplam Gider',
+      title: t('statistics.totalExpense'),
       value: formatCurrency(totalExpenses, settings.currency),
       className: 'text-destructive',
     },
     {
-      title: 'Toplam Net Durum',
+      title: t('statistics.totalNet'),
       value: formatCurrency(totalIncome - totalExpenses, settings.currency),
       className:
         totalIncome - totalExpenses >= 0
@@ -116,7 +118,7 @@ export function StatisticsPage() {
           : 'text-destructive',
     },
     {
-      title: 'Ortalama Gelir',
+      title: t('statistics.averageIncome'),
       value: (
         <div className="flex items-baseline gap-2">
           <span className="text-2xl font-bold text-primary">
@@ -125,32 +127,32 @@ export function StatisticsPage() {
               settings.currency
             )}
           </span>
-          <span className="text-sm text-muted-foreground">/ ay</span>
+          <span className="text-sm text-muted-foreground">/ {t('common.month')}</span>
         </div>
       ),
       className: '',
     },
     {
-      title: 'Son 30 Gün Trend',
+      title: t('statistics.recentTrend'),
       value: (
         <div className="flex items-center gap-2">
           {trend === 'up' && (
             <>
               <TrendingUp className="h-6 w-6 text-primary" />
-              <span className="text-2xl font-bold text-primary">Yükseliş</span>
+              <span className="text-2xl font-bold text-primary">{t('statistics.trend.up')}</span>
             </>
           )}
           {trend === 'down' && (
             <>
               <TrendingDown className="h-6 w-6 text-destructive" />
-              <span className="text-2xl font-bold text-destructive">Düşüş</span>
+              <span className="text-2xl font-bold text-destructive">{t('statistics.trend.down')}</span>
             </>
           )}
           {trend === 'stable' && (
             <>
               <Minus className="h-6 w-6 text-muted-foreground" />
               <span className="text-2xl font-bold text-muted-foreground">
-                Sabit
+                {t('statistics.trend.stable')}
               </span>
             </>
           )}
@@ -180,10 +182,10 @@ export function StatisticsPage() {
     <Container>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold">İstatistikler</h1>
+          <h1 className="text-3xl font-bold">{t('statistics.title')}</h1>
           {hasTransactions && (
             <ShareButton
-              title="Finansör İstatistiklerim"
+              title={t('statistics.shareTitle')}
               text={generateStatsShareText(
                 stats.monthlySavings,
                 settings.currency,
@@ -197,8 +199,8 @@ export function StatisticsPage() {
 
         <Tabs defaultValue="statistics" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="statistics">Genel</TabsTrigger>
-            <TabsTrigger value="achievements">Başarılar</TabsTrigger>
+            <TabsTrigger value="statistics">{t('statistics.general')}</TabsTrigger>
+            <TabsTrigger value="achievements">{t('statistics.achievements')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="statistics" className="mt-6 space-y-6">
@@ -206,9 +208,9 @@ export function StatisticsPage() {
               <Card>
                 <CardContent className="pt-6">
                   <div className="py-12 text-center text-muted-foreground">
-                    <p className="text-lg">Henüz veri yok</p>
+                    <p className="text-lg">{t('statistics.noData')}</p>
                     <p className="mt-2 text-sm">
-                      İşlem eklemeye başladığınızda istatistikler burada görünecek.
+                      {t('statistics.noDataDesc')}
                     </p>
                   </div>
                 </CardContent>
@@ -241,7 +243,7 @@ export function StatisticsPage() {
                 {/* Monthly Trend Chart */}
                 <Card>
                   <CardHeader>
-                    <CardTitle>Aylık Gelir-Gider Trendi</CardTitle>
+                    <CardTitle>{t('statistics.monthlyTrend')}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
@@ -278,21 +280,21 @@ export function StatisticsPage() {
                           dataKey="income"
                           stroke={chartColors.income}
                           strokeWidth={2}
-                          name="Gelir"
+                          name={t('transactions.type.income')}
                         />
                         <Line
                           type="monotone"
                           dataKey="expense"
                           stroke={chartColors.expense}
                           strokeWidth={2}
-                          name="Gider"
+                          name={t('transactions.type.expense')}
                         />
                         <Line
                           type="monotone"
                           dataKey="savings"
                           stroke={chartColors.savings}
                           strokeWidth={2}
-                          name="Tasarruf"
+                          name={t('statistics.savingsRate')}
                         />
                       </LineChart>
                     </ResponsiveContainer>
@@ -302,7 +304,7 @@ export function StatisticsPage() {
                 {/* Monthly Bar Chart */}
                 <Card>
                   <CardHeader>
-                    <CardTitle>Aylık Karşılaştırma</CardTitle>
+                    <CardTitle>{t('statistics.monthlyTrend')}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
@@ -334,8 +336,8 @@ export function StatisticsPage() {
                         <Legend 
                           wrapperStyle={{ color: chartColors.text }}
                         />
-                        <Bar dataKey="income" fill={chartColors.income} name="Gelir" />
-                        <Bar dataKey="expense" fill={chartColors.expense} name="Gider" />
+                        <Bar dataKey="income" fill={chartColors.income} name={t('transactions.type.income')} />
+                        <Bar dataKey="expense" fill={chartColors.expense} name={t('transactions.type.expense')} />
                       </BarChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -347,7 +349,7 @@ export function StatisticsPage() {
                   {topExpenseCategories.length > 0 && (
                     <Card>
                       <CardHeader>
-                        <CardTitle>En Çok Harcanan Kategoriler</CardTitle>
+                        <CardTitle>{t('statistics.topExpenseCategories')}</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <ResponsiveContainer width="100%" height={250}>
@@ -413,7 +415,7 @@ export function StatisticsPage() {
                   {topIncomeCategories.length > 0 && (
                     <Card>
                       <CardHeader>
-                        <CardTitle>Gelir Kaynakları</CardTitle>
+                        <CardTitle>{t('statistics.topIncomeCategories')}</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <ResponsiveContainer width="100%" height={250}>
@@ -483,18 +485,18 @@ export function StatisticsPage() {
             {/* Progress Card */}
             <Card>
               <CardHeader>
-                <CardTitle>İlerleme</CardTitle>
+                <CardTitle>{t('achievements.progress')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Kilidi Açılan</span>
+                  <span className="text-muted-foreground">{t('achievements.unlocked')}</span>
                   <span className="font-semibold">
                     {unlockedAchievements.length} / {achievements.length}
                   </span>
                 </div>
                 <Progress value={completionPercentage} className="h-2" />
                 <div className="text-center text-sm text-muted-foreground">
-                  %{completionPercentage.toFixed(0)} tamamlandı
+                  %{completionPercentage.toFixed(0)} {t('achievements.completed')}
                 </div>
               </CardContent>
             </Card>
@@ -512,7 +514,7 @@ export function StatisticsPage() {
                   value="all"
                   className="data-[state=active]:bg-primary data-[state=active]:text-white"
                 >
-                  Tümü ({achievements.length})
+                  {t('common.all')} ({achievements.length})
                 </TabsTrigger>
                 {Object.entries(ACHIEVEMENT_CATEGORIES).map(
                   ([type, category]) => {
@@ -544,7 +546,7 @@ export function StatisticsPage() {
 
             {filteredAchievements.length === 0 && (
               <div className="py-8 text-center text-muted-foreground">
-                Bu kategoride başarı bulunamadı.
+                {t('achievements.empty', 'Bu kategoride başarı bulunamadı.')}
               </div>
             )}
           </TabsContent>

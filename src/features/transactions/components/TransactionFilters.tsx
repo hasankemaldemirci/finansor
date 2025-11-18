@@ -11,6 +11,7 @@ import {
 } from '@/shared/components/ui/select';
 import { Search, X } from 'lucide-react';
 import { TransactionType } from '@/shared/types/common.types';
+import { useTranslation } from 'react-i18next';
 
 export interface FilterOptions {
   searchTerm: string;
@@ -29,32 +30,33 @@ interface TransactionFiltersProps {
   onReset: () => void;
 }
 
-const incomeCategories = [
-  { value: 'salary', label: 'Maaş' },
-  { value: 'freelance', label: 'Serbest Çalışma' },
-  { value: 'investment', label: 'Yatırım' },
-  { value: 'gift', label: 'Hediye' },
-  { value: 'other', label: 'Diğer' },
-];
-
-const expenseCategories = [
-  { value: 'rent', label: 'Kira' },
-  { value: 'groceries', label: 'Market' },
-  { value: 'transport', label: 'Ulaşım' },
-  { value: 'entertainment', label: 'Eğlence' },
-  { value: 'bills', label: 'Faturalar' },
-  { value: 'health', label: 'Sağlık' },
-  { value: 'shopping', label: 'Alışveriş' },
-  { value: 'education', label: 'Eğitim' },
-  { value: 'other', label: 'Diğer' },
-];
-
 export function TransactionFilters({
   filters,
   onFiltersChange,
   onReset,
 }: TransactionFiltersProps) {
+  const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
+  
+  const incomeCategories = [
+    { value: 'salary', label: t('transactions.category.salary') },
+    { value: 'freelance', label: t('transactions.category.freelance') },
+    { value: 'investment', label: t('transactions.category.investment') },
+    { value: 'gift', label: t('transactions.category.gift') },
+    { value: 'other', label: t('transactions.category.other') },
+  ];
+
+  const expenseCategories = [
+    { value: 'rent', label: t('transactions.category.rent') },
+    { value: 'groceries', label: t('transactions.category.groceries') },
+    { value: 'transport', label: t('transactions.category.transport') },
+    { value: 'entertainment', label: t('transactions.category.entertainment') },
+    { value: 'bills', label: t('transactions.category.bills') },
+    { value: 'health', label: t('transactions.category.health') },
+    { value: 'shopping', label: t('transactions.category.shopping') },
+    { value: 'education', label: t('transactions.category.education') },
+    { value: 'other', label: t('transactions.category.other') },
+  ];
 
   const categories =
     filters.type === 'income'
@@ -87,7 +89,7 @@ export function TransactionFilters({
               className="gap-2"
             >
               <X className="h-4 w-4" />
-              Temizle
+              {t('transactions.clear')}
             </Button>
           )}
           <Button
@@ -95,18 +97,18 @@ export function TransactionFilters({
             size="sm"
             onClick={() => setIsExpanded(!isExpanded)}
           >
-            {isExpanded ? 'Basit Görünüm' : 'Detaylı Filtre'}
+            {isExpanded ? t('transactions.simpleView') : t('transactions.detailedFilter')}
           </Button>
         </div>
       </div>
       {/* Search */}
       <div className="space-y-2">
-        <Label htmlFor="search">Ara</Label>
+        <Label htmlFor="search">{t('transactions.search')}</Label>
         <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
           <Input
             id="search"
-            placeholder="Açıklama veya kategori ara..."
+            placeholder={t('transactions.searchPlaceholder')}
             value={filters.searchTerm}
             onChange={(e) => updateFilter('searchTerm', e.target.value)}
             className="pl-10"
@@ -118,7 +120,7 @@ export function TransactionFilters({
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {/* Type Filter */}
         <div className="space-y-2">
-          <Label>Tip</Label>
+          <Label>{t('transactions.typeLabel')}</Label>
           <Select
             value={filters.type}
             onValueChange={(value) => updateFilter('type', value)}
@@ -127,16 +129,16 @@ export function TransactionFilters({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Tümü</SelectItem>
-              <SelectItem value="income">Gelir</SelectItem>
-              <SelectItem value="expense">Gider</SelectItem>
+              <SelectItem value="all">{t('transactions.type.all')}</SelectItem>
+              <SelectItem value="income">{t('transactions.type.income')}</SelectItem>
+              <SelectItem value="expense">{t('transactions.type.expense')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         {/* Date Range */}
         <div className="space-y-2">
-          <Label>Tarih Aralığı</Label>
+          <Label>{t('transactions.dateRange')}</Label>
           <Select
             value={filters.dateRange}
             onValueChange={(value) => updateFilter('dateRange', value)}
@@ -145,19 +147,19 @@ export function TransactionFilters({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Tüm Zamanlar</SelectItem>
-              <SelectItem value="7days">Son 7 Gün</SelectItem>
-              <SelectItem value="30days">Son 30 Gün</SelectItem>
-              <SelectItem value="90days">Son 90 Gün</SelectItem>
-              <SelectItem value="1year">Son 1 Yıl</SelectItem>
-              <SelectItem value="custom">Özel Tarih</SelectItem>
+              <SelectItem value="all">{t('transactions.allTime')}</SelectItem>
+              <SelectItem value="7days">{t('transactions.last7Days')}</SelectItem>
+              <SelectItem value="30days">{t('transactions.last30Days')}</SelectItem>
+              <SelectItem value="90days">{t('transactions.last90Days')}</SelectItem>
+              <SelectItem value="1year">{t('transactions.lastYear')}</SelectItem>
+              <SelectItem value="custom">{t('transactions.customDate')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         {/* Category Filter */}
         <div className="space-y-2">
-          <Label>Kategori</Label>
+          <Label>{t('transactions.categoryLabel')}</Label>
           <Select
             value={filters.category}
             onValueChange={(value) => updateFilter('category', value)}
@@ -166,7 +168,7 @@ export function TransactionFilters({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Tüm Kategoriler</SelectItem>
+              <SelectItem value="all">{t('transactions.category.all')}</SelectItem>
               {categories.map((cat) => (
                 <SelectItem key={cat.value} value={cat.value}>
                   {cat.label}
@@ -184,7 +186,7 @@ export function TransactionFilters({
           {filters.dateRange === 'custom' && (
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="startDate">Başlangıç Tarihi</Label>
+                <Label htmlFor="startDate">{t('transactions.startDate')}</Label>
                 <Input
                   id="startDate"
                   type="date"
@@ -193,7 +195,7 @@ export function TransactionFilters({
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="endDate">Bitiş Tarihi</Label>
+                <Label htmlFor="endDate">{t('transactions.endDate')}</Label>
                 <Input
                   id="endDate"
                   type="date"
@@ -207,7 +209,7 @@ export function TransactionFilters({
           {/* Amount Range */}
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="minAmount">Min. Tutar</Label>
+              <Label htmlFor="minAmount">{t('transactions.minAmount')}</Label>
               <Input
                 id="minAmount"
                 type="number"
@@ -223,7 +225,7 @@ export function TransactionFilters({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="maxAmount">Max. Tutar</Label>
+              <Label htmlFor="maxAmount">{t('transactions.maxAmount')}</Label>
               <Input
                 id="maxAmount"
                 type="number"
@@ -245,22 +247,22 @@ export function TransactionFilters({
       {/* Active Filters Summary */}
       {hasActiveFilters && (
         <div className="pt-2 text-sm text-muted-foreground">
-          <span className="font-medium">Aktif Filtreler: </span>
-          {filters.searchTerm && <span className="mr-2">🔍 Arama aktif</span>}
+          <span className="font-medium">{t('transactions.activeFilters')}: </span>
+          {filters.searchTerm && <span className="mr-2">🔍 {t('transactions.searchActive')}</span>}
           {filters.type !== 'all' && (
             <span className="mr-2">
-              📊 {filters.type === 'income' ? 'Gelir' : 'Gider'}
+              📊 {filters.type === 'income' ? t('transactions.type.income') : t('transactions.type.expense')}
             </span>
           )}
           {filters.category !== 'all' && (
-            <span className="mr-2">🏷️ Kategori seçili</span>
+            <span className="mr-2">🏷️ {t('transactions.categorySelected')}</span>
           )}
           {filters.dateRange !== 'all' && (
-            <span className="mr-2">📅 Tarih filtresi</span>
+            <span className="mr-2">📅 {t('transactions.dateFilter')}</span>
           )}
           {(filters.minAmount !== undefined ||
             filters.maxAmount !== undefined) && (
-            <span className="mr-2">💰 Tutar aralığı</span>
+            <span className="mr-2">💰 {t('transactions.amountRange')}</span>
           )}
         </div>
       )}
