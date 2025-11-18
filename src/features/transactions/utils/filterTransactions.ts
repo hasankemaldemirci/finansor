@@ -42,7 +42,10 @@ export const filterTransactions = (
         const start = filters.startDate
           ? new Date(filters.startDate)
           : new Date(0);
-        const end = filters.endDate ? new Date(filters.endDate) : now;
+        // Set end date to end of day (23:59:59)
+        const end = filters.endDate
+          ? new Date(new Date(filters.endDate).setHours(23, 59, 59, 999))
+          : now;
 
         filtered = filtered.filter((t) => {
           const transactionDate = new Date(t.date);

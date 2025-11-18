@@ -5,6 +5,7 @@ import { FilterOptions } from '@/features/transactions/components/TransactionFil
 import { useTransactions } from '@/features/transactions/hooks/useTransactions';
 import { filterTransactions } from '@/features/transactions/utils/filterTransactions';
 import { useTranslation } from 'react-i18next';
+import { X } from 'lucide-react';
 
 const defaultFilters: FilterOptions = {
   searchTerm: '',
@@ -24,14 +25,33 @@ export function TransactionsPage() {
     setFilters(defaultFilters);
   };
 
+  const hasActiveFilters =
+    filters.searchTerm !== '' ||
+    filters.type !== 'all' ||
+    filters.category !== 'all' ||
+    filters.dateRange !== 'all' ||
+    filters.minAmount !== undefined ||
+    filters.maxAmount !== undefined;
+
   return (
     <Container>
       <div className="space-y-6">
         <div>
           <h1 className="mb-2 text-3xl font-bold">{t('transactions.title')}</h1>
-          <p className="text-muted-foreground">
-            {t('transactions.description')}
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-muted-foreground">
+              {t('transactions.description')}
+            </p>
+            {hasActiveFilters && (
+              <button
+                onClick={handleResetFilters}
+                className="flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+              >
+                <X className="h-4 w-4" />
+                {t('transactions.clearFilters')}
+              </button>
+            )}
+          </div>
         </div>
 
         <TransactionList
