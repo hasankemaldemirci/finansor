@@ -13,7 +13,7 @@ Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) 
 <div align="center">
 
 [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-finansor.pages.dev-00D9A3?style=for-the-badge)](https://finansor.pages.dev/)
-[![Version](https://img.shields.io/badge/version-1.4.0-blue?style=for-the-badge)](https://github.com/hasankemaldemirci/finansor)
+[![Version](https://img.shields.io/badge/version-1.5.0-blue?style=for-the-badge)](https://github.com/hasankemaldemirci/finansor)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
 </div>
@@ -29,6 +29,8 @@ Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) 
 - 🔒 **Güvenlik**: AES-256 şifreleme, XSS koruması, Zod validation
 - 📱 **PWA**: Mobil cihazlara yüklenebilir, offline çalışır
 - 🌗 **Dark Mode**: Açık/Koyu tema desteği
+- 🎯 **Onboarding**: İlk kullanıcılar için interaktif rehber
+- 📤 **Sosyal Paylaşım**: Başarılar ve istatistikleri paylaşma
 
 ## 🚀 Hızlı Başlangıç
 

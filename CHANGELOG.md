@@ -2,6 +2,25 @@
 
 **Tasarrufun eğlenceli hali**
 
+## [1.5.0] - 2025-01-XX
+
+### 🎯 Onboarding Sistemi
+- İlk kullanıcılar için 4 adımlı interaktif rehber
+- Hoş geldin ekranı ve özellik tanıtımı
+- İşlem ekleme, istatistikler ve başarılar rehberi
+- LocalStorage ile tamamlanma durumu takibi
+- "Atla" seçeneği ve ilerleme göstergesi
+
+### 📤 Sosyal Paylaşım Özellikleri
+- Başarı açıldığında paylaşım butonu
+- İstatistikler sayfasında paylaşım özelliği
+- Twitter, Facebook, WhatsApp desteği
+- Native Share API desteği (mobil cihazlarda)
+- Link kopyalama özelliği
+- Otomatik paylaşım metinleri (başarı ve istatistikler için)
+
+---
+
 ## [1.4.0] - 2025-11-15
 
 ### 🎨 Logo Sistemi

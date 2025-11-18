@@ -47,6 +47,20 @@
 - Content Security Policy
 - Cihaza özel şifreleme anahtarı
 
+### 🎯 Onboarding & Kullanıcı Deneyimi
+- İlk kullanıcılar için 4 adımlı interaktif rehber
+- LocalStorage ile onboarding durumu takibi
+- "Atla" seçeneği ile esnek kullanım
+- İlerleme göstergesi (progress dots)
+
+### 📤 Sosyal Paylaşım
+- Başarı açıldığında paylaşım butonu
+- İstatistikler sayfasında paylaşım özelliği
+- Twitter, Facebook, WhatsApp desteği
+- Native Share API desteği (mobil)
+- Link kopyalama özelliği
+- Otomatik paylaşım metinleri
+
 ## 🚧 Gelecek Özellikler
 
 ### Phase 2: Gelişmiş Özellikler
