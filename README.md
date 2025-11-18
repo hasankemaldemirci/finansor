@@ -43,8 +43,6 @@ npm install
 npm run dev
 ```
 
-Uygulama `http://localhost:5173` adresinde çalışacaktır.
-
 ## 🛠️ Teknolojiler
 
 - **Frontend**: React 18 + TypeScript
