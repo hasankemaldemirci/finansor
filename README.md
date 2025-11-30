@@ -1,6 +1,6 @@
 <div align="center">
   
-  [<img src="https://finansor.pages.dev/logo.svg" alt="Finansör Logo" width="64" height="64">](https://finansor.pages.dev/)
+  [<img src="https://finansor.netlify.app/logo.svg" alt="Finansör Logo" width="64" height="64">](https://finansor.netlify.app/)
   
   # Finansör
   
@@ -12,7 +12,7 @@ Modern ve akıllı finansal yönetim uygulaması. Oyunlaştırma (gamification) 
 
 <div align="center">
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-finansor.pages.dev-00D9A3?style=for-the-badge)](https://finansor.pages.dev/)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-finansor.netlify.app-00D9A3?style=for-the-badge)](https://finansor.netlify.app/)
 [![Version](https://img.shields.io/badge/version-1.5.0-blue?style=for-the-badge)](https://github.com/hasankemaldemirci/finansor)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
